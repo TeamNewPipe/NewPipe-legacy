@@ -8,7 +8,7 @@ import android.support.v7.util.DiffUtil;
 import android.util.Log;
 import android.widget.Toast;
 
-import org.schabi.newpipe.R;
+import org.schabi.newpipelegacy.R;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +23,7 @@ import us.shandian.giga.get.Mission;
 import us.shandian.giga.get.sqlite.DownloadDataSource;
 import us.shandian.giga.util.Utility;
 
-import static org.schabi.newpipe.BuildConfig.DEBUG;
+import static org.schabi.newpipelegacy.BuildConfig.DEBUG;
 
 public class DownloadManager {
     private static final String TAG = DownloadManager.class.getSimpleName();

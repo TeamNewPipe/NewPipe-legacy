@@ -19,8 +19,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.schabi.newpipe.R;
-import org.schabi.newpipe.util.ThemeHelper;
+import org.schabi.newpipelegacy.R;
+import org.schabi.newpipelegacy.util.ThemeHelper;
 
 import us.shandian.giga.service.DownloadManager;
 import us.shandian.giga.service.DownloadManagerService;

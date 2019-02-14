@@ -9,7 +9,7 @@ import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
-import org.schabi.newpipe.R;
+import org.schabi.newpipelegacy.R;
 
 import java.util.ArrayList;
 

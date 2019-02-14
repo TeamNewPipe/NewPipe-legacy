@@ -6,9 +6,9 @@ import android.media.MediaMuxer;
 import android.media.MediaMuxer.OutputFormat;
 import android.util.Log;
 
-import static org.schabi.newpipe.BuildConfig.DEBUG;
+import static org.schabi.newpipelegacy.BuildConfig.DEBUG;
 
-import org.schabi.newpipe.streams.io.SharpStream;
+import org.schabi.newpipelegacy.streams.io.SharpStream;
 
 import java.io.File;
 import java.io.FileInputStream;

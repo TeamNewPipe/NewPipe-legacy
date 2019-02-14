@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="org.schabi.newpipe.history.HistoryActivity">
+    tools:context="org.schabi.newpipelegacy.history.HistoryActivity">
 
     <item android:id="@+id/action_switch_popup"
         android:orderInCategory="1999"

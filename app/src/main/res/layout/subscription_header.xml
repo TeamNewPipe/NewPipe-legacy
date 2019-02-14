@@ -81,7 +81,7 @@
 
     </RelativeLayout>
 
-    <org.schabi.newpipe.views.CollapsibleView
+    <org.schabi.newpipelegacy.views.CollapsibleView
         android:id="@+id/import_export_options"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -128,7 +128,7 @@
             android:layout_marginLeft="72dp"
             android:layout_marginStart="72dp"
             android:orientation="vertical"/>
-    </org.schabi.newpipe.views.CollapsibleView>
+    </org.schabi.newpipelegacy.views.CollapsibleView>
 
     <View
         android:layout_width="match_parent"

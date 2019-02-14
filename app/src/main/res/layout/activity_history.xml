@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="org.schabi.newpipe.history.HistoryActivity">
+    tools:context="org.schabi.newpipelegacy.history.HistoryActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"

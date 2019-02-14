@@ -2,15 +2,15 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="org.schabi.newpipe">
+    package="org.schabi.newpipelegacy">
 
     <application
-        android:name=".DebugApp"
-        android:label="NewPipe Debug"
+        android:name="org.schabi.newpipelegacy.DebugApp"
+        android:label="NewPipe Legacy Debug"
         tools:replace="android:name, android:label">
         <activity
-            android:name=".MainActivity"
-            android:label="NewPipe Debug"
+            android:name="org.schabi.newpipelegacy.MainActivity"
+            android:label="NewPipe Legacy Debug"
             tools:replace="android:label"/>
     </application>
 
