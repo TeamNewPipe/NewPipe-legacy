@@ -31,9 +31,9 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.widget.Toast;
 
-import org.schabi.newpipe.R;
-import org.schabi.newpipe.download.DownloadActivity;
-import org.schabi.newpipe.player.helper.LockManager;
+import org.schabi.newpipelegacy.R;
+import org.schabi.newpipelegacy.download.DownloadActivity;
+import org.schabi.newpipelegacy.player.helper.LockManager;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -41,8 +41,8 @@ import java.util.ArrayList;
 import us.shandian.giga.get.DownloadMission;
 import us.shandian.giga.service.DownloadManager.NetworkState;
 
-import static org.schabi.newpipe.BuildConfig.APPLICATION_ID;
-import static org.schabi.newpipe.BuildConfig.DEBUG;
+import static org.schabi.newpipelegacy.BuildConfig.APPLICATION_ID;
+import static org.schabi.newpipelegacy.BuildConfig.DEBUG;
 
 public class DownloadManagerService extends Service {
 

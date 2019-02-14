@@ -2,8 +2,8 @@ package us.shandian.giga.postprocessing;
 
 import android.util.Log;
 
-import org.schabi.newpipe.streams.io.SharpStream;
-import org.schabi.newpipe.streams.SubtitleConverter;
+import org.schabi.newpipelegacy.streams.io.SharpStream;
+import org.schabi.newpipelegacy.streams.SubtitleConverter;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
@@ -13,7 +13,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 
 import us.shandian.giga.get.DownloadMission;
-import us.shandian.giga.postprocessing.io.SharpInputStream;
 
 /**
  * @author kapodamy

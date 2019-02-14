@@ -8,7 +8,7 @@ import java.io.RandomAccessFile;
 import java.net.HttpURLConnection;
 import java.nio.channels.ClosedByInterruptException;
 
-import static org.schabi.newpipe.BuildConfig.DEBUG;
+import static org.schabi.newpipelegacy.BuildConfig.DEBUG;
 
 /**
  * Runnable to download blocks of a file until the file is completely downloaded,

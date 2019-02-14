@@ -11,7 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
-import org.schabi.newpipe.R;
+import org.schabi.newpipelegacy.R;
 
 import java.io.BufferedOutputStream;
 import java.io.File;

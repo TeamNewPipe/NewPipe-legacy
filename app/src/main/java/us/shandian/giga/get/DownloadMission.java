@@ -21,7 +21,7 @@ import us.shandian.giga.postprocessing.Postprocessing;
 import us.shandian.giga.service.DownloadManagerService;
 import us.shandian.giga.util.Utility;
 
-import static org.schabi.newpipe.BuildConfig.DEBUG;
+import static org.schabi.newpipelegacy.BuildConfig.DEBUG;
 
 public class DownloadMission extends Mission {
     private static final long serialVersionUID = 3L;// last bump: 8 november 2018

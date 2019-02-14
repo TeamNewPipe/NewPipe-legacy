@@ -13,7 +13,7 @@ import java.nio.channels.ClosedByInterruptException;
 
 import us.shandian.giga.util.Utility;
 
-import static org.schabi.newpipe.BuildConfig.DEBUG;
+import static org.schabi.newpipelegacy.BuildConfig.DEBUG;
 
 /**
  * Single-threaded fallback mode

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="org.schabi.newpipe.player.BackgroundPlayerActivity">
+    tools:context="org.schabi.newpipelegacy.player.BackgroundPlayerActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"

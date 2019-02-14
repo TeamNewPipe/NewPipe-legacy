@@ -1,6 +1,6 @@
 package us.shandian.giga.postprocessing.io;
 
-import org.schabi.newpipe.streams.io.SharpStream;
+import org.schabi.newpipelegacy.streams.io.SharpStream;
 
 import java.io.File;
 import java.io.IOException;

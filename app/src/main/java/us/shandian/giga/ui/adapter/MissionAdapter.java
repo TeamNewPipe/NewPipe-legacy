@@ -34,9 +34,9 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.schabi.newpipe.BuildConfig;
-import org.schabi.newpipe.R;
-import org.schabi.newpipe.util.NavigationHelper;
+import org.schabi.newpipelegacy.BuildConfig;
+import org.schabi.newpipelegacy.R;
+import org.schabi.newpipelegacy.util.NavigationHelper;
 
 import java.io.File;
 import java.lang.ref.WeakReference;

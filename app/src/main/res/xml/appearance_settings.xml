@@ -43,7 +43,7 @@
 
     <PreferenceScreen
         app:iconSpaceReserved="false"
-        android:fragment="org.schabi.newpipe.settings.tabs.ChooseTabsFragment"
+        android:fragment="org.schabi.newpipelegacy.settings.tabs.ChooseTabsFragment"
         android:summary="@string/main_page_content_summary"
         android:key="@string/main_page_content_key"
         android:title="@string/main_page_content"/>
