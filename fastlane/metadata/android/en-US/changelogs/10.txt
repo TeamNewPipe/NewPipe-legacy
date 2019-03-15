@@ -1,0 +1,4 @@
+### Sync with upstream v0.16.1 release
+
+### Changes
+* Icon has a `legacy` label so it's easier to tell apart
