@@ -1,6 +1,6 @@
 package org.schabi.newpipelegacy.util;
 
-import org.schabi.newpipe.App;
+import org.schabi.newpipelegacy.App;
 
 public class FireTvUtils {
     public static boolean isFireTv(){

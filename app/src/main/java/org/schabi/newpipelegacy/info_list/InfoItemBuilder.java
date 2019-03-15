@@ -10,8 +10,11 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.schabi.newpipe.extractor.InfoItem;
 import org.schabi.newpipe.extractor.channel.ChannelInfoItem;
+import org.schabi.newpipe.extractor.comments.CommentsInfoItem;
 import org.schabi.newpipe.extractor.playlist.PlaylistInfoItem;
 import org.schabi.newpipe.extractor.stream.StreamInfoItem;
+import org.schabi.newpipelegacy.holder.CommentsInfoItemHolder;
+import org.schabi.newpipelegacy.holder.CommentsMiniInfoItemHolder;
 import org.schabi.newpipelegacy.info_list.holder.ChannelInfoItemHolder;
 import org.schabi.newpipelegacy.info_list.holder.ChannelMiniInfoItemHolder;
 import org.schabi.newpipelegacy.info_list.holder.InfoItemHolder;
@@ -50,6 +53,7 @@ public class InfoItemBuilder {
     private OnClickGesture<StreamInfoItem> onStreamSelectedListener;
     private OnClickGesture<ChannelInfoItem> onChannelSelectedListener;
     private OnClickGesture<PlaylistInfoItem> onPlaylistSelectedListener;
+    private OnClickGesture<CommentsInfoItem> onCommentsSelectedListener;
 
     public InfoItemBuilder(Context context) {
         this.context = context;
@@ -73,6 +77,8 @@ public class InfoItemBuilder {
                 return useMiniVariant ? new ChannelMiniInfoItemHolder(this, parent) : new ChannelInfoItemHolder(this, parent);
             case PLAYLIST:
                 return useMiniVariant ? new PlaylistMiniInfoItemHolder(this, parent) : new PlaylistInfoItemHolder(this, parent);
+            case COMMENT:
+                return useMiniVariant ? new CommentsMiniInfoItemHolder(this, parent) : new CommentsInfoItemHolder(this, parent);
             default:
                 Log.e(TAG, "Trollolo");
                 throw new RuntimeException("InfoType not expected = " + infoType.name());
@@ -109,6 +115,14 @@ public class InfoItemBuilder {
 
     public void setOnPlaylistSelectedListener(OnClickGesture<PlaylistInfoItem> listener) {
         this.onPlaylistSelectedListener = listener;
+    }
+
+    public OnClickGesture<CommentsInfoItem> getOnCommentsSelectedListener() {
+        return onCommentsSelectedListener;
+    }
+
+    public void setOnCommentsSelectedListener(OnClickGesture<CommentsInfoItem> onCommentsSelectedListener) {
+        this.onCommentsSelectedListener = onCommentsSelectedListener;
     }
 
 }
