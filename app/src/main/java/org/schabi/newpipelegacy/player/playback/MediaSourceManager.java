@@ -1,5 +1,9 @@
 package org.schabi.newpipelegacy.player.playback;
+<<<<<<< HEAD:app/src/main/java/org/schabi/newpipelegacy/player/playback/MediaSourceManager.java
+import android.os.Handler;
+=======
 
+>>>>>>> dev:app/src/main/java/org/schabi/newpipelegacy/player/playback/MediaSourceManager.java
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.util.ArraySet;
@@ -102,6 +106,8 @@ public class MediaSourceManager {
     @NonNull private final AtomicBoolean isBlocked;
 
     @NonNull private ManagedMediaSourcePlaylist playlist;
+
+    private Handler removeMediaSourceHandler = new Handler();
 
     public MediaSourceManager(@NonNull final PlaybackListener listener,
                               @NonNull final PlayQueue playQueue) {
@@ -395,7 +401,7 @@ public class MediaSourceManager {
         if (isCorrectionNeeded(item)) {
             if (DEBUG) Log.d(TAG, "MediaSource - Updating index=[" + itemIndex + "] with " +
                     "title=[" + item.getTitle() + "] at url=[" + item.getUrl() + "]");
-            playlist.update(itemIndex, mediaSource, this::maybeSynchronizePlayer);
+            playlist.update(itemIndex, mediaSource, removeMediaSourceHandler, this::maybeSynchronizePlayer);
         }
     }
 
@@ -441,7 +447,7 @@ public class MediaSourceManager {
 
         if (DEBUG) Log.d(TAG, "MediaSource - Reloading currently playing, " +
                 "index=[" + currentIndex + "], item=[" + currentItem.getTitle() + "]");
-        playlist.invalidate(currentIndex, this::loadImmediate);
+        playlist.invalidate(currentIndex, removeMediaSourceHandler, this::loadImmediate);
     }
 
     private void maybeClearLoaders() {

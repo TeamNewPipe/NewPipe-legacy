@@ -21,6 +21,10 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.schabi.newpipelegacy.MainActivity;
 import org.schabi.newpipelegacy.R;
+<<<<<<< HEAD:app/src/main/java/org/schabi/newpipelegacy/util/NavigationHelper.java
+import org.schabi.newpipelegacy.RouterActivity;
+=======
+>>>>>>> dev:app/src/main/java/org/schabi/newpipelegacy/util/NavigationHelper.java
 import org.schabi.newpipelegacy.about.AboutActivity;
 import org.schabi.newpipelegacy.download.DownloadActivity;
 import org.schabi.newpipe.extractor.NewPipe;
@@ -34,11 +38,19 @@ import org.schabi.newpipelegacy.fragments.MainFragment;
 import org.schabi.newpipelegacy.fragments.detail.VideoDetailFragment;
 import org.schabi.newpipelegacy.fragments.list.channel.ChannelFragment;
 import org.schabi.newpipelegacy.fragments.list.comments.CommentsFragment;
+<<<<<<< HEAD:app/src/main/java/org/schabi/newpipelegacy/util/NavigationHelper.java
+import org.schabi.newpipelegacy.fragments.list.kiosk.KioskFragment;
+import org.schabi.newpipelegacy.fragments.list.playlist.PlaylistFragment;
+import org.schabi.newpipelegacy.fragments.list.search.SearchFragment;
+import org.schabi.newpipelegacy.local.bookmark.BookmarkFragment;
+import org.schabi.newpipelegacy.local.feed.FeedFragment;
+=======
 import org.schabi.newpipelegacy.local.bookmark.BookmarkFragment;
 import org.schabi.newpipelegacy.local.feed.FeedFragment;
 import org.schabi.newpipelegacy.fragments.list.kiosk.KioskFragment;
 import org.schabi.newpipelegacy.fragments.list.playlist.PlaylistFragment;
 import org.schabi.newpipelegacy.fragments.list.search.SearchFragment;
+>>>>>>> dev:app/src/main/java/org/schabi/newpipelegacy/util/NavigationHelper.java
 import org.schabi.newpipelegacy.local.history.StatisticsPlaylistFragment;
 import org.schabi.newpipelegacy.local.playlist.LocalPlaylistFragment;
 import org.schabi.newpipelegacy.local.subscription.SubscriptionFragment;
@@ -419,6 +431,13 @@ public class NavigationHelper {
         Intent mIntent = new Intent(context, MainActivity.class);
         mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        context.startActivity(mIntent);
+    }
+
+    public static void openRouterActivity(Context context, String url) {
+        Intent mIntent = new Intent(context, RouterActivity.class);
+        mIntent.setData(Uri.parse(url));
+        mIntent.putExtra(RouterActivity.internalRouteKey, true);
         context.startActivity(mIntent);
     }
 

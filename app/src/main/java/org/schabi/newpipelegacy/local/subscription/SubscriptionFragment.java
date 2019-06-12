@@ -50,10 +50,19 @@ import org.schabi.newpipelegacy.info_list.InfoListAdapter;
 import org.schabi.newpipelegacy.report.UserAction;
 import org.schabi.newpipelegacy.local.subscription.services.SubscriptionsExportService;
 import org.schabi.newpipelegacy.local.subscription.services.SubscriptionsImportService;
+<<<<<<< HEAD:app/src/main/java/org/schabi/newpipelegacy/local/subscription/SubscriptionFragment.java
+import org.schabi.newpipelegacy.report.ErrorActivity;
+import org.schabi.newpipelegacy.report.UserAction;
+=======
+>>>>>>> dev:app/src/main/java/org/schabi/newpipelegacy/local/subscription/SubscriptionFragment.java
 import org.schabi.newpipelegacy.util.FilePickerActivityHelper;
 import org.schabi.newpipelegacy.util.NavigationHelper;
 import org.schabi.newpipelegacy.util.OnClickGesture;
 import org.schabi.newpipelegacy.util.ServiceHelper;
+<<<<<<< HEAD:app/src/main/java/org/schabi/newpipelegacy/local/subscription/SubscriptionFragment.java
+import org.schabi.newpipelegacy.util.ShareUtils;
+=======
+>>>>>>> dev:app/src/main/java/org/schabi/newpipelegacy/local/subscription/SubscriptionFragment.java
 import org.schabi.newpipelegacy.util.ThemeHelper;
 import org.schabi.newpipelegacy.views.CollapsibleView;
 
@@ -422,7 +431,7 @@ public class SubscriptionFragment extends BaseStateFragment<List<SubscriptionEnt
     }
 
     private void shareChannel (ChannelInfoItem selectedItem) {
-        shareUrl(selectedItem.getName(), selectedItem.getUrl());
+        ShareUtils.shareUrl(this.getContext(), selectedItem.getName(), selectedItem.getUrl());
     }
 
     @SuppressLint("CheckResult")

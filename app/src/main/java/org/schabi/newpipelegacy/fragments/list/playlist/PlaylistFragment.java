@@ -40,6 +40,10 @@ import org.schabi.newpipelegacy.report.UserAction;
 import org.schabi.newpipelegacy.util.ExtractorHelper;
 import org.schabi.newpipelegacy.util.ImageDisplayConstants;
 import org.schabi.newpipelegacy.util.NavigationHelper;
+<<<<<<< HEAD:app/src/main/java/org/schabi/newpipelegacy/fragments/list/playlist/PlaylistFragment.java
+import org.schabi.newpipelegacy.util.ShareUtils;
+=======
+>>>>>>> dev:app/src/main/java/org/schabi/newpipelegacy/fragments/list/playlist/PlaylistFragment.java
 import org.schabi.newpipelegacy.util.ThemeHelper;
 
 import java.util.ArrayList;
@@ -168,7 +172,7 @@ public class PlaylistFragment extends BaseListInfoFragment<PlaylistInfo> {
                     NavigationHelper.playOnPopupPlayer(activity, getPlayQueue(index));
                     break;
                 case 5:
-                    shareUrl(item.getName(), item.getUrl());
+                    ShareUtils.shareUrl(this.getContext(), item.getName(), item.getUrl());
                     break;
                 default:
                     break;
@@ -230,10 +234,10 @@ public class PlaylistFragment extends BaseListInfoFragment<PlaylistInfo> {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item_openInBrowser:
-                openUrlInBrowser(url);
+                ShareUtils.openUrlInBrowser(this.getContext(), url);
                 break;
             case R.id.menu_item_share:
-                shareUrl(name, url);
+                ShareUtils.shareUrl(this.getContext(), name, url);
                 break;
             case R.id.menu_item_bookmark:
                 onBookmarkClicked();
@@ -305,6 +309,16 @@ public class PlaylistFragment extends BaseListInfoFragment<PlaylistInfo> {
                 NavigationHelper.playOnPopupPlayer(activity, getPlayQueue()));
         headerBackgroundButton.setOnClickListener(view ->
                 NavigationHelper.playOnBackgroundPlayer(activity, getPlayQueue()));
+
+        headerPopupButton.setOnLongClickListener(view -> {
+            NavigationHelper.enqueueOnPopupPlayer(activity, getPlayQueue());
+            return true;
+        });
+
+        headerBackgroundButton.setOnLongClickListener(view -> {
+            NavigationHelper.enqueueOnBackgroundPlayer(activity, getPlayQueue());
+            return true;
+        });
     }
 
     private PlayQueue getPlayQueue() {

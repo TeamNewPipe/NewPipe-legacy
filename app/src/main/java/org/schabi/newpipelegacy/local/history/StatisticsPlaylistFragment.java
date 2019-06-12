@@ -8,7 +8,11 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -21,6 +25,18 @@ import org.schabi.newpipelegacy.R;
 import org.schabi.newpipelegacy.database.LocalItem;
 import org.schabi.newpipelegacy.database.stream.StreamStatisticsEntry;
 import org.schabi.newpipe.extractor.stream.StreamInfoItem;
+<<<<<<< HEAD:app/src/main/java/org/schabi/newpipelegacy/local/history/StatisticsPlaylistFragment.java
+import org.schabi.newpipelegacy.info_list.InfoItemDialog;
+import org.schabi.newpipelegacy.local.BaseLocalListFragment;
+import org.schabi.newpipelegacy.player.playqueue.PlayQueue;
+import org.schabi.newpipelegacy.player.playqueue.SinglePlayQueue;
+import org.schabi.newpipelegacy.report.ErrorActivity;
+import org.schabi.newpipelegacy.report.UserAction;
+import org.schabi.newpipelegacy.settings.SettingsActivity;
+import org.schabi.newpipelegacy.util.NavigationHelper;
+import org.schabi.newpipelegacy.util.OnClickGesture;
+import org.schabi.newpipelegacy.util.ShareUtils;
+=======
 import org.schabi.newpipelegacy.local.BaseLocalListFragment;
 import org.schabi.newpipelegacy.info_list.InfoItemDialog;
 import org.schabi.newpipelegacy.player.playqueue.PlayQueue;
@@ -28,6 +44,7 @@ import org.schabi.newpipelegacy.player.playqueue.SinglePlayQueue;
 import org.schabi.newpipelegacy.report.UserAction;
 import org.schabi.newpipelegacy.util.NavigationHelper;
 import org.schabi.newpipelegacy.util.OnClickGesture;
+>>>>>>> dev:app/src/main/java/org/schabi/newpipelegacy/local/history/StatisticsPlaylistFragment.java
 import org.schabi.newpipelegacy.util.ThemeHelper;
 
 import java.util.ArrayList;
@@ -104,6 +121,12 @@ public class StatisticsPlaylistFragment
         }
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_history, menu);
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     // Fragment LifeCycle - Views
     ///////////////////////////////////////////////////////////////////////////
@@ -153,6 +176,53 @@ public class StatisticsPlaylistFragment
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_history_clear:
+                new AlertDialog.Builder(activity)
+                        .setTitle(R.string.delete_view_history_alert)
+                        .setNegativeButton(R.string.cancel, ((dialog, which) -> dialog.dismiss()))
+                        .setPositiveButton(R.string.delete, ((dialog, which) -> {
+                            final Disposable onDelete = recordManager.deleteWholeStreamHistory()
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(
+                                            howManyDeleted -> Toast.makeText(getContext(),
+                                                    R.string.view_history_deleted,
+                                                    Toast.LENGTH_SHORT).show(),
+                                            throwable -> ErrorActivity.reportError(getContext(),
+                                                    throwable,
+                                                    SettingsActivity.class, null,
+                                                    ErrorActivity.ErrorInfo.make(
+                                                            UserAction.DELETE_FROM_HISTORY,
+                                                            "none",
+                                                            "Delete view history",
+                                                            R.string.general_error)));
+
+                            final Disposable onClearOrphans = recordManager.removeOrphanedRecords()
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(
+                                            howManyDeleted -> {},
+                                            throwable -> ErrorActivity.reportError(getContext(),
+                                                    throwable,
+                                                    SettingsActivity.class, null,
+                                                    ErrorActivity.ErrorInfo.make(
+                                                            UserAction.DELETE_FROM_HISTORY,
+                                                            "none",
+                                                            "Delete search history",
+                                                            R.string.general_error)));
+                            disposables.add(onClearOrphans);
+                            disposables.add(onDelete);
+                        }))
+                        .create()
+                        .show();
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return true;
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -335,7 +405,7 @@ public class StatisticsPlaylistFragment
                     deleteEntry(index);
                     break;
                 case 6:
-                    shareUrl(item.toStreamInfoItem().getName(), item.toStreamInfoItem().getUrl());
+                    ShareUtils.shareUrl(this.getContext(), item.toStreamInfoItem().getName(), item.toStreamInfoItem().getUrl());
                     break;
                 default:
                     break;

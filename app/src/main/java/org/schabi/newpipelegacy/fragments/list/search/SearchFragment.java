@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.TooltipCompat;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -45,10 +46,16 @@ import org.schabi.newpipelegacy.fragments.list.BaseListFragment;
 import org.schabi.newpipelegacy.local.history.HistoryRecordManager;
 import org.schabi.newpipelegacy.report.ErrorActivity;
 import org.schabi.newpipelegacy.report.UserAction;
+<<<<<<< HEAD:app/src/main/java/org/schabi/newpipelegacy/fragments/list/search/SearchFragment.java
+import org.schabi.newpipelegacy.util.AnimationUtils;
+import org.schabi.newpipelegacy.util.Constants;
+import org.schabi.newpipelegacy.util.ExtractorHelper;
+=======
 import org.schabi.newpipelegacy.util.Constants;
 import org.schabi.newpipelegacy.util.AnimationUtils;
 import org.schabi.newpipelegacy.util.ExtractorHelper;
 import org.schabi.newpipelegacy.util.LayoutManagerSmoothScroller;
+>>>>>>> dev:app/src/main/java/org/schabi/newpipelegacy/fragments/list/search/SearchFragment.java
 import org.schabi.newpipelegacy.util.NavigationHelper;
 import org.schabi.newpipelegacy.util.ServiceHelper;
 
@@ -73,8 +80,12 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 
+import static android.support.v7.widget.helper.ItemTouchHelper.Callback.makeMovementFlags;
 import static java.util.Arrays.asList;
+<<<<<<< HEAD:app/src/main/java/org/schabi/newpipelegacy/fragments/list/search/SearchFragment.java
+=======
 
+>>>>>>> dev:app/src/main/java/org/schabi/newpipelegacy/fragments/list/search/SearchFragment.java
 import static org.schabi.newpipelegacy.util.AnimationUtils.animateView;
 
 public class SearchFragment
@@ -298,7 +309,23 @@ public class SearchFragment
         suggestionsPanel = rootView.findViewById(R.id.suggestions_panel);
         suggestionsRecyclerView = rootView.findViewById(R.id.suggestions_list);
         suggestionsRecyclerView.setAdapter(suggestionListAdapter);
-        suggestionsRecyclerView.setLayoutManager(new LayoutManagerSmoothScroller(activity));
+        new ItemTouchHelper(new ItemTouchHelper.Callback() {
+            @Override
+            public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+                return getSuggestionMovementFlags(recyclerView, viewHolder);
+            }
+
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder,
+                                  @NonNull RecyclerView.ViewHolder viewHolder1) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+                onSuggestionItemSwiped(viewHolder, i);
+            }
+        }).attachToRecyclerView(suggestionsRecyclerView);
 
         searchToolbarContainer = activity.findViewById(R.id.toolbar_search_container);
         searchEditText = searchToolbarContainer.findViewById(R.id.toolbar_search_edit_text);
@@ -900,5 +927,29 @@ public class SearchFragment
         }
 
         return true;
+    }
+
+    /*//////////////////////////////////////////////////////////////////////////
+    // Suggestion item touch helper
+    //////////////////////////////////////////////////////////////////////////*/
+
+    public int getSuggestionMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+        final int position = viewHolder.getAdapterPosition();
+        final SuggestionItem item = suggestionListAdapter.getItem(position);
+        return item.fromHistory ? makeMovementFlags(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) : 0;
+    }
+
+    public void onSuggestionItemSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+        final int position = viewHolder.getAdapterPosition();
+        final String query = suggestionListAdapter.getItem(position).query;
+        final Disposable onDelete = historyRecordManager.deleteSearchHistory(query)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        howManyDeleted -> suggestionPublisher
+                                .onNext(searchEditText.getText().toString()),
+                        throwable -> showSnackBarError(throwable,
+                                UserAction.DELETE_FROM_HISTORY, "none",
+                                "Deleting item failed", R.string.general_error));
+        disposables.add(onDelete);
     }
 }
