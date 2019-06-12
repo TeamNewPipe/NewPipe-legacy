@@ -12,10 +12,17 @@ import org.schabi.newpipe.extractor.channel.ChannelInfoItem;
 import org.schabi.newpipe.extractor.comments.CommentsInfoItem;
 import org.schabi.newpipe.extractor.playlist.PlaylistInfoItem;
 import org.schabi.newpipe.extractor.stream.StreamInfoItem;
+<<<<<<< HEAD:app/src/main/java/org/schabi/newpipelegacy/info_list/InfoListAdapter.java
 import org.schabi.newpipelegacy.info_list.holder.ChannelInfoItemHolder;
 import org.schabi.newpipelegacy.info_list.holder.ChannelMiniInfoItemHolder;
 import org.schabi.newpipelegacy.info_list.holder.CommentsInfoItemHolder;
 import org.schabi.newpipelegacy.info_list.holder.CommentsMiniInfoItemHolder;
+=======
+import org.schabi.newpipelegacy.holder.CommentsInfoItemHolder;
+import org.schabi.newpipelegacy.holder.CommentsMiniInfoItemHolder;
+import org.schabi.newpipelegacy.info_list.holder.ChannelInfoItemHolder;
+import org.schabi.newpipelegacy.info_list.holder.ChannelMiniInfoItemHolder;
+>>>>>>> dev:app/src/main/java/org/schabi/newpipelegacy/info_list/InfoListAdapter.java
 import org.schabi.newpipelegacy.info_list.holder.ChannelGridInfoItemHolder;
 import org.schabi.newpipelegacy.info_list.holder.InfoItemHolder;
 import org.schabi.newpipelegacy.info_list.holder.PlaylistGridInfoItemHolder;

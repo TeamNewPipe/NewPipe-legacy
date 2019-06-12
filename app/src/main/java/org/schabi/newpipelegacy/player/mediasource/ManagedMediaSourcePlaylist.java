@@ -1,5 +1,9 @@
 package org.schabi.newpipelegacy.player.mediasource;
+<<<<<<< HEAD:app/src/main/java/org/schabi/newpipelegacy/player/mediasource/ManagedMediaSourcePlaylist.java
 import android.os.Handler;
+=======
+
+>>>>>>> dev:app/src/main/java/org/schabi/newpipelegacy/player/mediasource/ManagedMediaSourcePlaylist.java
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 

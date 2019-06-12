@@ -21,7 +21,10 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.schabi.newpipelegacy.MainActivity;
 import org.schabi.newpipelegacy.R;
+<<<<<<< HEAD:app/src/main/java/org/schabi/newpipelegacy/util/NavigationHelper.java
 import org.schabi.newpipelegacy.RouterActivity;
+=======
+>>>>>>> dev:app/src/main/java/org/schabi/newpipelegacy/util/NavigationHelper.java
 import org.schabi.newpipelegacy.about.AboutActivity;
 import org.schabi.newpipelegacy.download.DownloadActivity;
 import org.schabi.newpipe.extractor.NewPipe;
@@ -35,11 +38,19 @@ import org.schabi.newpipelegacy.fragments.MainFragment;
 import org.schabi.newpipelegacy.fragments.detail.VideoDetailFragment;
 import org.schabi.newpipelegacy.fragments.list.channel.ChannelFragment;
 import org.schabi.newpipelegacy.fragments.list.comments.CommentsFragment;
+<<<<<<< HEAD:app/src/main/java/org/schabi/newpipelegacy/util/NavigationHelper.java
 import org.schabi.newpipelegacy.fragments.list.kiosk.KioskFragment;
 import org.schabi.newpipelegacy.fragments.list.playlist.PlaylistFragment;
 import org.schabi.newpipelegacy.fragments.list.search.SearchFragment;
 import org.schabi.newpipelegacy.local.bookmark.BookmarkFragment;
 import org.schabi.newpipelegacy.local.feed.FeedFragment;
+=======
+import org.schabi.newpipelegacy.local.bookmark.BookmarkFragment;
+import org.schabi.newpipelegacy.local.feed.FeedFragment;
+import org.schabi.newpipelegacy.fragments.list.kiosk.KioskFragment;
+import org.schabi.newpipelegacy.fragments.list.playlist.PlaylistFragment;
+import org.schabi.newpipelegacy.fragments.list.search.SearchFragment;
+>>>>>>> dev:app/src/main/java/org/schabi/newpipelegacy/util/NavigationHelper.java
 import org.schabi.newpipelegacy.local.history.StatisticsPlaylistFragment;
 import org.schabi.newpipelegacy.local.playlist.LocalPlaylistFragment;
 import org.schabi.newpipelegacy.local.subscription.SubscriptionFragment;

@@ -40,7 +40,10 @@ import org.schabi.newpipelegacy.report.UserAction;
 import org.schabi.newpipelegacy.util.ExtractorHelper;
 import org.schabi.newpipelegacy.util.ImageDisplayConstants;
 import org.schabi.newpipelegacy.util.NavigationHelper;
+<<<<<<< HEAD:app/src/main/java/org/schabi/newpipelegacy/fragments/list/playlist/PlaylistFragment.java
 import org.schabi.newpipelegacy.util.ShareUtils;
+=======
+>>>>>>> dev:app/src/main/java/org/schabi/newpipelegacy/fragments/list/playlist/PlaylistFragment.java
 import org.schabi.newpipelegacy.util.ThemeHelper;
 
 import java.util.ArrayList;

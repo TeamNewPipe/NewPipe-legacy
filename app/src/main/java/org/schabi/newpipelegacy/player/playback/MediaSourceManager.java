@@ -1,5 +1,9 @@
 package org.schabi.newpipelegacy.player.playback;
+<<<<<<< HEAD:app/src/main/java/org/schabi/newpipelegacy/player/playback/MediaSourceManager.java
 import android.os.Handler;
+=======
+
+>>>>>>> dev:app/src/main/java/org/schabi/newpipelegacy/player/playback/MediaSourceManager.java
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.util.ArraySet;

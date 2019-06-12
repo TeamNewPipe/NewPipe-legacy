@@ -46,7 +46,10 @@ import org.schabi.newpipelegacy.util.ExtractorHelper;
 import org.schabi.newpipelegacy.util.ImageDisplayConstants;
 import org.schabi.newpipelegacy.util.Localization;
 import org.schabi.newpipelegacy.util.NavigationHelper;
+<<<<<<< HEAD:app/src/main/java/org/schabi/newpipelegacy/fragments/list/channel/ChannelFragment.java
 import org.schabi.newpipelegacy.util.ShareUtils;
+=======
+>>>>>>> dev:app/src/main/java/org/schabi/newpipelegacy/fragments/list/channel/ChannelFragment.java
 
 import java.util.ArrayList;
 import java.util.Collections;

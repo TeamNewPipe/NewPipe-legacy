@@ -46,9 +46,16 @@ import org.schabi.newpipelegacy.fragments.list.BaseListFragment;
 import org.schabi.newpipelegacy.local.history.HistoryRecordManager;
 import org.schabi.newpipelegacy.report.ErrorActivity;
 import org.schabi.newpipelegacy.report.UserAction;
+<<<<<<< HEAD:app/src/main/java/org/schabi/newpipelegacy/fragments/list/search/SearchFragment.java
 import org.schabi.newpipelegacy.util.AnimationUtils;
 import org.schabi.newpipelegacy.util.Constants;
 import org.schabi.newpipelegacy.util.ExtractorHelper;
+=======
+import org.schabi.newpipelegacy.util.Constants;
+import org.schabi.newpipelegacy.util.AnimationUtils;
+import org.schabi.newpipelegacy.util.ExtractorHelper;
+import org.schabi.newpipelegacy.util.LayoutManagerSmoothScroller;
+>>>>>>> dev:app/src/main/java/org/schabi/newpipelegacy/fragments/list/search/SearchFragment.java
 import org.schabi.newpipelegacy.util.NavigationHelper;
 import org.schabi.newpipelegacy.util.ServiceHelper;
 
@@ -75,6 +82,10 @@ import io.reactivex.subjects.PublishSubject;
 
 import static android.support.v7.widget.helper.ItemTouchHelper.Callback.makeMovementFlags;
 import static java.util.Arrays.asList;
+<<<<<<< HEAD:app/src/main/java/org/schabi/newpipelegacy/fragments/list/search/SearchFragment.java
+=======
+
+>>>>>>> dev:app/src/main/java/org/schabi/newpipelegacy/fragments/list/search/SearchFragment.java
 import static org.schabi.newpipelegacy.util.AnimationUtils.animateView;
 
 public class SearchFragment

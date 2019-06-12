@@ -27,6 +27,10 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import org.schabi.newpipelegacy.R;
+<<<<<<< HEAD:app/src/main/java/org/schabi/newpipelegacy/RouterActivity.java
+=======
+import org.schabi.newpipelegacy.download.DownloadDialog;
+>>>>>>> dev:app/src/main/java/org/schabi/newpipelegacy/RouterActivity.java
 import org.schabi.newpipe.extractor.Info;
 import org.schabi.newpipe.extractor.NewPipe;
 import org.schabi.newpipe.extractor.StreamingService;
@@ -36,13 +40,19 @@ import org.schabi.newpipe.extractor.exceptions.ExtractionException;
 import org.schabi.newpipe.extractor.playlist.PlaylistInfo;
 import org.schabi.newpipe.extractor.stream.StreamInfo;
 import org.schabi.newpipe.extractor.stream.VideoStream;
+<<<<<<< HEAD:app/src/main/java/org/schabi/newpipelegacy/RouterActivity.java
 import org.schabi.newpipelegacy.download.DownloadDialog;
+=======
+>>>>>>> dev:app/src/main/java/org/schabi/newpipelegacy/RouterActivity.java
 import org.schabi.newpipelegacy.player.playqueue.ChannelPlayQueue;
 import org.schabi.newpipelegacy.player.playqueue.PlayQueue;
 import org.schabi.newpipelegacy.player.playqueue.PlaylistPlayQueue;
 import org.schabi.newpipelegacy.player.playqueue.SinglePlayQueue;
 import org.schabi.newpipelegacy.report.UserAction;
+<<<<<<< HEAD:app/src/main/java/org/schabi/newpipelegacy/RouterActivity.java
 import org.schabi.newpipelegacy.util.Constants;
+=======
+>>>>>>> dev:app/src/main/java/org/schabi/newpipelegacy/RouterActivity.java
 import org.schabi.newpipelegacy.util.ExtractorHelper;
 import org.schabi.newpipelegacy.util.ListHelper;
 import org.schabi.newpipelegacy.util.NavigationHelper;
