@@ -7,13 +7,8 @@ android {
         applicationId 'org.schabi.newpipelegacy'
         minSdkVersion 16
         targetSdkVersion 28
-<<<<<<< HEAD
         versionCode 20
         versionName "0.16.2"
-=======
-        versionCode 10
-        versionName "0.16.1"
->>>>>>> dev
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -41,10 +36,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-<<<<<<< HEAD
 
-=======
->>>>>>> dev
     productFlavors {
     }
 }

@@ -34,10 +34,7 @@ import org.schabi.newpipelegacy.report.UserAction;
 import org.schabi.newpipelegacy.util.Localization;
 import org.schabi.newpipelegacy.util.NavigationHelper;
 import org.schabi.newpipelegacy.util.OnClickGesture;
-<<<<<<< HEAD:app/src/main/java/org/schabi/newpipelegacy/local/playlist/LocalPlaylistFragment.java
 import org.schabi.newpipelegacy.util.ShareUtils;
-=======
->>>>>>> dev:app/src/main/java/org/schabi/newpipelegacy/local/playlist/LocalPlaylistFragment.java
 
 import java.util.ArrayList;
 import java.util.Collections;

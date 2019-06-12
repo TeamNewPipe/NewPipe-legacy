@@ -76,10 +76,7 @@ import org.schabi.newpipelegacy.util.AnimationUtils;
 import org.schabi.newpipelegacy.util.ListHelper;
 import org.schabi.newpipelegacy.util.NavigationHelper;
 import org.schabi.newpipelegacy.util.PermissionHelper;
-<<<<<<< HEAD:app/src/main/java/org/schabi/newpipelegacy/player/MainVideoPlayer.java
 import org.schabi.newpipelegacy.util.ShareUtils;
-=======
->>>>>>> dev:app/src/main/java/org/schabi/newpipelegacy/player/MainVideoPlayer.java
 import org.schabi.newpipelegacy.util.StateSaver;
 import org.schabi.newpipelegacy.util.ThemeHelper;
 

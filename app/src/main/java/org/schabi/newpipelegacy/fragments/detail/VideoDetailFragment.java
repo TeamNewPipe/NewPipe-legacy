@@ -65,10 +65,7 @@ import org.schabi.newpipe.extractor.stream.StreamType;
 import org.schabi.newpipe.extractor.stream.VideoStream;
 import org.schabi.newpipelegacy.fragments.BackPressable;
 import org.schabi.newpipelegacy.fragments.BaseStateFragment;
-<<<<<<< HEAD:app/src/main/java/org/schabi/newpipelegacy/fragments/detail/VideoDetailFragment.java
 import org.schabi.newpipelegacy.fragments.EmptyFragment;
-=======
->>>>>>> dev:app/src/main/java/org/schabi/newpipelegacy/fragments/detail/VideoDetailFragment.java
 import org.schabi.newpipelegacy.fragments.list.comments.CommentsFragment;
 import org.schabi.newpipelegacy.fragments.list.videos.RelatedVideosFragment;
 import org.schabi.newpipelegacy.info_list.InfoItemDialog;
@@ -89,10 +86,7 @@ import org.schabi.newpipelegacy.util.ListHelper;
 import org.schabi.newpipelegacy.util.Localization;
 import org.schabi.newpipelegacy.util.NavigationHelper;
 import org.schabi.newpipelegacy.util.PermissionHelper;
-<<<<<<< HEAD:app/src/main/java/org/schabi/newpipelegacy/fragments/detail/VideoDetailFragment.java
 import org.schabi.newpipelegacy.util.ShareUtils;
-=======
->>>>>>> dev:app/src/main/java/org/schabi/newpipelegacy/fragments/detail/VideoDetailFragment.java
 import org.schabi.newpipelegacy.util.StreamItemAdapter;
 import org.schabi.newpipelegacy.util.StreamItemAdapter.StreamSizeWrapper;
 

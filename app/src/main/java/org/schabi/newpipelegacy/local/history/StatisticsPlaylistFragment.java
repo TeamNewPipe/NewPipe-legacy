@@ -25,7 +25,6 @@ import org.schabi.newpipelegacy.R;
 import org.schabi.newpipelegacy.database.LocalItem;
 import org.schabi.newpipelegacy.database.stream.StreamStatisticsEntry;
 import org.schabi.newpipe.extractor.stream.StreamInfoItem;
-<<<<<<< HEAD:app/src/main/java/org/schabi/newpipelegacy/local/history/StatisticsPlaylistFragment.java
 import org.schabi.newpipelegacy.info_list.InfoItemDialog;
 import org.schabi.newpipelegacy.local.BaseLocalListFragment;
 import org.schabi.newpipelegacy.player.playqueue.PlayQueue;
@@ -36,15 +35,6 @@ import org.schabi.newpipelegacy.settings.SettingsActivity;
 import org.schabi.newpipelegacy.util.NavigationHelper;
 import org.schabi.newpipelegacy.util.OnClickGesture;
 import org.schabi.newpipelegacy.util.ShareUtils;
-=======
-import org.schabi.newpipelegacy.local.BaseLocalListFragment;
-import org.schabi.newpipelegacy.info_list.InfoItemDialog;
-import org.schabi.newpipelegacy.player.playqueue.PlayQueue;
-import org.schabi.newpipelegacy.player.playqueue.SinglePlayQueue;
-import org.schabi.newpipelegacy.report.UserAction;
-import org.schabi.newpipelegacy.util.NavigationHelper;
-import org.schabi.newpipelegacy.util.OnClickGesture;
->>>>>>> dev:app/src/main/java/org/schabi/newpipelegacy/local/history/StatisticsPlaylistFragment.java
 import org.schabi.newpipelegacy.util.ThemeHelper;
 
 import java.util.ArrayList;

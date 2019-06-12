@@ -34,10 +34,7 @@ import org.schabi.newpipelegacy.player.playqueue.SinglePlayQueue;
 import org.schabi.newpipelegacy.report.ErrorActivity;
 import org.schabi.newpipelegacy.util.NavigationHelper;
 import org.schabi.newpipelegacy.util.OnClickGesture;
-<<<<<<< HEAD:app/src/main/java/org/schabi/newpipelegacy/fragments/list/BaseListFragment.java
 import org.schabi.newpipelegacy.util.ShareUtils;
-=======
->>>>>>> dev:app/src/main/java/org/schabi/newpipelegacy/fragments/list/BaseListFragment.java
 import org.schabi.newpipelegacy.util.StateSaver;
 
 import java.util.Collections;
