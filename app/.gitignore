@@ -1,3 +1,4 @@
 .gitignore
 /build
+/release
 app.iml
