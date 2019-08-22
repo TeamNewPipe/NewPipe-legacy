@@ -154,9 +154,7 @@ public class KioskFragment extends BaseListInfoFragment<KioskInfo> {
         super.handleResult(result);
 
         name = kioskTranslatedName;
-        if(!useAsFrontPage) {
-            setTitle(kioskTranslatedName);
-        }
+        setTitle(kioskTranslatedName);
 
         if (!result.getErrors().isEmpty()) {
             showSnackBarError(result.getErrors(),

@@ -8,7 +8,6 @@ import android.preference.PreferenceManager;
 
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 
-import org.schabi.newpipelegacy.R;
 import org.schabi.newpipe.extractor.NewPipe;
 
 import java.io.IOException;

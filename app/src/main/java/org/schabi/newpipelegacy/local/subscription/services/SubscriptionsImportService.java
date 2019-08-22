@@ -64,7 +64,7 @@ public class SubscriptionsImportService extends BaseImportExportService {
     /**
      * A {@link LocalBroadcastManager local broadcast} will be made with this action when the import is successfully completed.
      */
-    public static final String IMPORT_COMPLETE_ACTION = "org.schabi.newpipelegacy.local.subscription.services.SubscriptionsImportService.IMPORT_COMPLETE";
+    public static final String IMPORT_COMPLETE_ACTION = "org.schabi.newpipe.local.subscription.services.SubscriptionsImportService.IMPORT_COMPLETE";
 
     private Subscription subscription;
     private int currentMode;

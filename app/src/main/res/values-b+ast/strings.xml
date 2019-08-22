@@ -62,7 +62,6 @@
     <string name="parsing_error">Nun pudo analizase\'l sitiu web</string>
     <string name="light_parsing_error">Nun pudo analizase dafechu\'l sitiu web</string>
     <string name="content_not_available">Conteníu non disponible</string>
-    <string name="blocked_by_gema">Bloquiáu por GEMA</string>
     <string name="could_not_setup_download_menu">Nun pudo configurase\'l menú de descarga</string>
     <string name="live_streams_not_supported">Esto ye una tresmisión de direuto qu\'entá nun se sofita.</string>
     <string name="could_not_get_stream">Nun pudo consiguise tresmisión dala</string>
@@ -368,11 +367,6 @@
     <string name="resize_fit">AXUSTAR</string>
     <string name="resize_fill">RELLENAR</string>
     <string name="resize_zoom">ZOOM</string>
-
-    <string name="caption_font_size_settings_title">Tamañu de fonte de sotítulos</string>
-    <string name="smaller_caption_font_size">Fonte más pequeña</string>
-    <string name="normal_caption_font_size">Fonte media</string>
-    <string name="larger_caption_font_size">Fonte más grande</string>
 
     <string name="enable_leak_canary_title">Activar LeakCanary</string>
     <string name="enable_leak_canary_summary">La supervisión d\'escapes de memoria podría facer que l\'aplicación nun respuenda al volquiar la pila</string>

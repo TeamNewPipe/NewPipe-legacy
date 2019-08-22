@@ -1,6 +1,5 @@
 package org.schabi.newpipelegacy.player.playback;
 import android.os.Handler;
-
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.util.ArraySet;
@@ -159,7 +158,7 @@ public class MediaSourceManager {
      * Dispose the manager and releases all message buses and loaders.
      * */
     public void dispose() {
-        if (DEBUG) Log.d(TAG, "dispose() called.");
+        if (DEBUG) Log.d(TAG, "close() called.");
 
         debouncedSignal.onComplete();
         debouncedLoader.dispose();

@@ -1,8 +1,6 @@
 package org.schabi.newpipelegacy.fragments.list.channel;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -34,12 +32,9 @@ import org.schabi.newpipe.extractor.channel.ChannelInfo;
 import org.schabi.newpipe.extractor.exceptions.ExtractionException;
 import org.schabi.newpipe.extractor.stream.StreamInfoItem;
 import org.schabi.newpipelegacy.fragments.list.BaseListInfoFragment;
-import org.schabi.newpipelegacy.info_list.InfoItemDialog;
-import org.schabi.newpipelegacy.local.dialog.PlaylistAppendDialog;
 import org.schabi.newpipelegacy.local.subscription.SubscriptionService;
 import org.schabi.newpipelegacy.player.playqueue.ChannelPlayQueue;
 import org.schabi.newpipelegacy.player.playqueue.PlayQueue;
-import org.schabi.newpipelegacy.player.playqueue.SinglePlayQueue;
 import org.schabi.newpipelegacy.report.UserAction;
 import org.schabi.newpipelegacy.util.AnimationUtils;
 import org.schabi.newpipelegacy.util.ExtractorHelper;
@@ -49,7 +44,6 @@ import org.schabi.newpipelegacy.util.NavigationHelper;
 import org.schabi.newpipelegacy.util.ShareUtils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -150,56 +144,6 @@ public class ChannelFragment extends BaseListInfoFragment<ChannelInfo> {
         return headerRootLayout;
     }
 
-    @Override
-    protected void showStreamDialog(final StreamInfoItem item) {
-        final Activity activity = getActivity();
-        final Context context = getContext();
-        if (context == null || context.getResources() == null || getActivity() == null) return;
-
-        final String[] commands = new String[]{
-                context.getResources().getString(R.string.enqueue_on_background),
-                context.getResources().getString(R.string.enqueue_on_popup),
-                context.getResources().getString(R.string.start_here_on_main),
-                context.getResources().getString(R.string.start_here_on_background),
-                context.getResources().getString(R.string.start_here_on_popup),
-                context.getResources().getString(R.string.append_playlist),
-                context.getResources().getString(R.string.share)
-        };
-
-        final DialogInterface.OnClickListener actions = (DialogInterface dialogInterface, int i) -> {
-            final int index = Math.max(infoListAdapter.getItemsList().indexOf(item), 0);
-            switch (i) {
-                case 0:
-                    NavigationHelper.enqueueOnBackgroundPlayer(context, new SinglePlayQueue(item));
-                    break;
-                case 1:
-                    NavigationHelper.enqueueOnPopupPlayer(activity, new SinglePlayQueue(item));
-                    break;
-                case 2:
-                    NavigationHelper.playOnMainPlayer(context, getPlayQueue(index));
-                    break;
-                case 3:
-                    NavigationHelper.playOnBackgroundPlayer(context, getPlayQueue(index));
-                    break;
-                case 4:
-                    NavigationHelper.playOnPopupPlayer(activity, getPlayQueue(index));
-                    break;
-                case 5:
-                    if (getFragmentManager() != null) {
-                        PlaylistAppendDialog.fromStreamInfoItems(Collections.singletonList(item))
-                                .show(getFragmentManager(), TAG);
-                    }
-                    break;
-                case 6:
-                    ShareUtils.shareUrl(this.getContext(), item.getName(), item.getUrl());
-                    break;
-                default:
-                    break;
-            }
-        };
-
-        new InfoItemDialog(getActivity(), item, commands, actions).show();
-    }
     /*//////////////////////////////////////////////////////////////////////////
     // Menu
     //////////////////////////////////////////////////////////////////////////*/
@@ -440,11 +384,11 @@ public class ChannelFragment extends BaseListInfoFragment<ChannelInfo> {
         monitorSubscription(result);
 
         headerPlayAllButton.setOnClickListener(
-                view -> NavigationHelper.playOnMainPlayer(activity, getPlayQueue()));
+                view -> NavigationHelper.playOnMainPlayer(activity, getPlayQueue(), false));
         headerPopupButton.setOnClickListener(
-                view -> NavigationHelper.playOnPopupPlayer(activity, getPlayQueue()));
+                view -> NavigationHelper.playOnPopupPlayer(activity, getPlayQueue(), false));
         headerBackgroundButton.setOnClickListener(
-                view -> NavigationHelper.playOnBackgroundPlayer(activity, getPlayQueue()));
+                view -> NavigationHelper.playOnBackgroundPlayer(activity, getPlayQueue(), false));
     }
 
     private PlayQueue getPlayQueue() {

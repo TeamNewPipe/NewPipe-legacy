@@ -91,9 +91,9 @@ public final class PopupVideoPlayer extends Service {
     private static final boolean DEBUG = BasePlayer.DEBUG;
 
     private static final int NOTIFICATION_ID = 40028922;
-    public static final String ACTION_CLOSE = "org.schabi.newpipelegacy.player.PopupVideoPlayer.CLOSE";
-    public static final String ACTION_PLAY_PAUSE = "org.schabi.newpipelegacy.player.PopupVideoPlayer.PLAY_PAUSE";
-    public static final String ACTION_REPEAT = "org.schabi.newpipelegacy.player.PopupVideoPlayer.REPEAT";
+    public static final String ACTION_CLOSE = "org.schabi.newpipe.player.PopupVideoPlayer.CLOSE";
+    public static final String ACTION_PLAY_PAUSE = "org.schabi.newpipe.player.PopupVideoPlayer.PLAY_PAUSE";
+    public static final String ACTION_REPEAT = "org.schabi.newpipe.player.PopupVideoPlayer.REPEAT";
 
     private static final String POPUP_SAVED_WIDTH = "popup_saved_width";
     private static final String POPUP_SAVED_X = "popup_saved_x";
@@ -325,6 +325,7 @@ public final class PopupVideoPlayer extends Service {
         isPopupClosing = true;
 
         if (playerImpl != null) {
+            playerImpl.savePlaybackState();
             if (playerImpl.getRootView() != null) {
                 windowManager.removeView(playerImpl.getRootView());
             }
@@ -565,7 +566,8 @@ public final class PopupVideoPlayer extends Service {
                     this.getPlaybackSpeed(),
                     this.getPlaybackPitch(),
                     this.getPlaybackSkipSilence(),
-                    this.getPlaybackQuality()
+                    this.getPlaybackQuality(),
+                    false
             );
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);

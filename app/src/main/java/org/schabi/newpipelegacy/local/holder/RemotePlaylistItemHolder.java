@@ -6,6 +6,7 @@ import org.schabi.newpipelegacy.database.LocalItem;
 import org.schabi.newpipelegacy.database.playlist.model.PlaylistRemoteEntity;
 import org.schabi.newpipe.extractor.NewPipe;
 import org.schabi.newpipelegacy.local.LocalItemBuilder;
+import org.schabi.newpipelegacy.local.history.HistoryRecordManager;
 import org.schabi.newpipelegacy.util.ImageDisplayConstants;
 import org.schabi.newpipelegacy.util.Localization;
 
@@ -21,7 +22,7 @@ public class RemotePlaylistItemHolder extends PlaylistItemHolder {
     }
 
     @Override
-    public void updateFromItem(final LocalItem localItem, final DateFormat dateFormat) {
+    public void updateFromItem(final LocalItem localItem, HistoryRecordManager historyRecordManager, final DateFormat dateFormat) {
         if (!(localItem instanceof PlaylistRemoteEntity)) return;
         final PlaylistRemoteEntity item = (PlaylistRemoteEntity) localItem;
 
@@ -33,6 +34,6 @@ public class RemotePlaylistItemHolder extends PlaylistItemHolder {
         itemBuilder.displayImage(item.getThumbnailUrl(), itemThumbnailView,
                 ImageDisplayConstants.DISPLAY_PLAYLIST_OPTIONS);
 
-        super.updateFromItem(localItem, dateFormat);
+        super.updateFromItem(localItem, historyRecordManager, dateFormat);
     }
 }

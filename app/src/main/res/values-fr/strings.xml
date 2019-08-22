@@ -55,7 +55,6 @@
     <string name="general_error">Erreur</string>
     <string name="parsing_error">Impossible d\'analyser le site web</string>
     <string name="content_not_available">Contenu non disponible</string>
-    <string name="blocked_by_gema">Bloqué par GEMA</string>
     <string name="error_snackbar_message">Désolé, des erreurs se sont produites.</string>
     <string name="content">Contenu</string>
     <string name="show_age_restricted_content_title">Contenu avec limite d\'âge</string>
@@ -76,7 +75,7 @@
     <string name="audio">Audio</string>
     <string name="retry">Réessayer</string>
     <string name="storage_permission_denied">Autorisation d\'accès au stockage refusée</string>
-    <string name="main_bg_subtitle">Faites une recherche pour commencer</string>
+    <string name="main_bg_subtitle">Appuyez sur recherche pour commencer</string>
     <string name="autoplay_by_calling_app_title">Lecture automatique</string>
     <string name="video_is_age_restricted">Afficher les vidéos soumises à une limite d\'âge. Autoriser ce type de contenu est possible depuis les paramètres.</string>
     <string name="user_report">Rapport utilisateur</string>
@@ -103,7 +102,7 @@
     <string name="msg_running_detail">Appuyer pour plus de détails</string>
     <string name="msg_wait">Veuillez patienter…</string>
     <string name="msg_copied">Copié dans le presse-papiers</string>
-    <string name="no_available_dir">Sélectionner un dossier de téléchargement disponible</string>
+    <string name="no_available_dir">Veuillez définir un dossier de téléchargement plus tard dans les paramètres</string>
     <string name="could_not_load_image">Impossible de charger l\'image</string>
     <string name="app_ui_crash">L’application a crashé</string>
     <string name="reCaptchaActivity">reCAPTCHA</string>
@@ -175,7 +174,7 @@
     <string name="settings_file_replacement_character_title">Caractère de remplacement</string>
     <string name="enable_search_history_title">Historique de recherche</string>
     <string name="enable_search_history_summary">Conserver les recherches sur l\'appareil</string>
-    <string name="enable_watch_history_title">Historique et cache</string>
+    <string name="enable_watch_history_title">Voir l \'historique</string>
     <string name="title_activity_history">Historique</string>
     <string name="title_history_search">Recherché</string>
     <string name="title_history_view">Regardé</string>
@@ -243,8 +242,8 @@
     <string name="enqueue_on_background">Mettre en file d\'attente en arrière-plan</string>
     <string name="enqueue_on_popup">Mettre en file d\'attente en fenêtré</string>
     <string name="start_here_on_main">Commencer la lecture ici</string>
-    <string name="start_here_on_background">Démarrer ici en arrière-plan</string>
-    <string name="start_here_on_popup">Démarrer ici en fenêtré</string>
+    <string name="start_here_on_background">Commencer à jouer en arrière-plan</string>
+    <string name="start_here_on_popup">Commencer la lecture ici, en fenêtré</string>
     <string name="donation_title">Donner</string>
     <string name="donation_encouragement">NewPipe est développé par des volontaires sur leur temps libre afin de vous proposer la meilleure expérience possible. Vous pouvez leur offrir un café pour les soutenir dans leurs efforts et rendre NewPipe encore meilleur.</string>
     <string name="website_title">Site</string>
@@ -308,14 +307,10 @@
     <string name="caption_none">Aucuns sous-titres</string>
     <string name="resize_fit">Ajuster</string>
     <string name="resize_zoom">Zoom</string>
-    <string name="caption_font_size_settings_title">Taille des sous-titres</string>
-    <string name="smaller_caption_font_size">Petite</string>
-    <string name="normal_caption_font_size">Normale</string>
-    <string name="larger_caption_font_size">Grande</string>
     <string name="use_inexact_seek_title">Recherche rapide approximative</string>
     <string name="use_inexact_seek_summary">Permettre au lecteur d\'accéder plus rapidement à une position au détriment de la précision</string>
     <string name="download_thumbnail_title">Charger les miniatures</string>
-    <string name="download_thumbnail_summary">Désactivez pour empêcher le chargement des miniatures afin de réduire l’utilisation de bande passante et de mémoire. Ce changement vide le cache d’images en mémoire vive et sur le disque.</string>
+    <string name="download_thumbnail_summary">Désactivez pour empêcher le chargement des miniatures, afin de réduire l’utilisation de bande passante et de mémoire. Modifier cette option vide le cache d’images en mémoire vive et sur le disque.</string>
     <string name="thumbnail_cache_wipe_complete_notice">Images en cache effacées</string>
     <string name="metadata_cache_wipe_title">Effacer les données en cache</string>
     <string name="metadata_cache_wipe_summary">Effacer toutes les pages web mises en cache</string>
@@ -330,7 +325,7 @@
     <string name="drawer_header_action_paceholder_text">Quelque chose va bien bientôt arriver ;D</string>
     <string name="controls_download_desc">Télécharger le fichier de flux</string>
     <string name="auto_queue_title">Vidéo suivante en file d\'attente</string>
-    <string name="auto_queue_summary">Ajout automatique d\'un morceau suggéré lors de la lecture du dernier morceau dans une file d\'attente non bouclée.</string>
+    <string name="auto_queue_summary">Ajout automatique d\'un morceau suggéré lors de la lecture du dernier morceau dans une file d\'attente non bouclée</string>
     <string name="settings_category_debug_title">Débogage</string>
     <string name="resize_fill">Remplir</string>
     <string name="caption_auto_generated">Générés automatiquement</string>
@@ -373,12 +368,11 @@
     <string name="caption_setting_title">Sous-titres</string>
     <string name="caption_setting_description">Modifier la taille du texte et les styles d\'arrière-plan du lecteur. Redémarrage requis pour prendre effet.</string>
     <string name="playback_pitch">Ton</string>
-    <string name="playback_nightcore">Nightcore</string>
     <string name="toast_no_player">Aucune application installée pour lire ce fichier</string>
     <string name="clear_views_history_title">Effacer l\'historique</string>
     <string name="clear_views_history_summary">Supprimer l\'historique des flux regardés</string>
     <string name="delete_view_history_alert">Supprimer tout l\'historique regardé \?</string>
-    <string name="view_history_deleted">Historique des vidéos vues supprimé.</string>
+    <string name="watch_history_deleted">Historique des vidéos vues supprimé.</string>
     <string name="clear_search_history_title">Supprimer l\'historique des recherches</string>
     <string name="clear_search_history_summary">Supprimer l\'historique de recherche par mot clef</string>
     <string name="delete_search_history_alert">Supprimer tout l\'historique de recherche \?</string>
@@ -426,7 +420,7 @@
     <string name="selection">Sélection</string>
     <string name="stop">Arrêter</string>
     <string name="events">Événements</string>
-    <string name="download_to_sdcard_error_message">Télécharger vers la carte SD n\'est pas encore possible. Voulez-vous réinitialiser l\'emplacement du dossier \?</string>
+    <string name="download_to_sdcard_error_message">Télécharger vers la carte SD n\'est pas possible. Voulez-vous réinitialiser l\'emplacement du dossier \?</string>
     <string name="main_page_content_summary">Quels onglets seront visibles sur la page principale</string>
     <string name="updates_setting_title">Mises à jour</string>
     <string name="updates_setting_description">Afficher une notification pour proposer une mise à jour de l\'application lorsqu\'une nouvelle version est disponible</string>
@@ -437,21 +431,23 @@
     <string name="app_update_notification_content_title">Une mise à jour de NewPipe disponible !</string>
     <string name="app_update_notification_content_text">Appuyez pour télécharger</string>
     <string name="missions_header_finished">Terminé</string>
-    <string name="missions_header_pending">Dans la file d\'attente</string>
+    <string name="missions_header_pending">En attente</string>
     <string name="paused">En pause</string>
     <string name="download_failed">Téléchargement échoué</string>
+    <string name="error_timeout">Délai de connection dépassé</string>
     <string name="conferences">Conférences</string>
     <string name="download_finished">Téléchargement terminé</string>
     <string name="download_finished_more">%s téléchargements terminés</string>
     <string name="queued">Ajouté à la file d\'attente</string>
     <string name="generate_unique_name">Générer un nom unique</string>
     <string name="overwrite">Écraser</string>
-    <string name="overwrite_warning">Un fichier téléchargé avec ce nom existe déjà</string>
+    <string name="overwrite_unrelated_warning">Un fichier avec ce nom existe déjà</string>
+    <string name="overwrite_finished_warning">Un fichier téléchargé avec ce nom existe déjà</string>
     <string name="download_already_running">Il y a un téléchargement en cours avec ce nom</string>
     <string name="show_error">Afficher l\'erreur</string>
     <string name="label_code">Code</string>
-    <string name="error_path_creation">Le fichier ne peut pas être créé</string>
-    <string name="error_file_creation">Le dossier de destination ne peut pas être créé</string>
+    <string name="error_path_creation">Le dossier de destination ne peut pas être créé</string>
+    <string name="error_file_creation">Le fichier ne peut pas être créé</string>
     <string name="error_permission_denied">Autorisation refusée par le système</string>
     <string name="error_ssl_exception">Échoué de la connexion sécurisée</string>
     <string name="error_unknown_host">Le serveur est introuvable</string>
@@ -460,7 +456,7 @@
     <string name="error_http_not_found">Introuvable</string>
     <string name="clear_finished_download">Effacer les téléchargements terminés</string>
     <string name="pause_downloads_on_mobile">Mettre en pause lors du passage en données mobiles</string>
-    <string name="pause_downloads_on_mobile_desc">Les téléchargements qui ne peuvent pas être mis en pause seront redémarrés</string>
+    <string name="pause_downloads_on_mobile_desc">Utile lors du passage aux données mobiles, bien que certains téléchargements ne peuvent pas être suspendus</string>
     <string name="list_view_mode">Mode liste</string>
     <string name="post_processing">post-traitement</string>
     <string name="enqueue">File d’attente</string>
@@ -471,4 +467,32 @@
     <string name="saved_tabs_invalid_json">Utilisation des onglets par défaut, erreur lors de la lecture des onglets enregistrés</string>
     <string name="error_http_unsupported_range">Le serveur n\'accepte pas les téléchargements multi-threads, réessayez avec @string/msg_threads = 1</string>
     <string name="msg_pending_downloads">Continuer vos %s transferts en attente depuis Téléchargement</string>
+    <string name="error_http_requested_range_not_satisfiable">Champs d’en-tête de requête « range » incorrect</string>
+    <string name="show_comments_title">Afficher les commentaires</string>
+    <string name="show_comments_summary">Désactiver l\'affichage des commentaires</string>
+    <string name="autoplay_title">Lecture automatique</string>
+    <plurals name="comments">
+        <item quantity="one">Commentaires</item>
+        <item quantity="other"/>
+    </plurals>
+    <string name="no_comments">Pas de commentaires</string>
+    <string name="error_unable_to_load_comments">Impossible de charger les commentaires</string>
+    <string name="close">Fermer</string>
+    <string name="enable_playback_resume_title">Reprendre la lecture</string>
+    <string name="settings_category_clear_data_title">Effacer les données</string>
+    <string name="missing_file">Fichier déplacé ou supprimé</string>
+    <string name="overwrite_failed">ne peut pas remplacer le fichier</string>
+    <string name="download_already_pending">Il y a déjà un téléchargement en attente avec ce nom</string>
+    <string name="error_postprocessing_stopped">NewPipe a été fermé alors qu\'il travaillait sur le fichier</string>
+    <string name="error_insufficient_storage">Aucun espace disponible sur le périphérique</string>
+    <string name="error_progress_lost">Progression perdue, car le fichier a été effacé</string>
+    <string name="confirm_prompt">Êtes-vous certain \?</string>
+    <string name="enable_queue_limit">Limiter la file d\'attente de téléchargement</string>
+    <string name="enable_queue_limit_desc">Un téléchargement s\'exécutera en même temps</string>
+    <string name="start_downloads">Démarrer les téléchargements</string>
+    <string name="pause_downloads">Mettre en pause les téléchargements</string>
+    <string name="downloads_storage_ask_title">Demander où télécharger</string>
+    <string name="downloads_storage_ask_summary">On vous demandera où enregistrer chaque téléchargement</string>
+    <string name="downloads_storage_ask_summary_kitkat">On vous demandera où enregistrer chaque téléchargement.
+\nActivez cette option si vous voulez télécharger sur la carte SD externe</string>
 </resources>

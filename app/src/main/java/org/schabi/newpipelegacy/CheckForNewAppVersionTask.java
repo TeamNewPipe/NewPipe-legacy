@@ -14,17 +14,20 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.schabi.newpipelegacy.BuildConfig;
-import org.schabi.newpipelegacy.R;
 import org.schabi.newpipelegacy.report.ErrorActivity;
 import org.schabi.newpipelegacy.report.UserAction;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateEncodingException;
@@ -35,6 +38,7 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -44,8 +48,10 @@ import okhttp3.Response;
  */
 public class CheckForNewAppVersionTask extends AsyncTask<Void, Void, String> {
 
+    private static final boolean DEBUG = MainActivity.DEBUG;
+    private static final String TAG = CheckForNewAppVersionTask.class.getSimpleName();
     private static final Application app = App.getApp();
-    private static final String GITHUB_APK_SHA1 = "C7:A4:55:67:6C:34:97:42:10:CE:3B:02:8F:D4:11:E5:10:FB:01:17";
+    private static final String GITHUB_APK_SHA1 = "B0:2E:90:7C:1C:D6:FC:57:C3:35:F0:88:D0:8F:50:5F:94:E4:D2:15";
     private static final String newPipeApiUrl = "https://newpipe.schabi.org/api/data.json";
     private static final int timeoutPeriod = 30;
 
@@ -87,9 +93,8 @@ public class CheckForNewAppVersionTask extends AsyncTask<Void, Void, String> {
             Response response = client.newCall(request).execute();
             return response.body().string();
         } catch (IOException ex) {
-            ErrorActivity.reportError(app, ex, null, null,
-                    ErrorActivity.ErrorInfo.make(UserAction.SOMETHING_ELSE, "none",
-                            "app update API fail", R.string.app_ui_crash));
+            // connectivity problems, do not alarm user and fail silently
+            if (DEBUG) Log.w(TAG, Log.getStackTraceString(ex));
         }
 
         return null;
@@ -104,20 +109,18 @@ public class CheckForNewAppVersionTask extends AsyncTask<Void, Void, String> {
             try {
                 JSONObject mainObject = new JSONObject(response);
                 JSONObject flavoursObject = mainObject.getJSONObject("flavors");
-                if (!flavoursObject.has("github-legacy")) return;
-                JSONObject githubObject = flavoursObject.getJSONObject("github-legacy");
+                JSONObject githubObject = flavoursObject.getJSONObject("github");
                 JSONObject githubStableObject = githubObject.getJSONObject("stable");
 
                 String versionName = githubStableObject.getString("version");
+                String versionCode = githubStableObject.getString("version_code");
                 String apkLocationUrl = githubStableObject.getString("apk");
-                int versionCode = githubStableObject.getInt("version_code");
 
                 compareAppVersionAndShowNotification(versionName, apkLocationUrl, versionCode);
 
             } catch (JSONException ex) {
-                ErrorActivity.reportError(app, ex, null, null,
-                        ErrorActivity.ErrorInfo.make(UserAction.SOMETHING_ELSE, "none",
-                        "could not parse app update JSON data", R.string.app_ui_crash));
+                // connectivity problems, do not alarm user and fail silently
+                if (DEBUG) Log.w(TAG, Log.getStackTraceString(ex));
             }
         }
     }
@@ -130,11 +133,11 @@ public class CheckForNewAppVersionTask extends AsyncTask<Void, Void, String> {
      */
     private void compareAppVersionAndShowNotification(String versionName,
                                                       String apkLocationUrl,
-                                                      int versionCode) {
+                                                      String versionCode) {
 
         int NOTIFICATION_ID = 2000;
 
-        if (BuildConfig.VERSION_CODE < versionCode) {
+        if (BuildConfig.VERSION_CODE < Integer.valueOf(versionCode)) {
 
             // A pending intent to open the apk location url in the browser.
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(apkLocationUrl));
@@ -158,7 +161,7 @@ public class CheckForNewAppVersionTask extends AsyncTask<Void, Void, String> {
 
     /**
      * Method to get the apk's SHA1 key.
-     * https://stackoverflow.com/a/22506133
+     * https://stackoverflow.com/questions/9293019/get-certificate-fingerprint-from-android-app#22506133
      */
     private static String getCertificateSHA1Fingerprint() {
 

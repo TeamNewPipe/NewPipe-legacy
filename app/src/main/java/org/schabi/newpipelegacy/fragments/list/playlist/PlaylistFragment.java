@@ -2,10 +2,10 @@ package org.schabi.newpipelegacy.fragments.list.playlist;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -29,18 +29,19 @@ import org.schabi.newpipe.extractor.NewPipe;
 import org.schabi.newpipe.extractor.exceptions.ExtractionException;
 import org.schabi.newpipe.extractor.playlist.PlaylistInfo;
 import org.schabi.newpipe.extractor.stream.StreamInfoItem;
+import org.schabi.newpipe.extractor.stream.StreamType;
 import org.schabi.newpipelegacy.fragments.list.BaseListInfoFragment;
 import org.schabi.newpipelegacy.info_list.InfoItemDialog;
 import org.schabi.newpipelegacy.local.playlist.RemotePlaylistManager;
 import org.schabi.newpipelegacy.player.playqueue.PlayQueue;
 import org.schabi.newpipelegacy.player.playqueue.PlaylistPlayQueue;
-import org.schabi.newpipelegacy.player.playqueue.SinglePlayQueue;
 import org.schabi.newpipelegacy.report.ErrorActivity;
 import org.schabi.newpipelegacy.report.UserAction;
 import org.schabi.newpipelegacy.util.ExtractorHelper;
 import org.schabi.newpipelegacy.util.ImageDisplayConstants;
 import org.schabi.newpipelegacy.util.NavigationHelper;
 import org.schabi.newpipelegacy.util.ShareUtils;
+import org.schabi.newpipelegacy.util.StreamDialogEntry;
 import org.schabi.newpipelegacy.util.ThemeHelper;
 
 import java.util.ArrayList;
@@ -135,48 +136,40 @@ public class PlaylistFragment extends BaseListInfoFragment<PlaylistInfo> {
         infoListAdapter.useMiniItemVariants(true);
     }
 
+    private PlayQueue getPlayQueueStartingAt(StreamInfoItem infoItem) {
+        return getPlayQueue(Math.max(infoListAdapter.getItemsList().indexOf(infoItem), 0));
+    }
+
     @Override
-    protected void showStreamDialog(final StreamInfoItem item) {
+    protected void showStreamDialog(StreamInfoItem item) {
         final Context context = getContext();
         final Activity activity = getActivity();
-        if (context == null || context.getResources() == null || getActivity() == null) return;
+        if (context == null || context.getResources() == null || activity == null) return;
 
-        final String[] commands = new String[]{
-                context.getResources().getString(R.string.enqueue_on_background),
-                context.getResources().getString(R.string.enqueue_on_popup),
-                context.getResources().getString(R.string.start_here_on_main),
-                context.getResources().getString(R.string.start_here_on_background),
-                context.getResources().getString(R.string.start_here_on_popup),
-                context.getResources().getString(R.string.share)
-        };
+        if (item.getStreamType() == StreamType.AUDIO_STREAM) {
+            StreamDialogEntry.setEnabledEntries(
+                    StreamDialogEntry.enqueue_on_background,
+                    StreamDialogEntry.start_here_on_background,
+                    StreamDialogEntry.append_playlist,
+                    StreamDialogEntry.share);
+        } else {
+            StreamDialogEntry.setEnabledEntries(
+                    StreamDialogEntry.enqueue_on_background,
+                    StreamDialogEntry.enqueue_on_popup,
+                    StreamDialogEntry.start_here_on_background,
+                    StreamDialogEntry.start_here_on_popup,
+                    StreamDialogEntry.append_playlist,
+                    StreamDialogEntry.share);
 
-        final DialogInterface.OnClickListener actions = (dialogInterface, i) -> {
-            final int index = Math.max(infoListAdapter.getItemsList().indexOf(item), 0);
-            switch (i) {
-                case 0:
-                    NavigationHelper.enqueueOnBackgroundPlayer(context, new SinglePlayQueue(item));
-                    break;
-                case 1:
-                    NavigationHelper.enqueueOnPopupPlayer(activity, new SinglePlayQueue(item));
-                    break;
-                case 2:
-                    NavigationHelper.playOnMainPlayer(context, getPlayQueue(index));
-                    break;
-                case 3:
-                    NavigationHelper.playOnBackgroundPlayer(context, getPlayQueue(index));
-                    break;
-                case 4:
-                    NavigationHelper.playOnPopupPlayer(activity, getPlayQueue(index));
-                    break;
-                case 5:
-                    ShareUtils.shareUrl(this.getContext(), item.getName(), item.getUrl());
-                    break;
-                default:
-                    break;
-            }
-        };
+            StreamDialogEntry.start_here_on_popup.setCustomAction(
+                    (fragment, infoItem) -> NavigationHelper.playOnPopupPlayer(context, getPlayQueueStartingAt(infoItem), true));
+        }
 
-        new InfoItemDialog(getActivity(), item, commands, actions).show();
+        StreamDialogEntry.start_here_on_background.setCustomAction(
+                (fragment, infoItem) -> NavigationHelper.playOnBackgroundPlayer(context, getPlayQueueStartingAt(infoItem), true));
+
+        new InfoItemDialog(activity, item, StreamDialogEntry.getCommands(context), (dialog, which) ->
+                StreamDialogEntry.clickOn(which, this, item)).show();
     }
 
     @Override
@@ -301,19 +294,19 @@ public class PlaylistFragment extends BaseListInfoFragment<PlaylistInfo> {
                 .subscribe(getPlaylistBookmarkSubscriber());
 
         headerPlayAllButton.setOnClickListener(view ->
-                NavigationHelper.playOnMainPlayer(activity, getPlayQueue()));
+                NavigationHelper.playOnMainPlayer(activity, getPlayQueue(), false));
         headerPopupButton.setOnClickListener(view ->
-                NavigationHelper.playOnPopupPlayer(activity, getPlayQueue()));
+                NavigationHelper.playOnPopupPlayer(activity, getPlayQueue(), false));
         headerBackgroundButton.setOnClickListener(view ->
-                NavigationHelper.playOnBackgroundPlayer(activity, getPlayQueue()));
+                NavigationHelper.playOnBackgroundPlayer(activity, getPlayQueue(), false));
 
         headerPopupButton.setOnLongClickListener(view -> {
-            NavigationHelper.enqueueOnPopupPlayer(activity, getPlayQueue());
+            NavigationHelper.enqueueOnPopupPlayer(activity, getPlayQueue(), true);
             return true;
         });
 
         headerBackgroundButton.setOnLongClickListener(view -> {
-            NavigationHelper.enqueueOnBackgroundPlayer(activity, getPlayQueue());
+            NavigationHelper.enqueueOnBackgroundPlayer(activity, getPlayQueue(), true);
             return true;
         });
     }

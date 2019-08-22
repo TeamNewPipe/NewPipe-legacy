@@ -8,6 +8,7 @@ import org.schabi.newpipelegacy.R;
 import org.schabi.newpipe.extractor.InfoItem;
 import org.schabi.newpipe.extractor.playlist.PlaylistInfoItem;
 import org.schabi.newpipelegacy.info_list.InfoItemBuilder;
+import org.schabi.newpipelegacy.local.history.HistoryRecordManager;
 import org.schabi.newpipelegacy.util.ImageDisplayConstants;
 
 public class PlaylistMiniInfoItemHolder extends InfoItemHolder {
@@ -30,7 +31,7 @@ public class PlaylistMiniInfoItemHolder extends InfoItemHolder {
     }
 
     @Override
-    public void updateFromItem(final InfoItem infoItem) {
+    public void updateFromItem(final InfoItem infoItem, final HistoryRecordManager historyRecordManager) {
         if (!(infoItem instanceof PlaylistInfoItem)) return;
         final PlaylistInfoItem item = (PlaylistInfoItem) infoItem;
 

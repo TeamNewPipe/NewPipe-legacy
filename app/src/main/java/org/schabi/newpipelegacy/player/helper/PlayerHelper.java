@@ -241,7 +241,7 @@ public class PlayerHelper {
 
     public static TrackSelection.Factory getQualitySelector(@NonNull final Context context) {
         return new AdaptiveTrackSelection.Factory(
-                1000,
+                /*bufferDurationRequiredForQualityIncrease=*/1000,
                 AdaptiveTrackSelection.DEFAULT_MAX_DURATION_FOR_QUALITY_DECREASE_MS,
                 AdaptiveTrackSelection.DEFAULT_MIN_DURATION_TO_RETAIN_AFTER_DISCARD_MS,
                 AdaptiveTrackSelection.DEFAULT_BANDWIDTH_FRACTION);

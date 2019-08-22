@@ -23,7 +23,7 @@ import static org.schabi.newpipelegacy.util.AnimationUtils.animateView;
 
 /**
  * This fragment is design to be used with persistent data such as
- * {@link org.schabi.newpipelegacy.database.LocalItem}, and does not cache the data contained
+ * {@link org.schabi.newpipe.database.LocalItem}, and does not cache the data contained
  * in the list adapter to avoid extra writes when the it exits or re-enters its lifecycle.
  *
  * This fragment destroys its adapter and views when {@link Fragment#onDestroyView()} is

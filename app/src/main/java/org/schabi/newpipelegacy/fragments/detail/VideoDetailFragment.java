@@ -60,7 +60,6 @@ import org.schabi.newpipe.extractor.services.youtube.extractors.YoutubeStreamExt
 import org.schabi.newpipe.extractor.stream.AudioStream;
 import org.schabi.newpipe.extractor.stream.Stream;
 import org.schabi.newpipe.extractor.stream.StreamInfo;
-import org.schabi.newpipe.extractor.stream.StreamInfoItem;
 import org.schabi.newpipe.extractor.stream.StreamType;
 import org.schabi.newpipe.extractor.stream.VideoStream;
 import org.schabi.newpipelegacy.fragments.BackPressable;
@@ -68,7 +67,6 @@ import org.schabi.newpipelegacy.fragments.BaseStateFragment;
 import org.schabi.newpipelegacy.fragments.EmptyFragment;
 import org.schabi.newpipelegacy.fragments.list.comments.CommentsFragment;
 import org.schabi.newpipelegacy.fragments.list.videos.RelatedVideosFragment;
-import org.schabi.newpipelegacy.info_list.InfoItemDialog;
 import org.schabi.newpipelegacy.local.dialog.PlaylistAppendDialog;
 import org.schabi.newpipelegacy.local.history.HistoryRecordManager;
 import org.schabi.newpipelegacy.player.MainVideoPlayer;
@@ -77,7 +75,6 @@ import org.schabi.newpipelegacy.player.playqueue.PlayQueue;
 import org.schabi.newpipelegacy.player.playqueue.SinglePlayQueue;
 import org.schabi.newpipelegacy.report.ErrorActivity;
 import org.schabi.newpipelegacy.report.UserAction;
-import org.schabi.newpipelegacy.util.AnimationUtils;
 import org.schabi.newpipelegacy.util.Constants;
 import org.schabi.newpipelegacy.util.ExtractorHelper;
 import org.schabi.newpipelegacy.util.ImageDisplayConstants;
@@ -89,12 +86,13 @@ import org.schabi.newpipelegacy.util.PermissionHelper;
 import org.schabi.newpipelegacy.util.ShareUtils;
 import org.schabi.newpipelegacy.util.StreamItemAdapter;
 import org.schabi.newpipelegacy.util.StreamItemAdapter.StreamSizeWrapper;
+import org.schabi.newpipelegacy.views.AnimatedProgressBar;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import icepick.State;
 import io.reactivex.Single;
@@ -118,7 +116,7 @@ public class VideoDetailFragment
     private static final int RELATED_STREAMS_UPDATE_FLAG = 0x1;
     private static final int RESOLUTIONS_MENU_UPDATE_FLAG = 0x2;
     private static final int TOOLBAR_ITEMS_UPDATE_FLAG = 0x4;
-    private static final int COMMENTS_UPDATE_FLAG = 0x4;
+    private static final int COMMENTS_UPDATE_FLAG = 0x8;
 
     private boolean autoPlayEnabled;
     private boolean showRelatedStreams;
@@ -136,6 +134,8 @@ public class VideoDetailFragment
     private Disposable currentWorker;
     @NonNull
     private CompositeDisposable disposables = new CompositeDisposable();
+    @Nullable
+    private Disposable positionSubscriber = null;
 
     private List<VideoStream> sortedVideoStreams;
     private int selectedVideoStreamIndex = -1;
@@ -153,6 +153,7 @@ public class VideoDetailFragment
     private View thumbnailBackgroundButton;
     private ImageView thumbnailImageView;
     private ImageView thumbnailPlayButton;
+    private AnimatedProgressBar positionView;
 
     private View videoTitleRoot;
     private TextView videoTitleTextView;
@@ -165,6 +166,7 @@ public class VideoDetailFragment
     private TextView detailControlsDownload;
     private TextView appendControlsDetail;
     private TextView detailDurationView;
+    private TextView detailPositionView;
 
     private LinearLayout videoDescriptionRootLayout;
     private TextView videoUploadDateView;
@@ -185,7 +187,7 @@ public class VideoDetailFragment
     private static final String EMPTY_TAB_TAG = "EMPTY TAB";
 
     private AppBarLayout appBarLayout;
-    private ViewPager viewPager;
+    private  ViewPager viewPager;
     private TabAdaptor pageAdapter;
     private TabLayout tabLayout;
     private FrameLayout relatedStreamsLayout;
@@ -259,6 +261,8 @@ public class VideoDetailFragment
         // Check if it was loading when the fragment was stopped/paused,
         if (wasLoading.getAndSet(false)) {
             selectAndLoadVideo(serviceId, url, name);
+        } else if (currentInfo != null) {
+            updateProgressInfo(currentInfo);
         }
     }
 
@@ -268,8 +272,10 @@ public class VideoDetailFragment
         PreferenceManager.getDefaultSharedPreferences(activity)
                 .unregisterOnSharedPreferenceChangeListener(this);
 
+        if (positionSubscriber != null) positionSubscriber.dispose();
         if (currentWorker != null) currentWorker.dispose();
         if (disposables != null) disposables.clear();
+        positionSubscriber = null;
         currentWorker = null;
         disposables = null;
     }
@@ -462,6 +468,7 @@ public class VideoDetailFragment
         videoTitleTextView = rootView.findViewById(R.id.detail_video_title_view);
         videoTitleToggleArrow = rootView.findViewById(R.id.detail_toggle_description_view);
         videoCountView = rootView.findViewById(R.id.detail_view_count_view);
+        positionView = rootView.findViewById(R.id.position_view);
 
         detailControlsBackground = rootView.findViewById(R.id.detail_controls_background);
         detailControlsPopup = rootView.findViewById(R.id.detail_controls_popup);
@@ -469,6 +476,7 @@ public class VideoDetailFragment
         detailControlsDownload = rootView.findViewById(R.id.detail_controls_download);
         appendControlsDetail = rootView.findViewById(R.id.touch_append_detail);
         detailDurationView = rootView.findViewById(R.id.detail_duration_view);
+        detailPositionView = rootView.findViewById(R.id.detail_position_view);
 
         videoDescriptionRootLayout = rootView.findViewById(R.id.detail_description_root_layout);
         videoUploadDateView = rootView.findViewById(R.id.detail_upload_date_view);
@@ -520,42 +528,6 @@ public class VideoDetailFragment
         detailControlsPopup.setOnLongClickListener(this);
         detailControlsBackground.setOnTouchListener(getOnControlsTouchListener());
         detailControlsPopup.setOnTouchListener(getOnControlsTouchListener());
-    }
-
-    private void showStreamDialog(final StreamInfoItem item) {
-        final Context context = getContext();
-        if (context == null || context.getResources() == null || getActivity() == null) return;
-
-        final String[] commands = new String[]{
-                context.getResources().getString(R.string.enqueue_on_background),
-                context.getResources().getString(R.string.enqueue_on_popup),
-                context.getResources().getString(R.string.append_playlist),
-                context.getResources().getString(R.string.share)
-        };
-
-        final DialogInterface.OnClickListener actions = (DialogInterface dialogInterface, int i) -> {
-            switch (i) {
-                case 0:
-                    NavigationHelper.enqueueOnBackgroundPlayer(context, new SinglePlayQueue(item));
-                    break;
-                case 1:
-                    NavigationHelper.enqueueOnPopupPlayer(getActivity(), new SinglePlayQueue(item));
-                    break;
-                case 2:
-                    if (getFragmentManager() != null) {
-                        PlaylistAppendDialog.fromStreamInfoItems(Collections.singletonList(item))
-                                .show(getFragmentManager(), TAG);
-                    }
-                    break;
-                case 3:
-                    ShareUtils.shareUrl(this.getContext(), item.getName(), item.getUrl());
-                    break;
-                default:
-                    break;
-            }
-        };
-
-        new InfoItemDialog(getActivity(), item, commands, actions).show();
     }
 
     private View.OnTouchListener getOnControlsTouchListener() {
@@ -890,11 +862,11 @@ public class VideoDetailFragment
 
         final PlayQueue itemQueue = new SinglePlayQueue(currentInfo);
         if (append) {
-            NavigationHelper.enqueueOnPopupPlayer(activity, itemQueue);
+            NavigationHelper.enqueueOnPopupPlayer(activity, itemQueue, false);
         } else {
             Toast.makeText(activity, R.string.popup_playing_toast, Toast.LENGTH_SHORT).show();
             final Intent intent = NavigationHelper.getPlayerIntent(
-                    activity, PopupVideoPlayer.class, itemQueue, getSelectedVideoStream().resolution
+                    activity, PopupVideoPlayer.class, itemQueue, getSelectedVideoStream().resolution, true
             );
             activity.startService(intent);
         }
@@ -914,9 +886,9 @@ public class VideoDetailFragment
     private void openNormalBackgroundPlayer(final boolean append) {
         final PlayQueue itemQueue = new SinglePlayQueue(currentInfo);
         if (append) {
-            NavigationHelper.enqueueOnBackgroundPlayer(activity, itemQueue);
+            NavigationHelper.enqueueOnBackgroundPlayer(activity, itemQueue, false);
         } else {
-            NavigationHelper.playOnBackgroundPlayer(activity, itemQueue);
+            NavigationHelper.playOnBackgroundPlayer(activity, itemQueue, true);
         }
     }
 
@@ -926,7 +898,7 @@ public class VideoDetailFragment
         mIntent = NavigationHelper.getPlayerIntent(activity,
                 MainVideoPlayer.class,
                 playQueue,
-                getSelectedVideoStream().getResolution());
+                getSelectedVideoStream().getResolution(), true);
         startActivity(mIntent);
     }
 
@@ -993,7 +965,7 @@ public class VideoDetailFragment
     }
 
     private void showContent() {
-        AnimationUtils.slideUp(contentRootLayoutHiding,120, 96, 0.06f);
+        contentRootLayoutHiding.setVisibility(View.VISIBLE);
     }
 
     protected void setInitialData(int serviceId, String url, String name) {
@@ -1026,12 +998,19 @@ public class VideoDetailFragment
 
     @Override
     public void showLoading() {
+
         super.showLoading();
 
-        contentRootLayoutHiding.setVisibility(View.INVISIBLE);
+        //if data is already cached, transition from VISIBLE -> INVISIBLE -> VISIBLE is not required
+        if(!ExtractorHelper.isCached(serviceId, url, InfoItem.InfoType.STREAM)){
+            contentRootLayoutHiding.setVisibility(View.INVISIBLE);
+        }
+
         animateView(spinnerToolbar, false, 200);
         animateView(thumbnailPlayButton, false, 50);
         animateView(detailDurationView, false, 100);
+        animateView(detailPositionView, false, 100);
+        animateView(positionView, false, 50);
 
         videoTitleTextView.setText(name != null ? name : "");
         videoTitleTextView.setMaxLines(1);
@@ -1146,6 +1125,7 @@ public class VideoDetailFragment
             videoUploadDateView.setText(Localization.localizeDate(activity, info.getUploadDate()));
         }
         prepareDescription(info.getDescription());
+        updateProgressInfo(info);
 
         animateView(spinnerToolbar, true, 500);
         setupActionBar(info);
@@ -1195,7 +1175,7 @@ public class VideoDetailFragment
                 downloadDialog.setSelectedVideoStream(selectedVideoStreamIndex);
                 downloadDialog.setSubtitleStreams(currentInfo.getSubtitles());
 
-                downloadDialog.show(activity.getSupportFragmentManager(), "downloadDialog");
+                downloadDialog.show(getActivity().getSupportFragmentManager(), "downloadDialog");
             } catch (Exception e) {
                 ErrorActivity.ErrorInfo info = ErrorActivity.ErrorInfo.make(UserAction.UI_ERROR,
                         ServiceList.all()
@@ -1220,9 +1200,7 @@ public class VideoDetailFragment
     protected boolean onError(Throwable exception) {
         if (super.onError(exception)) return true;
 
-        if (exception instanceof YoutubeStreamExtractor.GemaException) {
-            onBlockedByGemaError();
-        } else if (exception instanceof ContentNotAvailableException) {
+        else if (exception instanceof ContentNotAvailableException) {
             showError(getString(R.string.content_not_available), false);
         } else {
             int errorId = exception instanceof YoutubeStreamExtractor.DecryptException
@@ -1240,14 +1218,36 @@ public class VideoDetailFragment
         return true;
     }
 
-    public void onBlockedByGemaError() {
-        thumbnailBackgroundButton.setOnClickListener((View v) -> {
-            Intent intent = new Intent();
-            intent.setAction(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse(getString(R.string.c3s_url)));
-            startActivity(intent);
-        });
-
-        showError(getString(R.string.blocked_by_gema), false, R.drawable.gruese_die_gema);
+    private void updateProgressInfo(@NonNull final StreamInfo info) {
+        if (positionSubscriber != null) {
+            positionSubscriber.dispose();
+        }
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+        final boolean playbackResumeEnabled =
+                prefs.getBoolean(activity.getString(R.string.enable_watch_history_key), true)
+                        && prefs.getBoolean(activity.getString(R.string.enable_playback_resume_key), true);
+        if (!playbackResumeEnabled || info.getDuration() <= 0) {
+            positionView.setVisibility(View.INVISIBLE);
+            detailPositionView.setVisibility(View.GONE);
+            return;
+        }
+        final HistoryRecordManager recordManager = new HistoryRecordManager(requireContext());
+        positionSubscriber = recordManager.loadStreamState(info)
+                .subscribeOn(Schedulers.io())
+                .onErrorComplete()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(state -> {
+                    final int seconds = (int) TimeUnit.MILLISECONDS.toSeconds(state.getProgressTime());
+                    positionView.setMax((int) info.getDuration());
+                    positionView.setProgressAnimated(seconds);
+                    detailPositionView.setText(Localization.getDurationString(seconds));
+                    animateView(positionView, true, 500);
+                    animateView(detailPositionView, true, 500);
+                }, e -> {
+                    if (DEBUG) e.printStackTrace();
+                }, () -> {
+                    animateView(positionView, false, 500);
+                    animateView(detailPositionView, false, 500);
+                });
     }
 }

@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 
 import org.schabi.newpipelegacy.database.LocalItem;
 import org.schabi.newpipelegacy.local.LocalItemBuilder;
+import org.schabi.newpipelegacy.local.history.HistoryRecordManager;
 
 import java.text.DateFormat;
 
@@ -38,5 +39,8 @@ public abstract class LocalItemHolder extends RecyclerView.ViewHolder {
         this.itemBuilder = itemBuilder;
     }
 
-    public abstract void updateFromItem(final LocalItem item, final DateFormat dateFormat);
+    public abstract void updateFromItem(final LocalItem item, HistoryRecordManager historyRecordManager, final DateFormat dateFormat);
+
+    public void updateState(final LocalItem localItem, HistoryRecordManager historyRecordManager) {
+    }
 }

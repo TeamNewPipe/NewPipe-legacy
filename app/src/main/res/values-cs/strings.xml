@@ -33,7 +33,7 @@
     <string name="dark_theme_title">Tmavé</string>
     <string name="light_theme_title">Světlé</string>
     <string name="download_dialog_title">Stáhnout</string>
-    <string name="next_video_title">Další videa</string>
+    <string name="next_video_title">Příští video</string>
     <string name="show_next_and_similar_title">Zobrazovat \'další\' a \'podobná\' videa</string>
     <string name="url_not_supported_toast">URL není podporováno</string>
     <string name="content_language_title">Preferovaný jazyk obsahu</string>
@@ -48,7 +48,8 @@
     <string name="youtube_signature_decryption_error">Nebylo možné dekódovat URL videa</string>
     <string name="parsing_error">Nebylo možné analyzovat stránku</string>
     <string name="content_not_available">Obsah není k dispozici</string>
-    <string name="blocked_by_gema">Obsah blokuje GEMA</string>
+
+
     <string name="list_thumbnail_view_description">Náhled videa</string>
     <string name="detail_thumbnail_view_description">Náhled videa</string>
     <string name="detail_uploader_thumbnail_view_description">Náhled avataru uploadera</string>
@@ -246,8 +247,8 @@ otevření ve vyskakovacím okně</string>
     <string name="enqueue_on_background">Do fronty na pozadí</string>
     <string name="enqueue_on_popup">Do fronty v okně</string>
     <string name="start_here_on_main">Začne hrát zde</string>
-    <string name="start_here_on_background">Začne zde, když na pozadí</string>
-    <string name="start_here_on_popup">Začne zde v okně</string>
+    <string name="start_here_on_background">Začít přehrávat na pozadí</string>
+    <string name="start_here_on_popup">Začít přehrávat v okně</string>
     <string name="donation_title">Donate</string>
     <string name="donation_encouragement">NewPipe je vyvíjen dobrovolníky, kteří tráví svůj čas, aby vaše zkušenost s aplikací byla co nejlepší. Vraťte vývojářům něco zpět, aby mohli NewPipe dále zlepšovat a zároveň si vychutnat šálek kávy.</string>
     <string name="give_back">Daruj</string>
@@ -315,14 +316,7 @@ otevření ve vyskakovacím okně</string>
     <string name="resize_fit">Přizpůsobit</string>
     <string name="resize_fill">Vyplnit</string>
     <string name="resize_zoom">Zvětšit</string>
-    <string name="caption_font_size_settings_title">Velikost písma nadpisu</string>
-    <string name="smaller_caption_font_size">Menší písmo</string>
-    <string name="normal_caption_font_size">Normální písmo</string>
-    <string name="larger_caption_font_size">Větší písmo</string>
-
     <string name="toggle_leak_canary">Sledovat únik paměti</string>
-    <string name="disable_leak_canary_notice">Sledování úniku paměti vypnuto</string>
-    <string name="enable_leak_canary_notice">Sledování úniku paměti povoleno, aplikace může při zátěži přestat reagovat</string>
     <string name="settings_category_debug_title">Ladění</string>
     <string name="caption_auto_generated">"Automaticky generováno "</string>
     <string name="enable_leak_canary_title">Povolit službu LeakCanary</string>
@@ -338,7 +332,7 @@ otevření ve vyskakovacím okně</string>
     <string name="metadata_cache_wipe_summary">Odebrat všechna data uložená v mezipaměti</string>
     <string name="metadata_cache_wipe_complete_notice">Mezipaměť metadat vymazána</string>
     <string name="auto_queue_title">Automatická fronta dalšího streamu</string>
-    <string name="auto_queue_summary">Automaticky připojí související stream při přehrávání posledního streamu v neopakující se frontě.</string>
+    <string name="auto_queue_summary">Automaticky připojí související stream při přehrávání posledního streamu v neopakující se frontě</string>
     <string name="file">Soubor</string>
     <string name="invalid_directory">Neexistující složka</string>
     <string name="invalid_source">Neexistující zdroj souboru/obsahu</string>
@@ -377,7 +371,6 @@ otevření ve vyskakovacím okně</string>
     <string name="playback_tempo">Rychlost</string>
     <string name="playback_pitch">Výška tónu</string>
     <string name="unhook_checkbox">Rozpojit (může způsobit zkreslení)</string>
-    <string name="playback_nightcore">Nightcore mód</string>
     <string name="playback_default">Výchozí nastavení</string>
     <string name="no_streams_available_download">Ke stažení nejsou dostupné žádné streamy</string>
     <string name="preferred_open_action_settings_title">Preferovaná \'otevřít\' akce</string>
@@ -388,7 +381,7 @@ otevření ve vyskakovacím okně</string>
     <string name="clear_views_history_title">Vymazat historii sledování</string>
     <string name="clear_views_history_summary">Vymaže historii přehrávaných streamů</string>
     <string name="delete_view_history_alert">Vymazat celkovou historii sledování\?</string>
-    <string name="view_history_deleted">Historie sledování smazána.</string>
+    <string name="watch_history_deleted">Historie sledování smazána.</string>
     <string name="clear_search_history_title">Vymazat historii vyhledávání</string>
     <string name="clear_search_history_summary">Vymaže historii vyhledávaných klíčových slov</string>
     <string name="delete_search_history_alert">Vymazat celkovou historii vyhledávání\?</string>
@@ -459,7 +452,8 @@ otevření ve vyskakovacím okně</string>
     <string name="download_finished_more">% s stahování dokončeno</string>
     <string name="generate_unique_name">Vytvořit jedinečný název</string>
     <string name="overwrite">Přepsat</string>
-    <string name="overwrite_warning">Stažený soubor s tímto názvem již existuje</string>
+    <string name="overwrite_unrelated_warning">Stažený soubor s tímto názvem již existuje</string>
+    <string name="overwrite_finished_warning">Stažený soubor s tímto názvem již existuje</string>
     <string name="download_already_running">Stahování s tímto názvem již probíhá</string>
     <string name="show_error">Zobrazit chybu</string>
     <string name="label_code">Kód</string>
@@ -481,4 +475,16 @@ otevření ve vyskakovacím okně</string>
     <string name="max_retry_desc">Maximální počet pokusů před zrušením stahování</string>
     <string name="pause_downloads_on_mobile">Pozastavit při přepnutí na mobilní data</string>
     <string name="pause_downloads_on_mobile_desc">Stahování, která nelze pozastavit, budou restartována</string>
+    <string name="show_comments_title">Zobrazit komentáře</string>
+    <string name="show_comments_summary">Deaktivovat zobrazování komentářů</string>
+    <string name="autoplay_title">Automatické přehrávání</string>
+    <plurals name="comments">
+        <item quantity="one">Komentáře</item>
+        <item quantity="few"></item>
+        <item quantity="other"></item>
+    </plurals>
+    <string name="no_comments">Žádné komentáře</string>
+    <string name="error_unable_to_load_comments">Nelze načíst komentáře</string>
+    <string name="close">Zavřít</string>
+    <string name="download_to_sdcard_error_message">Stahování na externí SD kartu ještě není možné. Resetovat umístění složky pro stahování\?</string>
 </resources>

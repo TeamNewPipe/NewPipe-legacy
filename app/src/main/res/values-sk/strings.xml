@@ -48,7 +48,7 @@
     <string name="youtube_signature_decryption_error">Nepodarilo sa dekódovať URL videa</string>
     <string name="parsing_error">Nemožno analyzovať webovú stránku</string>
     <string name="content_not_available">Obsah nie je dostupný</string>
-    <string name="blocked_by_gema">Obsah blokuje GEMA</string>
+
     <string name="list_thumbnail_view_description">Náhľad videa</string>
     <string name="detail_thumbnail_view_description">Náhľad videa</string>
     <string name="detail_uploader_thumbnail_view_description">Náhľad avataru uploadera</string>
@@ -314,10 +314,6 @@
     <string name="resize_fit">Prispôsobiť</string>
     <string name="resize_fill">Vyplniť</string>
     <string name="resize_zoom">Zväčšiť</string>
-    <string name="caption_font_size_settings_title">Veľkosť písma titulkov</string>
-    <string name="smaller_caption_font_size">Menšie Písmo</string>
-    <string name="normal_caption_font_size">Normálne Písmo</string>
-    <string name="larger_caption_font_size">Väčšie Písmo</string>
     <string name="use_inexact_seek_title">Používať rýchly posun</string>
     <string name="use_inexact_seek_summary">Rýchly posun umožňuje prejsť na novú pozíciu rýchlejšie, ale s menšou presnosťou</string>
     <string name="download_thumbnail_title">Načítanie miniatúr</string>
@@ -380,12 +376,11 @@
     <string name="playback_tempo">Rýchlosť</string>
     <string name="playback_pitch">Výška</string>
     <string name="unhook_checkbox">"Spomalenie  (môže spôsobovať skreslenie)"</string>
-    <string name="playback_nightcore">Nightcore režim</string>
     <string name="playback_default">Predvolené</string>
     <string name="clear_views_history_title">Vymazať históriu pozretí</string>
     <string name="clear_views_history_summary">Odstráni históriu prehrávaných streamov</string>
     <string name="delete_view_history_alert">Vymazať celú históriu pozretí.</string>
-    <string name="view_history_deleted">História pozretí bola vymazaná.</string>
+    <string name="watch_history_deleted">História pozretí bola vymazaná.</string>
     <string name="clear_search_history_title">Vymazať históriu vyhľadávania</string>
     <string name="clear_search_history_summary">Vymaže históriu vyhľadávania kľúčových slov</string>
     <string name="delete_search_history_alert">Vymazať celú históriu vyhľadávania.</string>
@@ -456,7 +451,8 @@
     <string name="download_finished_more">%s sťahovania skončené</string>
     <string name="generate_unique_name">Vytvoriť jedinečný názov</string>
     <string name="overwrite">Prepísať</string>
-    <string name="overwrite_warning">Stiahnutý súbor s týmto menom už existuje</string>
+    <string name="overwrite_unrelated_warning">Súbor s týmto názvom už existuje</string>
+    <string name="overwrite_finished_warning">Stiahnutý súbor s týmto názvom už existuje</string>
     <string name="download_already_running">Sťahovanie s týmto názvom už prebieha</string>
     <string name="show_error">Zobraziť chybu</string>
     <string name="label_code">Kód</string>

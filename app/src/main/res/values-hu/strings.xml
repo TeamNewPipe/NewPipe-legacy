@@ -61,7 +61,6 @@
     <string name="show_age_restricted_content_title">Korhatáros tartalom</string>
     <string name="general_error">Hiba</string>
     <string name="content_not_available">A tartalom nem elérhető</string>
-    <string name="blocked_by_gema">GEMA által blokkolt</string>
     <string name="live_streams_not_supported">Ez egy élő közvetítés, amely még nem támogatott.</string>
     <string name="autoplay_by_calling_app_title">Automatikus lejátszás</string>
     <string name="autoplay_by_calling_app_summary">Videók automatikus lejátszása, ha a NewPipe egy másik alkalmazásból lett indítva</string>
@@ -216,7 +215,7 @@
     <string name="clear_views_history_title">Megtekintési előzmények törlése</string>
     <string name="clear_views_history_summary">Eltávolítja a megtekintési előzményeket</string>
     <string name="delete_view_history_alert">Törlöd az összes megtekintési előzményt\?</string>
-    <string name="view_history_deleted">Megtekintési előzmények törölve.</string>
+    <string name="watch_history_deleted">Megtekintési előzmények törölve.</string>
     <string name="clear_search_history_title">Keresési előzmények törlése</string>
     <string name="clear_search_history_summary">Eltávolítja a kereséshez használt kifejezéseket az előzményekből</string>
     <string name="delete_search_history_alert">Törlöd az összes keresési előzményt\?</string>

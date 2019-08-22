@@ -49,7 +49,7 @@ public class SubscriptionsExportService extends BaseImportExportService {
     /**
      * A {@link LocalBroadcastManager local broadcast} will be made with this action when the export is successfully completed.
      */
-    public static final String EXPORT_COMPLETE_ACTION = "org.schabi.newpipelegacy.local.subscription.services.SubscriptionsExportService.EXPORT_COMPLETE";
+    public static final String EXPORT_COMPLETE_ACTION = "org.schabi.newpipe.local.subscription.services.SubscriptionsExportService.EXPORT_COMPLETE";
 
     private Subscription subscription;
     private File outFile;
