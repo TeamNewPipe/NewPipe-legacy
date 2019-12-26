@@ -1,6 +1,6 @@
 package org.schabi.newpipelegacy.streams;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import org.schabi.newpipelegacy.streams.WebMReader.Cluster;
 import org.schabi.newpipelegacy.streams.WebMReader.Segment;
@@ -8,9 +8,9 @@ import org.schabi.newpipelegacy.streams.WebMReader.SimpleBlock;
 import org.schabi.newpipelegacy.streams.WebMReader.WebMTrack;
 import org.schabi.newpipelegacy.streams.io.SharpStream;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 /**
  * @author kapodamy
  */
-public class WebMWriter {
+public class WebMWriter implements Closeable {
 
     private final static int BUFFER_SIZE = 8 * 1024;
     private final static int DEFAULT_TIMECODE_SCALE = 1000000;
@@ -36,7 +36,7 @@ public class WebMWriter {
     private long written = 0;
 
     private Segment[] readersSegment;
-    private Cluster[] readersCluter;
+    private Cluster[] readersCluster;
 
     private int[] predefinedDurations;
 
@@ -82,7 +82,7 @@ public class WebMWriter {
     public void selectTracks(int... trackIndex) throws IOException {
         try {
             readersSegment = new Segment[readers.length];
-            readersCluter = new Cluster[readers.length];
+            readersCluster = new Cluster[readers.length];
             predefinedDurations = new int[readers.length];
 
             for (int i = 0; i < readers.length; i++) {
@@ -103,6 +103,7 @@ public class WebMWriter {
         return parsed;
     }
 
+    @Override
     public void close() {
         done = true;
         parsed = true;
@@ -115,7 +116,7 @@ public class WebMWriter {
         readers = null;
         infoTracks = null;
         readersSegment = null;
-        readersCluter = null;
+        readersCluster = null;
         outBuffer = null;
     }
 
@@ -248,7 +249,7 @@ public class WebMWriter {
                             nextCueTime += DEFAULT_CUES_EACH_MS;
                         }
                         keyFrames.add(
-                                new KeyFrame(baseSegmentOffset, currentClusterOffset - 7, written, bTimecode.length, bloq.absoluteTimecode)
+                                new KeyFrame(baseSegmentOffset, currentClusterOffset - 8, written, bTimecode.length, bloq.absoluteTimecode)
                         );
                     }
                 }
@@ -335,17 +336,17 @@ public class WebMWriter {
             }
         }
 
-        if (readersCluter[internalTrackId] == null) {
-            readersCluter[internalTrackId] = readersSegment[internalTrackId].getNextCluster();
-            if (readersCluter[internalTrackId] == null) {
+        if (readersCluster[internalTrackId] == null) {
+            readersCluster[internalTrackId] = readersSegment[internalTrackId].getNextCluster();
+            if (readersCluster[internalTrackId] == null) {
                 readersSegment[internalTrackId] = null;
                 return getNextBlockFrom(internalTrackId);
             }
         }
 
-        SimpleBlock res = readersCluter[internalTrackId].getNextSimpleBlock();
+        SimpleBlock res = readersCluster[internalTrackId].getNextSimpleBlock();
         if (res == null) {
-            readersCluter[internalTrackId] = null;
+            readersCluster[internalTrackId] = null;
             return new Block();// fake block to indicate the end of the cluster
         }
 
@@ -354,14 +355,9 @@ public class WebMWriter {
         bloq.dataSize = (int) res.dataSize;
         bloq.trackNumber = internalTrackId;
         bloq.flags = res.flags;
-        bloq.absoluteTimecode = convertTimecode(res.relativeTimeCode, readersSegment[internalTrackId].info.timecodeScale);
-        bloq.absoluteTimecode += readersCluter[internalTrackId].timecode;
+        bloq.absoluteTimecode = res.absoluteTimeCodeNs / DEFAULT_TIMECODE_SCALE;
 
         return bloq;
-    }
-
-    private short convertTimecode(int time, long oldTimeScale) {
-        return (short) (time * (DEFAULT_TIMECODE_SCALE / oldTimeScale));
     }
 
     private void seekTo(SharpStream stream, long offset) throws IOException {
@@ -635,11 +631,8 @@ public class WebMWriter {
     }
 
     private ArrayList<byte[]> encode(String value) {
-        byte[] str = null;
-        try {
-            str = value.getBytes("UTF-8");
-        } catch (UnsupportedEncodingException ignored) {
-        }
+        byte[] str;
+        str = value.getBytes(StandardCharsets.UTF_8);// or use "utf-8"
 
         ArrayList<byte[]> buffer = new ArrayList<>(2);
         buffer.add(encode(str.length, false));

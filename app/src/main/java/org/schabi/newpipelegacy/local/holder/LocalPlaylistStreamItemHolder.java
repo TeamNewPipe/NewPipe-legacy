@@ -1,6 +1,6 @@
 package org.schabi.newpipelegacy.local.holder;
 
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;

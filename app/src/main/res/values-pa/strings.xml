@@ -209,8 +209,8 @@
     </plurals>
     <string name="no_videos">ਕੋਈ ਵੀਡੀਓ ਨਹੀਂ</string>
     <plurals name="videos">
-        <item quantity="one">ਵੀਡੀਓ</item>
-        <item quantity="other">ਵੀਡੀਓਜ਼</item>
+        <item quantity="one">%s ਵੀਡੀਓ ਹੈ</item>
+        <item quantity="other">%s ਵੀਡੀਓ ਹਨ</item>
     </plurals>
     <string name="start">ਸ਼ੁਰੂ ਕਰੋ</string>
     <string name="pause">ਰੋਕੋ</string>
@@ -450,11 +450,9 @@
     <string name="error_connect_host">ਸਰਵਰ ਨਾਲ ਜੁੜ ਨਹੀਂ ਸਕਦਾ</string>
     <string name="error_http_no_content">ਸਰਵਰ ਨੇ ਡਾਟਾ ਨਹੀਂ ਭੇਜਿਆ</string>
     <string name="error_http_unsupported_range">ਸਰਵਰ ਮਲਟੀ-Threaded ਡਾਊਨਲੋਡਸ ਨੂੰ ਸਵੀਕਾਰ ਨਹੀਂ ਕਰਦਾ, ਇਸ ਨਾਲ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ @string/msg_threads = 1</string>
-    <string name="error_http_requested_range_not_satisfiable">ਬੇਨਤੀ ਕੀਤੀ ਸੀਮਾ ਤਸੱਲੀਬਖਸ਼ ਨਹੀਂ ਹੈ</string>
     <string name="error_http_not_found">ਨਹੀਂ ਲਭਿਆ</string>
     <string name="error_postprocessing_failed">Post-processing ਫੇਲ੍ਹ</string>
     <string name="clear_finished_download">ਮੁਕੰਮਲ ਹੋਈਆਂ ਡਾਊਨਲੋਡ ਸਾਫ਼ ਕਰੋ</string>
-    <string name="msg_pending_downloads">ਡਾਉਨਲੋਡਸ ਤੋਂ ਆਪਣੀਆਂ %s ਬਕਾਇਆ ਟ੍ਰਾਂਸਫਰ ਜਾਰੀ ਰੱਖੋ</string>
     <string name="stop">ਰੁੱਕੋ</string>
     <string name="max_retry_msg">ਵੱਧ ਤੋਂ ਵੱਧ ਕੋਸ਼ਿਸ਼ਾਂ</string>
     <string name="max_retry_desc">ਡਾਉਨਲੋਡ ਰੱਦ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਵੱਧ ਤੋਂ ਵੱਧ ਕੋਸ਼ਿਸ਼ਾਂ</string>
@@ -467,7 +465,7 @@
     <string name="autoplay_title">ਆਟੋ-ਪਲੇ</string>
     <plurals name="comments">
         <item quantity="one">ਟਿਪਣੀਆਂ</item>
-        <item quantity="other"></item>
+        <item quantity="other"/>
     </plurals>
     <string name="no_comments">ਕੋਈ ਟਿੱਪਣੀ ਨਹੀਂ ਕੀਤੀ ਗਈ</string>
     <string name="error_unable_to_load_comments">ਟਿੱਪਣੀਆਂ ਲੋਡ ਨਹੀਂ ਹੋ ਸਕੀਆਂ</string>
@@ -495,6 +493,9 @@
     <string name="pause_downloads">ਡਾਊਨਲੋਡਸ ਰੋਕੋ</string>
     <string name="downloads_storage_ask_title">ਪੁੱਛੋ ਕਿੱਥੇ ਡਾਊਨਲੋਡ ਕਰਨਾ ਹੈ</string>
     <string name="downloads_storage_ask_summary">ਤੁਹਾਨੂੰ ਪੁੱਛਿਆ ਜਾਵੇਗਾ ਕਿ ਹਰ ਡਾਉਨਲੋਡ ਨੂੰ ਕਿੱਥੇ save ਕਰਨਾ ਹੈ</string>
-    <string name="downloads_storage_ask_summary_kitkat">ਤੁਹਾਨੂੰ ਪੁੱਛਿਆ ਜਾਵੇਗਾ ਕਿ ਹਰ ਡਾਉਨਲੋਡ ਨੂੰ ਕਿੱਥੇ save ਕਰਨਾ ਹੈ.
-\nਜੇ ਤੁਸੀਂ ਬਾਹਰੀ SD ਕਾਰਡ ਤੇ ਡਾਊਨਲੋਡ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ ਤਾਂ ਇਸ ਨੂੰ ਚਾਲੂ ਕਰੋ.</string>
+    <string name="downloads_storage_ask_summary_kitkat">ਤੁਹਾਨੂੰ ਪੁੱਛਿਆ ਜਾਵੇਗਾ ਕਿ ਹਰ ਡਾਉਨਲੋਡ ਨੂੰ ਕਿੱਥੇ save ਕਰਨਾ ਹੈ. 
+\nਜੇ ਤੁਸੀਂ ਬਾਹਰੀ SD ਕਾਰਡ ਤੇ ਡਾਊਨਲੋਡ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ ਤਾਂ ਇਸ ਨੂੰ ਚਾਲੂ ਕਰੋ</string>
+    <string name="downloads_storage_use_saf_title">SAF ਦੀ ਵਰਤੋਂ ਕਰੋ</string>
+    <string name="downloads_storage_use_saf_summary">ਸਟੋਰੇਜ਼ ਐਕਸੈਸ ਫਰੇਮਵਰਕ ਬਾਹਰੀ SD ਕਾਰਡ ਵਿੱਚ ਡਾਊਨਲੋਡ ਕਰਨ ਦੀ ਆਗਿਆ ਦਿੰਦਾ ਹੈ.
+\nਨੋਟ: ਕੁਝ ਉਪਕਰਣ ਅਨੁਕੂਲ ਨਹੀਂ ਹਨ</string>
 </resources>

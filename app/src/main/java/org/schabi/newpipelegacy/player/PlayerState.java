@@ -1,7 +1,7 @@
 package org.schabi.newpipelegacy.player;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.schabi.newpipelegacy.player.playqueue.PlayQueue;
 

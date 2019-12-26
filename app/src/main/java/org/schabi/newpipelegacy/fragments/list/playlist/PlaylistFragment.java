@@ -3,10 +3,9 @@ package org.schabi.newpipelegacy.fragments.list.playlist;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -260,7 +259,7 @@ public class PlaylistFragment extends BaseListInfoFragment<PlaylistInfo> {
         animateView(headerRootLayout, true, 100);
         animateView(headerUploaderLayout, true, 300);
         headerUploaderLayout.setOnClickListener(null);
-        if (!TextUtils.isEmpty(result.getUploaderName())) {
+        if (!TextUtils.isEmpty(result.getUploaderName())) { // If we have an uploader : Put them into the ui
             headerUploaderName.setText(result.getUploaderName());
             if (!TextUtils.isEmpty(result.getUploaderUrl())) {
                 headerUploaderLayout.setOnClickListener(v -> {
@@ -274,6 +273,8 @@ public class PlaylistFragment extends BaseListInfoFragment<PlaylistInfo> {
                     }
                 });
             }
+        } else { // Else : say we have no uploader
+            headerUploaderName.setText(R.string.playlist_no_uploader);
         }
 
         playlistCtrl.setVisibility(View.VISIBLE);

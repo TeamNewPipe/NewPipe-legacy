@@ -1,6 +1,6 @@
 package org.schabi.newpipelegacy.database.playlist;
 
-import android.arch.persistence.room.ColumnInfo;
+import androidx.room.ColumnInfo;
 
 import org.schabi.newpipelegacy.database.LocalItem;
 import org.schabi.newpipelegacy.database.playlist.model.PlaylistStreamEntity;

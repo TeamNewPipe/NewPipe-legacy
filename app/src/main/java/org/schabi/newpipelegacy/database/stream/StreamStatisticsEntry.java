@@ -1,6 +1,6 @@
 package org.schabi.newpipelegacy.database.stream;
 
-import android.arch.persistence.room.ColumnInfo;
+import androidx.room.ColumnInfo;
 
 import org.schabi.newpipelegacy.database.LocalItem;
 import org.schabi.newpipelegacy.database.history.model.StreamHistoryEntity;

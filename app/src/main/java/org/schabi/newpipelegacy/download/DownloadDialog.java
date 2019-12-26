@@ -11,15 +11,15 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
-import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.provider.DocumentFile;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.view.menu.ActionMenuItemView;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.fragment.app.DialogFragment;
+import androidx.documentfile.provider.DocumentFile;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.view.menu.ActionMenuItemView;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -40,12 +40,12 @@ import org.schabi.newpipelegacy.MainActivity;
 import org.schabi.newpipelegacy.R;
 import org.schabi.newpipe.extractor.MediaFormat;
 import org.schabi.newpipe.extractor.NewPipe;
+import org.schabi.newpipe.extractor.localization.Localization;
 import org.schabi.newpipe.extractor.stream.AudioStream;
 import org.schabi.newpipe.extractor.stream.Stream;
 import org.schabi.newpipe.extractor.stream.StreamInfo;
 import org.schabi.newpipe.extractor.stream.SubtitlesStream;
 import org.schabi.newpipe.extractor.stream.VideoStream;
-import org.schabi.newpipe.extractor.utils.Localization;
 import org.schabi.newpipelegacy.report.ErrorActivity;
 import org.schabi.newpipelegacy.report.UserAction;
 import org.schabi.newpipelegacy.settings.NewPipeSettings;
@@ -68,6 +68,7 @@ import java.util.Locale;
 import icepick.Icepick;
 import icepick.State;
 import io.reactivex.disposables.CompositeDisposable;
+import us.shandian.giga.get.MissionRecoveryInfo;
 import us.shandian.giga.io.StoredDirectoryHelper;
 import us.shandian.giga.io.StoredFileHelper;
 import us.shandian.giga.postprocessing.Postprocessing;
@@ -359,6 +360,7 @@ public class DownloadDialog extends DialogFragment implements RadioGroup.OnCheck
         toolbar.setNavigationIcon(isLight ? R.drawable.ic_arrow_back_black_24dp : R.drawable.ic_arrow_back_white_24dp);
         toolbar.inflateMenu(R.menu.dialog_url);
         toolbar.setNavigationOnClickListener(v -> getDialog().dismiss());
+        toolbar.setNavigationContentDescription(R.string.cancel);
 
         okButton = toolbar.findViewById(R.id.okay);
         okButton.setEnabled(false);// disable until the download service connection is done
@@ -487,35 +489,24 @@ public class DownloadDialog extends DialogFragment implements RadioGroup.OnCheck
     }
 
     private int getSubtitleIndexBy(List<SubtitlesStream> streams) {
-        Localization loc = NewPipe.getPreferredLocalization();
+        final Localization preferredLocalization = NewPipe.getPreferredLocalization();
 
+        int candidate = 0;
         for (int i = 0; i < streams.size(); i++) {
-            Locale streamLocale = streams.get(i).getLocale();
-            String tag = streamLocale.getLanguage().concat("-").concat(streamLocale.getCountry());
-            if (tag.equalsIgnoreCase(loc.getLanguage())) {
-                return i;
+            final Locale streamLocale = streams.get(i).getLocale();
+
+            final boolean languageEquals = streamLocale.getLanguage() != null && preferredLocalization.getLanguageCode() != null &&
+                    streamLocale.getLanguage().equals(new Locale(preferredLocalization.getLanguageCode()).getLanguage());
+            final boolean countryEquals = streamLocale.getCountry() != null && streamLocale.getCountry().equals(preferredLocalization.getCountryCode());
+
+            if (languageEquals) {
+                if (countryEquals) return i;
+
+                candidate = i;
             }
         }
 
-        // fallback
-        // 1st loop match country & language
-        // 2nd loop match language only
-        int index = loc.getLanguage().indexOf("-");
-        String lang = index > 0 ? loc.getLanguage().substring(0, index) : loc.getLanguage();
-
-        for (int j = 0; j < 2; j++) {
-            for (int i = 0; i < streams.size(); i++) {
-                Locale streamLocale = streams.get(i).getLocale();
-
-                if (streamLocale.getLanguage().equalsIgnoreCase(lang)) {
-                    if (j > 0 || streamLocale.getCountry().equalsIgnoreCase(loc.getCountry())) {
-                        return i;
-                    }
-                }
-            }
-        }
-
-        return 0;
+        return candidate;
     }
 
     StoredDirectoryHelper mainStorageAudio = null;
@@ -772,12 +763,13 @@ public class DownloadDialog extends DialogFragment implements RadioGroup.OnCheck
         }
 
         Stream selectedStream;
+        Stream secondaryStream = null;
         char kind;
         int threads = threadsSeekBar.getProgress() + 1;
         String[] urls;
+        MissionRecoveryInfo[] recoveryInfo;
         String psName = null;
         String[] psArgs = null;
-        String secondaryStreamUrl = null;
         long nearLength = 0;
 
         // more download logic: select muxer, subtitle converter, etc.
@@ -788,18 +780,20 @@ public class DownloadDialog extends DialogFragment implements RadioGroup.OnCheck
 
                 if (selectedStream.getFormat() == MediaFormat.M4A) {
                     psName = Postprocessing.ALGORITHM_M4A_NO_DASH;
+                } else if (selectedStream.getFormat() == MediaFormat.WEBMA_OPUS) {
+                    psName = Postprocessing.ALGORITHM_OGG_FROM_WEBM_DEMUXER;
                 }
                 break;
             case R.id.video_button:
                 kind = 'v';
                 selectedStream = videoStreamsAdapter.getItem(selectedVideoIndex);
 
-                SecondaryStreamHelper<AudioStream> secondaryStream = videoStreamsAdapter
+                SecondaryStreamHelper<AudioStream> secondary = videoStreamsAdapter
                         .getAllSecondary()
                         .get(wrappedVideoStreams.getStreamsList().indexOf(selectedStream));
 
-                if (secondaryStream != null) {
-                    secondaryStreamUrl = secondaryStream.getStream().getUrl();
+                if (secondary != null) {
+                    secondaryStream = secondary.getStream();
 
                     if (selectedStream.getFormat() == MediaFormat.MPEG_4)
                         psName = Postprocessing.ALGORITHM_MP4_FROM_DASH_MUXER;
@@ -811,8 +805,8 @@ public class DownloadDialog extends DialogFragment implements RadioGroup.OnCheck
 
                     // set nearLength, only, if both sizes are fetched or known. This probably
                     // does not work on slow networks but is later updated in the downloader
-                    if (secondaryStream.getSizeInBytes() > 0 && videoSize > 0) {
-                        nearLength = secondaryStream.getSizeInBytes() + videoSize;
+                    if (secondary.getSizeInBytes() > 0 && videoSize > 0) {
+                        nearLength = secondary.getSizeInBytes() + videoSize;
                     }
                 }
                 break;
@@ -834,13 +828,25 @@ public class DownloadDialog extends DialogFragment implements RadioGroup.OnCheck
                 return;
         }
 
-        if (secondaryStreamUrl == null) {
-            urls = new String[]{selectedStream.getUrl()};
+        if (secondaryStream == null) {
+            urls = new String[]{
+                    selectedStream.getUrl()
+            };
+            recoveryInfo = new MissionRecoveryInfo[]{
+                    new MissionRecoveryInfo(selectedStream)
+            };
         } else {
-            urls = new String[]{selectedStream.getUrl(), secondaryStreamUrl};
+            urls = new String[]{
+                    selectedStream.getUrl(), secondaryStream.getUrl()
+            };
+            recoveryInfo = new MissionRecoveryInfo[]{
+                    new MissionRecoveryInfo(selectedStream), new MissionRecoveryInfo(secondaryStream)
+            };
         }
 
-        DownloadManagerService.startMission(context, urls, storage, kind, threads, currentInfo.getUrl(), psName, psArgs, nearLength);
+        DownloadManagerService.startMission(
+                context, urls, storage, kind, threads, currentInfo.getUrl(), psName, psArgs, nearLength, recoveryInfo
+        );
 
         dismiss();
     }

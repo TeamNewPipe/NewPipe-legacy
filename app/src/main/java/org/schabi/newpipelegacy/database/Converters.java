@@ -1,6 +1,6 @@
 package org.schabi.newpipelegacy.database;
 
-import android.arch.persistence.room.TypeConverter;
+import androidx.room.TypeConverter;
 
 import org.schabi.newpipe.extractor.stream.StreamType;
 
