@@ -5,13 +5,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.core.app.NavUtils;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 import android.webkit.CookieManager;
-import android.webkit.ValueCallback;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -113,7 +112,7 @@ public class ReCaptchaActivity extends AppCompatActivity {
             // find cookies : s_gl & goojf and Add cookies to Downloader
             if (find_access_cookies(cookies)) {
                 // Give cookies to Downloader class
-                Downloader.getInstance().setCookies(mCookies);
+                DownloaderImpl.getInstance().setCookies(mCookies);
 
                 // Closing activity and return to parent
                 setResult(RESULT_OK);

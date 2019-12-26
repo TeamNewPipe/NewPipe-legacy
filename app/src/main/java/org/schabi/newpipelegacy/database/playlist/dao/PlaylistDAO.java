@@ -1,7 +1,7 @@
 package org.schabi.newpipelegacy.database.playlist.dao;
 
-import android.arch.persistence.room.Dao;
-import android.arch.persistence.room.Query;
+import androidx.room.Dao;
+import androidx.room.Query;
 
 import org.schabi.newpipelegacy.database.BasicDAO;
 import org.schabi.newpipelegacy.database.playlist.model.PlaylistEntity;

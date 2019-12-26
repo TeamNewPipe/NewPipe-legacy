@@ -28,11 +28,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlaybackException;
@@ -54,7 +55,7 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import org.schabi.newpipelegacy.BuildConfig;
-import org.schabi.newpipelegacy.Downloader;
+import org.schabi.newpipelegacy.DownloaderImpl;
 import org.schabi.newpipelegacy.R;
 import org.schabi.newpipe.extractor.stream.StreamInfo;
 import org.schabi.newpipelegacy.local.history.HistoryRecordManager;
@@ -177,7 +178,6 @@ public abstract class BasePlayer implements
     // Player
     //////////////////////////////////////////////////////////////////////////*/
 
-    protected final static int FAST_FORWARD_REWIND_AMOUNT_MILLIS = 10000; // 10 Seconds
     protected final static int PLAY_PREV_ACTIVATION_LIMIT_MILLIS = 5000; // 5 seconds
     protected final static int PROGRESS_LOOP_INTERVAL_MILLIS = 500;
     protected final static int RECOVERY_SKIP_THRESHOLD_MILLIS = 3000; // 3 seconds
@@ -208,8 +208,8 @@ public abstract class BasePlayer implements
         this.progressUpdateReactor = new SerialDisposable();
         this.databaseUpdateReactor = new CompositeDisposable();
 
-        final String userAgent = Downloader.USER_AGENT;
-        final DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
+        final String userAgent = DownloaderImpl.USER_AGENT;
+        final DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter.Builder(context).build();
         this.dataSource = new PlayerDataSource(context, userAgent, bandwidthMeter);
 
         final TrackSelection.Factory trackSelectionFactory = PlayerHelper.getQualitySelector(context);
@@ -953,12 +953,19 @@ public abstract class BasePlayer implements
 
     public void onFastRewind() {
         if (DEBUG) Log.d(TAG, "onFastRewind() called");
-        seekBy(-FAST_FORWARD_REWIND_AMOUNT_MILLIS);
+        seekBy(-getSeekDuration());
     }
 
     public void onFastForward() {
         if (DEBUG) Log.d(TAG, "onFastForward() called");
-        seekBy(FAST_FORWARD_REWIND_AMOUNT_MILLIS);
+        seekBy(getSeekDuration());
+    }
+
+    private int getSeekDuration() {
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        final String key = context.getString(R.string.seek_duration_key);
+        final String value = prefs.getString(key, context.getString(R.string.seek_duration_default_value));
+        return Integer.parseInt(value);
     }
 
     public void onPlayPrevious() {
@@ -1193,10 +1200,7 @@ public abstract class BasePlayer implements
     }
 
     public boolean isPlaying() {
-        if (simpleExoPlayer == null) return false;
-        final int state = simpleExoPlayer.getPlaybackState();
-        return (state == Player.STATE_READY || state == Player.STATE_BUFFERING)
-                && simpleExoPlayer.getPlayWhenReady();
+        return simpleExoPlayer != null && simpleExoPlayer.isPlaying();
     }
 
     @Player.RepeatMode

@@ -1,7 +1,7 @@
 package org.schabi.newpipelegacy.settings;
 
 import android.os.Bundle;
-import android.support.v7.preference.Preference;
+import androidx.preference.Preference;
 
 import org.schabi.newpipelegacy.BuildConfig;
 import org.schabi.newpipelegacy.CheckForNewAppVersionTask;

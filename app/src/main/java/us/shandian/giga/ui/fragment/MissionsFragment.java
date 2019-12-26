@@ -12,17 +12,18 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.nononsenseapps.filepicker.Utils;
 
@@ -72,14 +73,13 @@ public class MissionsFragment extends Fragment {
             mBinder = (DownloadManagerBinder) binder;
             mBinder.clearDownloadNotifications();
 
-            mAdapter = new MissionAdapter(mContext, mBinder.getDownloadManager(), mEmpty);
-            mAdapter.deleterLoad(getView());
+            mAdapter = new MissionAdapter(mContext, mBinder.getDownloadManager(), mEmpty, getView());
 
             mAdapter.setRecover(MissionsFragment.this::recoverMission);
 
             setAdapterButtons();
 
-            mBinder.addMissionEventListener(mAdapter.getMessenger());
+            mBinder.addMissionEventListener(mAdapter);
             mBinder.enableNotifications(false);
 
             updateList();
@@ -132,7 +132,7 @@ public class MissionsFragment extends Fragment {
      * Added in API level 23.
      */
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
         // Bug: in api< 23 this is never called
@@ -147,7 +147,7 @@ public class MissionsFragment extends Fragment {
      */
     @SuppressWarnings("deprecation")
     @Override
-    public void onAttach(Activity activity) {
+    public void onAttach(@NonNull Activity activity) {
         super.onAttach(activity);
 
         mContext = activity;
@@ -159,10 +159,10 @@ public class MissionsFragment extends Fragment {
         super.onDestroy();
         if (mBinder == null || mAdapter == null) return;
 
-        mBinder.removeMissionEventListener(mAdapter.getMessenger());
+        mBinder.removeMissionEventListener(mAdapter);
         mBinder.enableNotifications(true);
         mContext.unbindService(mConnection);
-        mAdapter.deleterDispose(true);
+        mAdapter.onDestroy();
 
         mBinder = null;
         mAdapter = null;
@@ -196,15 +196,11 @@ public class MissionsFragment extends Fragment {
                 prompt.create().show();
                 return true;
             case R.id.start_downloads:
-                item.setVisible(false);
-                mPause.setVisible(true);
                 mBinder.getDownloadManager().startAllMissions();
                 return true;
             case R.id.pause_downloads:
-                item.setVisible(false);
-                mStart.setVisible(true);
                 mBinder.getDownloadManager().pauseAllMissions(false);
-                mAdapter.ensurePausedMissions();// update items view
+                mAdapter.refreshMissionItems();// update items view
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -274,29 +270,18 @@ public class MissionsFragment extends Fragment {
     }
 
     @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        if (mAdapter != null) {
-            mAdapter.deleterDispose(false);
-            mForceUpdate = true;
-            mBinder.removeMissionEventListener(mAdapter.getMessenger());
-        }
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
 
         if (mAdapter != null) {
-            mAdapter.deleterResume();
+            mAdapter.onResume();
 
             if (mForceUpdate) {
                 mForceUpdate = false;
                 mAdapter.forceUpdate();
             }
 
-            mBinder.addMissionEventListener(mAdapter.getMessenger());
+            mBinder.addMissionEventListener(mAdapter);
             mAdapter.checkMasterButtonsVisibility();
         }
         if (mBinder != null) mBinder.enableNotifications(false);
@@ -305,7 +290,13 @@ public class MissionsFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        if (mAdapter != null) mAdapter.onPaused();
+
+        if (mAdapter != null) {
+            mForceUpdate = true;
+            mBinder.removeMissionEventListener(mAdapter);
+            mAdapter.onPaused();
+        }
+
         if (mBinder != null) mBinder.enableNotifications(true);
     }
 

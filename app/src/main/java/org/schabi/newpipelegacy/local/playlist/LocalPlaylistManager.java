@@ -1,6 +1,6 @@
 package org.schabi.newpipelegacy.local.playlist;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import org.schabi.newpipelegacy.database.AppDatabase;
 import org.schabi.newpipelegacy.database.playlist.PlaylistMetadataEntry;

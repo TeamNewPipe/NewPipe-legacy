@@ -1,6 +1,6 @@
 package org.schabi.newpipelegacy.info_list.holder;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.text.util.Linkify;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -14,6 +14,7 @@ import org.schabi.newpipelegacy.local.history.HistoryRecordManager;
 import org.schabi.newpipelegacy.report.ErrorActivity;
 import org.schabi.newpipelegacy.util.CommentTextOnTouchListener;
 import org.schabi.newpipelegacy.util.ImageDisplayConstants;
+import org.schabi.newpipelegacy.util.Localization;
 import org.schabi.newpipelegacy.util.NavigationHelper;
 
 import java.util.regex.Matcher;
@@ -101,10 +102,17 @@ public class CommentsMiniInfoItemHolder extends InfoItemHolder {
             ellipsize();
         }
 
-        if (null != item.getLikeCount()) {
+        if (item.getLikeCount() >= 0) {
             itemLikesCountView.setText(String.valueOf(item.getLikeCount()));
+        } else {
+            itemLikesCountView.setText("-");
         }
-        itemPublishedTime.setText(item.getPublishedTime());
+
+        if (item.getPublishedTime() != null) {
+            itemPublishedTime.setText(Localization.relativeTime(item.getPublishedTime().date()));
+        } else {
+            itemPublishedTime.setText(item.getTextualPublishedTime());
+        }
 
         itemView.setOnClickListener(view -> {
             toggleEllipsize();

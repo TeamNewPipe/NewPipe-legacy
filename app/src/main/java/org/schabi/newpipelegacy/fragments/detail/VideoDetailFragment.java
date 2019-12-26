@@ -9,17 +9,17 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.tabs.TabLayout;
+import androidx.fragment.app.Fragment;
+import androidx.core.content.ContextCompat;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -484,7 +484,6 @@ public class VideoDetailFragment
         videoDescriptionView.setMovementMethod(LinkMovementMethod.getInstance());
         videoDescriptionView.setAutoLinkMask(Linkify.WEB_URLS);
 
-        //thumbsRootLayout = rootView.findViewById(R.id.detail_thumbs_root_layout);
         thumbsUpTextView = rootView.findViewById(R.id.detail_thumbs_up_count_view);
         thumbsUpImageView = rootView.findViewById(R.id.detail_thumbs_up_img_view);
         thumbsDownTextView = rootView.findViewById(R.id.detail_thumbs_down_count_view);
@@ -1068,7 +1067,13 @@ public class VideoDetailFragment
         uploaderThumb.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.buddy));
 
         if (info.getViewCount() >= 0) {
-            videoCountView.setText(Localization.localizeViewCount(activity, info.getViewCount()));
+            if (info.getStreamType().equals(StreamType.AUDIO_LIVE_STREAM)) {
+                videoCountView.setText(Localization.listeningCount(activity, info.getViewCount()));
+            } else if (info.getStreamType().equals(StreamType.LIVE_STREAM)) {
+                videoCountView.setText(Localization.watchingCount(activity, info.getViewCount()));
+            } else {
+                videoCountView.setText(Localization.localizeViewCount(activity, info.getViewCount()));
+            }
             videoCountView.setVisibility(View.VISIBLE);
         } else {
             videoCountView.setVisibility(View.GONE);
@@ -1121,9 +1126,15 @@ public class VideoDetailFragment
         videoTitleToggleArrow.setVisibility(View.VISIBLE);
         videoTitleToggleArrow.setImageResource(R.drawable.arrow_down);
         videoDescriptionRootLayout.setVisibility(View.GONE);
-        if (!TextUtils.isEmpty(info.getUploadDate())) {
-            videoUploadDateView.setText(Localization.localizeDate(activity, info.getUploadDate()));
+
+        if (info.getUploadDate() != null) {
+            videoUploadDateView.setText(Localization.localizeUploadDate(activity, info.getUploadDate().date().getTime()));
+            videoUploadDateView.setVisibility(View.VISIBLE);
+        } else {
+            videoUploadDateView.setText(null);
+            videoUploadDateView.setVisibility(View.GONE);
         }
+
         prepareDescription(info.getDescription());
         updateProgressInfo(info);
 

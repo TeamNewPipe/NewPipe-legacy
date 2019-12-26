@@ -1,8 +1,8 @@
 package org.schabi.newpipelegacy.database.history.dao;
 
-import android.arch.persistence.room.Dao;
-import android.arch.persistence.room.Query;
-import android.support.annotation.Nullable;
+import androidx.room.Dao;
+import androidx.room.Query;
+import androidx.annotation.Nullable;
 
 import org.schabi.newpipelegacy.database.history.model.SearchHistoryEntry;
 
