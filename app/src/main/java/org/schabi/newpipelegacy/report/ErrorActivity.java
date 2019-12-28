@@ -74,7 +74,7 @@ public class ErrorActivity extends AppCompatActivity {
     public static final String ERROR_LIST = "error_list";
 
     public static final String ERROR_EMAIL_ADDRESS = "crashreport@newpipe.schabi.org";
-    public static final String ERROR_EMAIL_SUBJECT = "Exception in NewPipe " + BuildConfig.VERSION_NAME;
+    public static final String ERROR_EMAIL_SUBJECT = "Exception in " + R.string.app_name + ' ' + BuildConfig.VERSION_NAME;
     private String[] errorList;
     private ErrorInfo errorInfo;
     private Class returnActivity;
