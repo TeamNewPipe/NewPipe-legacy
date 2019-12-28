@@ -46,7 +46,7 @@ public class CheckForNewAppVersionTask extends AsyncTask<Void, Void, String> {
     private static final boolean DEBUG = MainActivity.DEBUG;
     private static final String TAG = CheckForNewAppVersionTask.class.getSimpleName();
     private static final Application app = App.getApp();
-    private static final String GITHUB_APK_SHA1 = "B0:2E:90:7C:1C:D6:FC:57:C3:35:F0:88:D0:8F:50:5F:94:E4:D2:15";
+    private static final String GITHUB_APK_SHA1 = "C7:A4:55:67:6C:34:97:42:10:CE:3B:02:8F:D4:11:E5:10:FB:01:17";
     private static final String newPipeApiUrl = "https://newpipe.schabi.org/api/data.json";
     private static final int timeoutPeriod = 30;
 
@@ -104,11 +104,11 @@ public class CheckForNewAppVersionTask extends AsyncTask<Void, Void, String> {
             try {
                 JSONObject mainObject = new JSONObject(response);
                 JSONObject flavoursObject = mainObject.getJSONObject("flavors");
-                JSONObject githubObject = flavoursObject.getJSONObject("github");
-                JSONObject githubStableObject = githubObject.getJSONObject("stable");
+                JSONObject githubLegacyObject = flavoursObject.getJSONObject("github_legacy");
+                JSONObject githubStableObject = githubLegacyObject.getJSONObject("stable");
 
                 String versionName = githubStableObject.getString("version");
-                String versionCode = githubStableObject.getString("version_code");
+                int versionCode = githubStableObject.getInt("version_code");
                 String apkLocationUrl = githubStableObject.getString("apk");
 
                 compareAppVersionAndShowNotification(versionName, apkLocationUrl, versionCode);
@@ -125,14 +125,15 @@ public class CheckForNewAppVersionTask extends AsyncTask<Void, Void, String> {
      * If a newer version is available, we show the update notification.
      * @param versionName
      * @param apkLocationUrl
+     * @param versionCode
      */
     private void compareAppVersionAndShowNotification(String versionName,
                                                       String apkLocationUrl,
-                                                      String versionCode) {
+                                                      int versionCode) {
 
         int NOTIFICATION_ID = 2000;
 
-        if (BuildConfig.VERSION_CODE < Integer.valueOf(versionCode)) {
+        if (BuildConfig.VERSION_CODE < versionCode) {
 
             // A pending intent to open the apk location url in the browser.
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(apkLocationUrl));
@@ -147,7 +148,7 @@ public class CheckForNewAppVersionTask extends AsyncTask<Void, Void, String> {
                     .setAutoCancel(true)
                     .setContentTitle(app.getString(R.string.app_update_notification_content_title))
                     .setContentText(app.getString(R.string.app_update_notification_content_text)
-                            + " " + versionName);
+                            + ' ' + versionName);
 
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(app);
             notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build());
