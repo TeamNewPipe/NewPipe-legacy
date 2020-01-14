@@ -5,6 +5,7 @@ import android.content.Context;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.util.ObjectsCompat;
 import androidx.fragment.app.Fragment;
 
 import com.grack.nanojson.JsonObject;
@@ -27,8 +28,6 @@ import org.schabi.newpipelegacy.report.UserAction;
 import org.schabi.newpipelegacy.util.KioskTranslator;
 import org.schabi.newpipelegacy.util.ServiceHelper;
 import org.schabi.newpipelegacy.util.ThemeHelper;
-
-import java.util.Objects;
 
 public abstract class Tab {
     Tab() {
@@ -348,7 +347,7 @@ public abstract class Tab {
         public boolean equals(Object obj) {
             return super.equals(obj) &&
                     kioskServiceId == ((KioskTab) obj).kioskServiceId
-                    && Objects.equals(kioskId, ((KioskTab) obj).kioskId);
+                    && ObjectsCompat.equals(kioskId, ((KioskTab) obj).kioskId);
         }
 
         public int getKioskServiceId() {
@@ -424,8 +423,8 @@ public abstract class Tab {
         public boolean equals(Object obj) {
             return super.equals(obj) &&
                     channelServiceId == ((ChannelTab) obj).channelServiceId
-                    && Objects.equals(channelUrl, ((ChannelTab) obj).channelUrl)
-                    && Objects.equals(channelName, ((ChannelTab) obj).channelName);
+                    && ObjectsCompat.equals(channelUrl, ((ChannelTab) obj).channelUrl)
+                    && ObjectsCompat.equals(channelName, ((ChannelTab) obj).channelName);
         }
 
         public int getChannelServiceId() {
