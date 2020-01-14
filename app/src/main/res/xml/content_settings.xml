@@ -23,7 +23,7 @@
 
     <PreferenceScreen
         app:iconSpaceReserved="false"
-        android:fragment="org.schabi.newpipe.settings.PeertubeInstanceListFragment"
+        android:fragment="org.schabi.newpipelegacy.settings.PeertubeInstanceListFragment"
         android:key="@string/peertube_instance_setup_key"
         android:title="@string/peertube_instance_url_title"
         android:summary="@string/peertube_instance_url_summary"/>
