@@ -77,6 +77,8 @@
         android:layout_width="wrap_content"
         android:layout_height="4dp"
         android:layout_marginTop="-2dp"
+        android:layout_alignLeft="@id/itemThumbnailView"
+        android:layout_alignRight="@id/itemThumbnailView"
         android:layout_alignStart="@id/itemThumbnailView"
         android:layout_alignEnd="@id/itemThumbnailView"
         android:layout_below="@id/itemThumbnailView"/>

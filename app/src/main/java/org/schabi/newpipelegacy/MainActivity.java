@@ -109,8 +109,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         if (DEBUG) Log.d(TAG, "onCreate() called with: savedInstanceState = [" + savedInstanceState + "]");
 
-        // enable TLS1.1/1.2 for kitkat devices, to fix download and play for mediaCCC sources
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
+        // enable TLS1.1/1.2 for jelly bean and kitkat devices, to fix download and play for mediaCCC sources
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
             TLSSocketFactoryCompat.setAsDefault();
         }
 
@@ -449,6 +449,16 @@ public class MainActivity extends AppCompatActivity {
             sharedPreferences.edit().putBoolean(Constants.KEY_MAIN_PAGE_CHANGE, false).apply();
             NavigationHelper.openMainActivity(this);
         }
+
+        if (sharedPreferences.getBoolean(Constants.KEY_ENABLE_WATCH_HISTORY, true)) {
+            if (DEBUG) Log.d(TAG, "do not show History-menu as its disabled in settings");
+            drawerItems.getMenu().findItem(ITEM_ID_HISTORY).setVisible(true);
+        }
+
+        if (!sharedPreferences.getBoolean(Constants.KEY_ENABLE_WATCH_HISTORY, true)) {
+            if (DEBUG) Log.d(TAG, "show History-menu as its enabled in settings");
+            drawerItems.getMenu().findItem(ITEM_ID_HISTORY).setVisible(false);
+        }
     }
 
     @Override
@@ -551,8 +561,6 @@ public class MainActivity extends AppCompatActivity {
         if (!(fragment instanceof SearchFragment)) {
             findViewById(R.id.toolbar).findViewById(R.id.toolbar_search_container).setVisibility(View.GONE);
 
-            MenuInflater inflater = getMenuInflater();
-            inflater.inflate(R.menu.main_menu, menu);
         }
 
         ActionBar actionBar = getSupportActionBar();
@@ -574,14 +582,6 @@ public class MainActivity extends AppCompatActivity {
             case android.R.id.home:
                 onHomeButtonPressed();
                 return true;
-            case R.id.action_show_downloads:
-                    return NavigationHelper.openDownloads(this);
-            case R.id.action_history:
-                    NavigationHelper.openStatisticFragment(getSupportFragmentManager());
-                    return true;
-            case R.id.action_settings:
-                    NavigationHelper.openSettings(this);
-                    return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
