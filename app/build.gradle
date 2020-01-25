@@ -10,12 +10,13 @@ android {
         applicationId 'org.schabi.newpipelegacy'
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 41
-        versionName "0.18.1-rc.1"
+        versionCode 50
+        versionName "0.18.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
+
     buildTypes {
         release {
             minifyEnabled true
@@ -29,18 +30,17 @@ android {
             applicationIdSuffix ".debug"
         }
     }
+
     lintOptions {
         checkReleaseBuilds false
         // Or, if you prefer, you can continue to check for errors in release builds,
         // but continue the build even when errors are found:
         abortOnError false
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    productFlavors {
     }
 }
 
@@ -61,7 +61,7 @@ dependencies {
         exclude module: 'support-annotations'
     })
 
-    implementation 'com.github.TeamNewPipe:NewPipeExtractor:8e53fda'
+    implementation 'com.github.TeamNewPipe:NewPipeExtractor:ff61e284'
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:2.23.0'
 
@@ -78,11 +78,14 @@ dependencies {
     implementation 'org.jsoup:jsoup:1.9.2'
 
     implementation 'ch.acra:acra:4.9.2' //4.11
+
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.nononsenseapps:filepicker:4.2.1'
+
     implementation "com.google.android.exoplayer:exoplayer:${exoPlayerLibVersion}"
     implementation "com.google.android.exoplayer:extension-mediasession:${exoPlayerLibVersion}"
+
     debugImplementation "com.facebook.stetho:stetho:${stethoLibVersion}"
     debugImplementation "com.facebook.stetho:stetho-urlconnection:${stethoLibVersion}"
     debugImplementation 'androidx.multidex:multidex:2.0.1'
@@ -101,6 +104,7 @@ dependencies {
 
     debugImplementation "com.squareup.leakcanary:leakcanary-android:${leakCanaryLibVersion}"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryLibVersion}"
+
     implementation "com.squareup.okhttp3:okhttp:${okHttpLibVersion}"
     debugImplementation "com.facebook.stetho:stetho-okhttp3:${stethoLibVersion}"
 }
