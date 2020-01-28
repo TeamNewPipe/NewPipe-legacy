@@ -45,7 +45,7 @@ public class DownloaderImpl extends Downloader {
     private OkHttpClient client;
 
     private DownloaderImpl(OkHttpClient.Builder builder) {
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
             enableModernTLS(builder);
         }
         this.client = builder
