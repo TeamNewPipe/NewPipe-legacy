@@ -100,7 +100,7 @@ public abstract class BaseListInfoFragment<I extends ListInfo>
 
     /**
      * Implement the logic to load the info from the network.<br/>
-     * You can use the default implementations from {@link org.schabi.newpipe.util.ExtractorHelper}.
+     * You can use the default implementations from {@link org.schabi.newpipelegacy.util.ExtractorHelper}.
      *
      * @param forceLoad allow or disallow the result to come from the cache
      */
@@ -128,7 +128,7 @@ public abstract class BaseListInfoFragment<I extends ListInfo>
 
     /**
      * Implement the logic to load more items<br/>
-     * You can use the default implementations from {@link org.schabi.newpipe.util.ExtractorHelper}
+     * You can use the default implementations from {@link org.schabi.newpipelegacy.util.ExtractorHelper}
      */
     protected abstract Single<ListExtractor.InfoItemsPage> loadMoreItemsLogic();
 

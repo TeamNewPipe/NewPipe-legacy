@@ -150,7 +150,11 @@ public abstract class BasePlayer implements
     @NonNull
     public static final String RESUME_PLAYBACK = "resume_playback";
     @NonNull
+    public static final String START_PAUSED = "start_paused";
+    @NonNull
     public static final String SELECT_ON_APPEND = "select_on_append";
+    @NonNull
+    public static final String IS_MUTED = "is_muted";
 
     /*//////////////////////////////////////////////////////////////////////////
     // Playback
@@ -273,6 +277,7 @@ public abstract class BasePlayer implements
         final float playbackPitch = intent.getFloatExtra(PLAYBACK_PITCH, getPlaybackPitch());
         final boolean playbackSkipSilence = intent.getBooleanExtra(PLAYBACK_SKIP_SILENCE,
                 getPlaybackSkipSilence());
+        final boolean isMuted = intent.getBooleanExtra(IS_MUTED, simpleExoPlayer == null ? false : isMuted());
 
         // seek to timestamp if stream is already playing
         if (simpleExoPlayer != null
@@ -281,7 +286,7 @@ public abstract class BasePlayer implements
                 && playQueue.getItem() != null
                 && queue.getItem().getUrl().equals(playQueue.getItem().getUrl())
                 && queue.getItem().getRecoveryPosition() != PlayQueueItem.RECOVERY_UNSET
-                ) {
+        ) {
             simpleExoPlayer.seekTo(playQueue.getIndex(), queue.getItem().getRecoveryPosition());
             return;
 
@@ -291,7 +296,7 @@ public abstract class BasePlayer implements
                 stateLoader = recordManager.loadStreamState(item)
                         .observeOn(AndroidSchedulers.mainThread())
                         .doFinally(() -> initPlayback(queue, repeatMode, playbackSpeed, playbackPitch, playbackSkipSilence,
-                                /*playOnInit=*/true))
+                                /*playOnInit=*/true, isMuted))
                         .subscribe(
                                 state -> queue.setRecovery(queue.getIndex(), state.getProgressTime()),
                                 error -> {
@@ -304,7 +309,7 @@ public abstract class BasePlayer implements
         }
         // Good to go...
         initPlayback(queue, repeatMode, playbackSpeed, playbackPitch, playbackSkipSilence,
-                /*playOnInit=*/true);
+                /*playOnInit=*/!intent.getBooleanExtra(START_PAUSED, false), isMuted);
     }
 
     protected void initPlayback(@NonNull final PlayQueue queue,
@@ -312,7 +317,8 @@ public abstract class BasePlayer implements
                                 final float playbackSpeed,
                                 final float playbackPitch,
                                 final boolean playbackSkipSilence,
-                                final boolean playOnReady) {
+                                final boolean playOnReady,
+                                final boolean isMuted) {
         destroyPlayer();
         initPlayer(playOnReady);
         setRepeatMode(repeatMode);
@@ -325,6 +331,8 @@ public abstract class BasePlayer implements
 
         if (playQueueAdapter != null) playQueueAdapter.dispose();
         playQueueAdapter = new PlayQueueAdapter(context, playQueue);
+
+        simpleExoPlayer.setVolume(isMuted ? 0 : 1);
     }
 
     public void destroyPlayer() {
@@ -529,6 +537,18 @@ public abstract class BasePlayer implements
 
         if (simpleExoPlayer == null) return;
         simpleExoPlayer.setShuffleModeEnabled(!simpleExoPlayer.getShuffleModeEnabled());
+    }
+    /*//////////////////////////////////////////////////////////////////////////
+    // Mute / Unmute
+    //////////////////////////////////////////////////////////////////////////*/
+
+    public void onMuteUnmuteButtonClicked() {
+        if (DEBUG) Log.d(TAG, "onMuteUnmuteButtonClicled() called");
+        simpleExoPlayer.setVolume(isMuted() ? 1 : 0);
+    }
+
+    public boolean isMuted() {
+        return simpleExoPlayer.getVolume() == 0;
     }
 
     /*//////////////////////////////////////////////////////////////////////////
@@ -944,10 +964,10 @@ public abstract class BasePlayer implements
     public void onPlayPause() {
         if (DEBUG) Log.d(TAG, "onPlayPause() called");
 
-        if (!isPlaying()) {
-            onPlay();
-        } else {
+        if (isPlaying()) {
             onPause();
+        } else {
+            onPlay();
         }
     }
 

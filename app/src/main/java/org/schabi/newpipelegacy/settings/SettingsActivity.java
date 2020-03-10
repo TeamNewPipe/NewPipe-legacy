@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import org.schabi.newpipelegacy.R;
 import org.schabi.newpipelegacy.util.ThemeHelper;
 
+import static org.schabi.newpipelegacy.util.Localization.assureCorrectAppLanguage;
 
 /*
  * Created by Christian Schabesberger on 31.08.15.
@@ -44,7 +45,7 @@ public class SettingsActivity extends AppCompatActivity implements BasePreferenc
     @Override
     protected void onCreate(Bundle savedInstanceBundle) {
         setTheme(ThemeHelper.getSettingsThemeStyle(this));
-
+        assureCorrectAppLanguage(this);
         super.onCreate(savedInstanceBundle);
         setContentView(R.layout.settings_layout);
 

@@ -11,6 +11,7 @@ import org.schabi.newpipelegacy.streams.io.SharpStream;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -631,8 +632,12 @@ public class WebMWriter implements Closeable {
     }
 
     private ArrayList<byte[]> encode(String value) {
-        byte[] str;
-        str = value.getBytes(StandardCharsets.UTF_8);// or use "utf-8"
+        byte[] str = null;
+        try {
+            str = value.getBytes("utf-8");// or use "utf-8"
+        } catch (UnsupportedEncodingException e) {
+            // never throws
+        }
 
         ArrayList<byte[]> buffer = new ArrayList<>(2);
         buffer.add(encode(str.length, false));

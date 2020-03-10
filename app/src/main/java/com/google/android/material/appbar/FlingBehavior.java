@@ -41,7 +41,9 @@ public final class FlingBehavior extends AppBarLayout.Behavior {
                 field.setAccessible(true);
                 return ((OverScroller) field.get(this));
             }
-        } catch (NoSuchFieldException | IllegalAccessException e) {
+        } catch (NoSuchFieldException e) {
+            // ?
+        } catch (IllegalAccessException e) {
             // ?
         }
         return null;

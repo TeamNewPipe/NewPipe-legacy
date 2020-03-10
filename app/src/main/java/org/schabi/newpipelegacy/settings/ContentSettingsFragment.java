@@ -7,15 +7,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.preference.Preference;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.nononsenseapps.filepicker.Utils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import org.schabi.newpipelegacy.NewPipeDatabase;
 import org.schabi.newpipelegacy.R;
 import org.schabi.newpipe.extractor.NewPipe;
 import org.schabi.newpipe.extractor.localization.ContentCountry;
@@ -40,6 +42,8 @@ import java.util.Map;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
+import static org.schabi.newpipelegacy.util.Localization.assureCorrectAppLanguage;
+
 public class ContentSettingsFragment extends BasePreferenceFragment {
 
     private static final int REQUEST_IMPORT_PATH = 8945;
@@ -56,6 +60,7 @@ public class ContentSettingsFragment extends BasePreferenceFragment {
 
     private Localization initialSelectedLocalization;
     private ContentCountry initialSelectedContentCountry;
+    private String initialLanguage;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,6 +69,7 @@ public class ContentSettingsFragment extends BasePreferenceFragment {
 
         initialSelectedLocalization = org.schabi.newpipelegacy.util.Localization.getPreferredLocalization(requireContext());
         initialSelectedContentCountry = org.schabi.newpipelegacy.util.Localization.getPreferredContentCountry(requireContext());
+        initialLanguage = PreferenceManager.getDefaultSharedPreferences(getContext()).getString("app_language_key", "en");
     }
 
     @Override
@@ -125,9 +131,10 @@ public class ContentSettingsFragment extends BasePreferenceFragment {
                 .getPreferredLocalization(requireContext());
         final ContentCountry selectedContentCountry = org.schabi.newpipelegacy.util.Localization
                 .getPreferredContentCountry(requireContext());
+        final String selectedLanguage = PreferenceManager.getDefaultSharedPreferences(getContext()).getString("app_language_key", "en");
 
         if (!selectedLocalization.equals(initialSelectedLocalization)
-                || !selectedContentCountry.equals(initialSelectedContentCountry)) {
+                || !selectedContentCountry.equals(initialSelectedContentCountry) || !selectedLanguage.equals(initialLanguage)) {
             Toast.makeText(requireContext(), R.string.localization_changes_requires_app_restart, Toast.LENGTH_LONG).show();
 
             NewPipe.setupLocalization(selectedLocalization, selectedContentCountry);
@@ -136,6 +143,7 @@ public class ContentSettingsFragment extends BasePreferenceFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @NonNull Intent data) {
+        assureCorrectAppLanguage(getContext());
         super.onActivityResult(requestCode, resultCode, data);
         if (DEBUG) {
             Log.d(TAG, "onActivityResult() called with: requestCode = [" + requestCode + "], resultCode = [" + resultCode + "], data = [" + data + "]");
@@ -150,7 +158,7 @@ public class ContentSettingsFragment extends BasePreferenceFragment {
             } else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setMessage(R.string.override_current_data)
-                        .setPositiveButton(android.R.string.ok,
+                        .setPositiveButton(getString(R.string.finish),
                                 (DialogInterface d, int id) -> importDatabase(path))
                         .setNegativeButton(android.R.string.cancel,
                                 (DialogInterface d, int id) -> d.cancel());
@@ -161,6 +169,9 @@ public class ContentSettingsFragment extends BasePreferenceFragment {
 
     private void exportDatabase(String path) {
         try {
+            //checkpoint before export
+            NewPipeDatabase.checkpoint();
+
             ZipOutputStream outZip = new ZipOutputStream(
                     new BufferedOutputStream(
                             new FileOutputStream(path)));
@@ -189,7 +200,7 @@ public class ContentSettingsFragment extends BasePreferenceFragment {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             try {
                 if (output != null) {
                     output.flush();
@@ -236,7 +247,7 @@ public class ContentSettingsFragment extends BasePreferenceFragment {
             }
 
             //If settings file exist, ask if it should be imported.
-            if(ZipHelper.extractFileFromZip(filePath, newpipe_settings.getPath(), "newpipe.settings")) {
+            if (ZipHelper.extractFileFromZip(filePath, newpipe_settings.getPath(), "newpipe.settings")) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
                 alert.setTitle(R.string.import_settings);
 
@@ -245,7 +256,7 @@ public class ContentSettingsFragment extends BasePreferenceFragment {
                     // restart app to properly load db
                     System.exit(0);
                 });
-                alert.setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                alert.setPositiveButton(getString(R.string.finish), (dialog, which) -> {
                     dialog.dismiss();
                     loadSharedPreferences(newpipe_settings);
                     // restart app to properly load db
@@ -291,7 +302,7 @@ public class ContentSettingsFragment extends BasePreferenceFragment {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             try {
                 if (input != null) {
                     input.close();

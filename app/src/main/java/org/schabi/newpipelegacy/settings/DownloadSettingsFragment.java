@@ -1,5 +1,6 @@
 package org.schabi.newpipelegacy.settings;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
@@ -8,11 +9,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.preference.Preference;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.nononsenseapps.filepicker.Utils;
 
@@ -27,6 +29,8 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 
 import us.shandian.giga.io.StoredDirectoryHelper;
+
+import static org.schabi.newpipelegacy.util.Localization.assureCorrectAppLanguage;
 
 public class DownloadSettingsFragment extends BasePreferenceFragment {
     private static final int REQUEST_DOWNLOAD_VIDEO_PATH = 0x1235;
@@ -113,7 +117,7 @@ public class DownloadSettingsFragment extends BasePreferenceFragment {
         }
 
         try {
-            rawUri = URLDecoder.decode(rawUri, StandardCharsets.UTF_8.name());
+            rawUri = URLDecoder.decode(rawUri, "utf-8");
         } catch (UnsupportedEncodingException e) {
             // nothing to do
         }
@@ -136,6 +140,7 @@ public class DownloadSettingsFragment extends BasePreferenceFragment {
     }
 
     // FIXME: after releasing the old path, all downloads created on the folder becomes inaccessible
+    @SuppressLint("NewApi")
     private void forgetSAFTree(Context ctx, String oldPath) {
         if (IGNORE_RELEASE_ON_OLD_PATH) {
             return;
@@ -159,7 +164,7 @@ public class DownloadSettingsFragment extends BasePreferenceFragment {
         AlertDialog.Builder msg = new AlertDialog.Builder(ctx);
         msg.setTitle(title);
         msg.setMessage(message);
-        msg.setPositiveButton(android.R.string.ok, null);
+        msg.setPositiveButton(getString(R.string.finish), null);
         msg.show();
     }
 
@@ -202,6 +207,7 @@ public class DownloadSettingsFragment extends BasePreferenceFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        assureCorrectAppLanguage(getContext());
         super.onActivityResult(requestCode, resultCode, data);
         if (DEBUG) {
             Log.d(TAG, "onActivityResult() called with: requestCode = [" + requestCode + "], " +
