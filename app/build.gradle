@@ -6,12 +6,13 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 28
     buildToolsVersion '28.0.3'
+
     defaultConfig {
         applicationId 'org.schabi.newpipelegacy'
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 50
-        versionName "0.18.2"
+        versionCode 60
+        versionName "0.18.6"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -52,6 +53,7 @@ ext {
     okHttpLibVersion = '3.12.6'
     icepickLibVersion = '3.2.0'
     stethoLibVersion = '1.5.0'
+    markwonVersion = '4.2.1'
 }
 
 dependencies {
@@ -61,7 +63,7 @@ dependencies {
         exclude module: 'support-annotations'
     })
 
-    implementation 'com.github.TeamNewPipe:NewPipeExtractor:ff61e284'
+    implementation 'com.github.TeamNewPipe:NewPipeExtractor:6446abc6d'
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:2.23.0'
 
@@ -93,7 +95,7 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxjava:2.2.2'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
     implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
-    implementation 'org.ocpsoft.prettytime:prettytime:4.0.1.Final'
+    implementation 'org.ocpsoft.prettytime:prettytime:4.0.3.Final'
 
     implementation "androidx.room:room-runtime:${roomDbLibVersion}"
     implementation "androidx.room:room-rxjava2:${roomDbLibVersion}"
@@ -107,4 +109,7 @@ dependencies {
 
     implementation "com.squareup.okhttp3:okhttp:${okHttpLibVersion}"
     debugImplementation "com.facebook.stetho:stetho-okhttp3:${stethoLibVersion}"
+
+    implementation "io.noties.markwon:core:${markwonVersion}"
+    implementation "io.noties.markwon:linkify:${markwonVersion}"
 }

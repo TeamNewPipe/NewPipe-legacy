@@ -28,25 +28,31 @@ import android.database.ContentObserver;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.ItemTouchHelper;
+
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.DisplayCutout;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -75,6 +81,7 @@ import org.schabi.newpipelegacy.player.playqueue.PlayQueueItemTouchCallback;
 import org.schabi.newpipelegacy.player.resolver.MediaSourceTag;
 import org.schabi.newpipelegacy.player.resolver.VideoPlaybackResolver;
 import org.schabi.newpipelegacy.util.AnimationUtils;
+import org.schabi.newpipelegacy.util.KoreUtil;
 import org.schabi.newpipelegacy.util.ListHelper;
 import org.schabi.newpipelegacy.util.NavigationHelper;
 import org.schabi.newpipelegacy.util.PermissionHelper;
@@ -93,6 +100,7 @@ import static org.schabi.newpipelegacy.util.AnimationUtils.Type.SCALE_AND_ALPHA;
 import static org.schabi.newpipelegacy.util.AnimationUtils.Type.SLIDE_AND_ALPHA;
 import static org.schabi.newpipelegacy.util.AnimationUtils.animateRotation;
 import static org.schabi.newpipelegacy.util.AnimationUtils.animateView;
+import static org.schabi.newpipelegacy.util.Localization.assureCorrectAppLanguage;
 import static org.schabi.newpipelegacy.util.StateSaver.KEY_SAVED_STATE;
 
 /**
@@ -111,7 +119,8 @@ public final class MainVideoPlayer extends AppCompatActivity
 
     private SharedPreferences defaultPreferences;
 
-    @Nullable private PlayerState playerState;
+    @Nullable
+    private PlayerState playerState;
     private boolean isInMultiWindow;
     private boolean isBackPressed;
 
@@ -123,12 +132,15 @@ public final class MainVideoPlayer extends AppCompatActivity
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        assureCorrectAppLanguage(this);
         super.onCreate(savedInstanceState);
-        if (DEBUG) Log.d(TAG, "onCreate() called with: savedInstanceState = [" + savedInstanceState + "]");
+        if (DEBUG)
+            Log.d(TAG, "onCreate() called with: savedInstanceState = [" + savedInstanceState + "]");
         defaultPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         ThemeHelper.setTheme(this);
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) getWindow().setStatusBarColor(Color.BLACK);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            getWindow().setStatusBarColor(Color.BLACK);
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         WindowManager.LayoutParams lp = getWindow().getAttributes();
@@ -137,7 +149,7 @@ public final class MainVideoPlayer extends AppCompatActivity
 
         hideSystemUi();
         setContentView(R.layout.activity_main_player);
-        playerImpl = new  VideoPlayerImpl(this);
+        playerImpl = new VideoPlayerImpl(this);
         playerImpl.setup(findViewById(android.R.id.content));
 
         if (savedInstanceState != null && savedInstanceState.get(KEY_SAVED_STATE) != null) {
@@ -190,6 +202,7 @@ public final class MainVideoPlayer extends AppCompatActivity
     @Override
     protected void onResume() {
         if (DEBUG) Log.d(TAG, "onResume() called");
+        assureCorrectAppLanguage(this);
         super.onResume();
 
         if (globalScreenOrientationLocked()) {
@@ -213,13 +226,14 @@ public final class MainVideoPlayer extends AppCompatActivity
             playerImpl.setPlaybackQuality(playerState.getPlaybackQuality());
             playerImpl.initPlayback(playerState.getPlayQueue(), playerState.getRepeatMode(),
                     playerState.getPlaybackSpeed(), playerState.getPlaybackPitch(),
-                    playerState.isPlaybackSkipSilence(), playerState.wasPlaying());
+                    playerState.isPlaybackSkipSilence(), playerState.wasPlaying(), playerImpl.isMuted());
         }
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+        assureCorrectAppLanguage(this);
 
         if (playerImpl.isSomePopupMenuVisible()) {
             playerImpl.getQualityPopupMenu().dismiss();
@@ -240,7 +254,7 @@ public final class MainVideoPlayer extends AppCompatActivity
         if (playerImpl == null) return;
 
         playerImpl.setRecovery();
-        if(!playerImpl.gotDestroyed()) {
+        if (!playerImpl.gotDestroyed()) {
             playerState = createPlayerState();
         }
         StateSaver.tryToSave(isChangingConfigurations(), null, outState, this);
@@ -364,8 +378,8 @@ public final class MainVideoPlayer extends AppCompatActivity
     }
 
     private boolean globalScreenOrientationLocked() {
-        // 1: Screen orientation changes using acelerometer
-        // 0: Screen orientatino is locked
+        // 1: Screen orientation changes using accelerometer
+        // 0: Screen orientation is locked
         return !(android.provider.Settings.System.getInt(getContentResolver(), Settings.System.ACCELEROMETER_ROTATION, 0) == 1);
     }
 
@@ -387,6 +401,11 @@ public final class MainVideoPlayer extends AppCompatActivity
         final int shuffleAlpha = shuffled ? 255 : 77;
         shuffleButton.setImageAlpha(shuffleAlpha);
     }
+
+    protected void setMuteButton(final ImageButton muteButton, final boolean isMuted) {
+        muteButton.setColorFilter(ContextCompat.getColor(getApplicationContext(), isMuted ? R.color.white : R.color.gray));
+    }
+
 
     private boolean isInMultiWindow() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && isInMultiWindowMode();
@@ -435,10 +454,12 @@ public final class MainVideoPlayer extends AppCompatActivity
         private boolean queueVisible;
 
         private ImageButton moreOptionsButton;
+        private ImageButton kodiButton;
         private ImageButton shareButton;
         private ImageButton toggleOrientationButton;
         private ImageButton switchPopupButton;
         private ImageButton switchBackgroundButton;
+        private ImageButton muteButton;
 
         private RelativeLayout windowRootLayout;
         private View secondaryControls;
@@ -471,9 +492,11 @@ public final class MainVideoPlayer extends AppCompatActivity
 
             this.moreOptionsButton = rootView.findViewById(R.id.moreOptionsButton);
             this.secondaryControls = rootView.findViewById(R.id.secondaryControls);
+            this.kodiButton = rootView.findViewById(R.id.kodi);
             this.shareButton = rootView.findViewById(R.id.share);
             this.toggleOrientationButton = rootView.findViewById(R.id.toggleOrientation);
             this.switchBackgroundButton = rootView.findViewById(R.id.switchBackground);
+            this.muteButton = rootView.findViewById(R.id.switchMute);
             this.switchPopupButton = rootView.findViewById(R.id.switchPopup);
 
             this.queueLayout = findViewById(R.id.playQueuePanel);
@@ -482,6 +505,9 @@ public final class MainVideoPlayer extends AppCompatActivity
 
             titleTextView.setSelected(true);
             channelTextView.setSelected(true);
+            boolean showKodiButton = PreferenceManager.getDefaultSharedPreferences(this.context).getBoolean(
+                    this.context.getString(R.string.show_play_with_kodi_key), false);
+            kodiButton.setVisibility(showKodiButton ? View.VISIBLE : View.GONE);
 
             getRootView().setKeepScreenOn(true);
         }
@@ -518,9 +544,11 @@ public final class MainVideoPlayer extends AppCompatActivity
             closeButton.setOnClickListener(this);
 
             moreOptionsButton.setOnClickListener(this);
+            kodiButton.setOnClickListener(this);
             shareButton.setOnClickListener(this);
             toggleOrientationButton.setOnClickListener(this);
             switchBackgroundButton.setOnClickListener(this);
+            muteButton.setOnClickListener(this);
             switchPopupButton.setOnClickListener(this);
 
             getRootView().addOnLayoutChangeListener((view, l, t, r, b, ol, ot, or, ob) -> {
@@ -538,6 +566,19 @@ public final class MainVideoPlayer extends AppCompatActivity
                     setInitialGestureValues();
                 }
             });
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                queueLayout.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
+                    @Override
+                    public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
+                        final DisplayCutout cutout = windowInsets.getDisplayCutout();
+                        if (cutout != null)
+                            view.setPadding(cutout.getSafeInsetLeft(), cutout.getSafeInsetTop(),
+                                    cutout.getSafeInsetRight(), cutout.getSafeInsetBottom());
+                        return windowInsets;
+                    }
+                });
+            }
         }
 
         public void minimize() {
@@ -588,6 +629,17 @@ public final class MainVideoPlayer extends AppCompatActivity
             finish();
         }
 
+        public void onKodiShare() {
+            onPause();
+            try {
+                NavigationHelper.playWithKore(this.context, Uri.parse(
+                        playerImpl.getVideoUrl().replace("https", "http")));
+            } catch (Exception e) {
+                if (DEBUG) Log.i(TAG, "Failed to start kore", e);
+                KoreUtil.showInstallKoreDialog(this.context);
+            }
+        }
+
         /*//////////////////////////////////////////////////////////////////////////
         // Player Overrides
         //////////////////////////////////////////////////////////////////////////*/
@@ -614,7 +666,9 @@ public final class MainVideoPlayer extends AppCompatActivity
                     this.getPlaybackPitch(),
                     this.getPlaybackSkipSilence(),
                     this.getPlaybackQuality(),
-                    false
+                    false,
+                    !isPlaying(),
+                    isMuted()
             );
             context.startService(intent);
 
@@ -637,13 +691,21 @@ public final class MainVideoPlayer extends AppCompatActivity
                     this.getPlaybackPitch(),
                     this.getPlaybackSkipSilence(),
                     this.getPlaybackQuality(),
-                    false
+                    false,
+                    !isPlaying(),
+                    isMuted()
             );
             context.startService(intent);
 
             ((View) getControlAnimationView().getParent()).setVisibility(View.GONE);
             destroy();
             finish();
+        }
+
+        @Override
+        public void onMuteUnmuteButtonClicked() {
+            super.onMuteUnmuteButtonClicked();
+            setMuteButton(muteButton, playerImpl.isMuted());
         }
 
 
@@ -683,9 +745,14 @@ public final class MainVideoPlayer extends AppCompatActivity
             } else if (v.getId() == switchBackgroundButton.getId()) {
                 onPlayBackgroundButtonClicked();
 
+            } else if (v.getId() == muteButton.getId()) {
+                onMuteUnmuteButtonClicked();
+
             } else if (v.getId() == closeButton.getId()) {
                 onPlaybackShutdown();
                 return;
+            } else if (v.getId() == kodiButton.getId()) {
+                onKodiShare();
             }
 
             if (getCurrentState() != STATE_COMPLETED) {
@@ -728,13 +795,14 @@ public final class MainVideoPlayer extends AppCompatActivity
             animateView(secondaryControls, SLIDE_AND_ALPHA, !isMoreControlsVisible,
                     DEFAULT_CONTROLS_DURATION);
             showControls(DEFAULT_CONTROLS_DURATION);
+            setMuteButton(muteButton, playerImpl.isMuted());
         }
 
         private void onShareClicked() {
             // share video at the current time (youtube.com/watch?v=ID&t=SECONDS)
             ShareUtils.shareUrl(MainVideoPlayer.this,
                     playerImpl.getVideoTitle(),
-                    playerImpl.getVideoUrl() + "&t=" + String.valueOf(playerImpl.getPlaybackSeekBar().getProgress()/1000));
+                    playerImpl.getVideoUrl() + "&t=" + String.valueOf(playerImpl.getPlaybackSeekBar().getProgress() / 1000));
         }
 
         private void onScreenRotationClicked() {
@@ -882,6 +950,18 @@ public final class MainVideoPlayer extends AppCompatActivity
                 final float currentVolumeNormalized = (float) getAudioReactor().getVolume() / getAudioReactor().getMaxVolume();
                 volumeProgressBar.setProgress((int) (volumeProgressBar.getMax() * currentVolumeNormalized));
             }
+
+            float screenBrightness = getWindow().getAttributes().screenBrightness;
+            if (screenBrightness < 0)
+                screenBrightness = Settings.System.getInt(getContentResolver(),
+                        Settings.System.SCREEN_BRIGHTNESS, 0) / 255.0f;
+
+            brightnessProgressBar.setProgress((int) (brightnessProgressBar.getMax() * screenBrightness));
+
+            if (DEBUG) Log.d(TAG, "setInitialGestureValues: volumeProgressBar.getProgress() ["
+                    + volumeProgressBar.getProgress() + "] "
+                    + "brightnessProgressBar.getProgress() ["
+                    + brightnessProgressBar.getProgress() + "]");
         }
 
         @Override
@@ -955,7 +1035,7 @@ public final class MainVideoPlayer extends AppCompatActivity
 
                 @Override
                 public void onSwiped(int index) {
-                    if(index != -1) playQueue.remove(index);
+                    if (index != -1) playQueue.remove(index);
                 }
             };
         }
@@ -1020,6 +1100,10 @@ public final class MainVideoPlayer extends AppCompatActivity
             return repeatButton;
         }
 
+        public ImageButton getMuteButton() {
+            return muteButton;
+        }
+
         public ImageButton getPlayPauseButton() {
             return playPauseButton;
         }
@@ -1034,7 +1118,8 @@ public final class MainVideoPlayer extends AppCompatActivity
 
         @Override
         public boolean onDoubleTap(MotionEvent e) {
-            if (DEBUG) Log.d(TAG, "onDoubleTap() called with: e = [" + e + "]" + "rawXy = " + e.getRawX() + ", " + e.getRawY() + ", xy = " + e.getX() + ", " + e.getY());
+            if (DEBUG)
+                Log.d(TAG, "onDoubleTap() called with: e = [" + e + "]" + "rawXy = " + e.getRawX() + ", " + e.getRawY() + ", xy = " + e.getX() + ", " + e.getY());
 
             if (e.getX() > playerImpl.getRootView().getWidth() * 2 / 3) {
                 playerImpl.onFastForward();
@@ -1130,7 +1215,8 @@ public final class MainVideoPlayer extends AppCompatActivity
                 layoutParams.screenBrightness = currentProgressPercent;
                 getWindow().setAttributes(layoutParams);
 
-                if (DEBUG) Log.d(TAG, "onScroll().brightnessControl, currentBrightness = " + currentProgressPercent);
+                if (DEBUG)
+                    Log.d(TAG, "onScroll().brightnessControl, currentBrightness = " + currentProgressPercent);
 
                 final int resId =
                         currentProgressPercent < 0.25 ? R.drawable.ic_brightness_low_white_72dp
@@ -1169,7 +1255,8 @@ public final class MainVideoPlayer extends AppCompatActivity
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             //noinspection PointlessBooleanExpression
-            if (DEBUG && false) Log.d(TAG, "onTouch() called with: v = [" + v + "], event = [" + event + "]");
+            if (DEBUG && false)
+                Log.d(TAG, "onTouch() called with: v = [" + v + "], event = [" + event + "]");
             gestureDetector.onTouchEvent(event);
             if (event.getAction() == MotionEvent.ACTION_UP && isMoving) {
                 isMoving = false;

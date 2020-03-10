@@ -1,6 +1,5 @@
 package org.schabi.newpipelegacy.download;
 
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.ActionBar;
@@ -12,11 +11,13 @@ import android.view.MenuItem;
 import android.view.ViewTreeObserver;
 
 import org.schabi.newpipelegacy.R;
-import org.schabi.newpipelegacy.settings.SettingsActivity;
 import org.schabi.newpipelegacy.util.ThemeHelper;
 
+import androidx.fragment.app.FragmentTransaction;
 import us.shandian.giga.service.DownloadManagerService;
 import us.shandian.giga.ui.fragment.MissionsFragment;
+
+import static org.schabi.newpipelegacy.util.Localization.assureCorrectAppLanguage;
 
 public class DownloadActivity extends AppCompatActivity {
 
@@ -29,6 +30,7 @@ public class DownloadActivity extends AppCompatActivity {
         i.setClass(this, DownloadManagerService.class);
         startService(i);
 
+        assureCorrectAppLanguage(this);
         ThemeHelper.setTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_downloader);
@@ -74,11 +76,9 @@ public class DownloadActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home: {
+            case android.R.id.home:
                 onBackPressed();
                 return true;
-            }
-
             default:
                 return super.onOptionsItemSelected(item);
         }

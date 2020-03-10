@@ -109,12 +109,16 @@ public class NavigationHelper {
                                          final float playbackPitch,
                                          final boolean playbackSkipSilence,
                                          @Nullable final String playbackQuality,
-                                         final boolean resumePlayback) {
+                                         final boolean resumePlayback,
+                                         final boolean startPaused,
+                                         final boolean isMuted) {
         return getPlayerIntent(context, targetClazz, playQueue, playbackQuality, resumePlayback)
                 .putExtra(BasePlayer.REPEAT_MODE, repeatMode)
                 .putExtra(BasePlayer.PLAYBACK_SPEED, playbackSpeed)
                 .putExtra(BasePlayer.PLAYBACK_PITCH, playbackPitch)
-                .putExtra(BasePlayer.PLAYBACK_SKIP_SILENCE, playbackSkipSilence);
+                .putExtra(BasePlayer.PLAYBACK_SKIP_SILENCE, playbackSkipSilence)
+                .putExtra(BasePlayer.START_PAUSED, startPaused)
+                .putExtra(BasePlayer.IS_MUTED, isMuted);
     }
 
     public static void playOnMainPlayer(final Context context, final PlayQueue queue, final boolean resumePlayback) {

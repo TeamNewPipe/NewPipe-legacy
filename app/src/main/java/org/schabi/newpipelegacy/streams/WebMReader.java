@@ -125,7 +125,7 @@ public class WebMReader {
     }
 
     private String readString(Element parent) throws IOException {
-        return new String(readBlob(parent), StandardCharsets.UTF_8);// or use "utf-8"
+        return new String(readBlob(parent), "utf-8");// or use "utf-8"
     }
 
     private byte[] readBlob(Element parent) throws IOException {

@@ -30,15 +30,15 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.IBinder;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.core.app.NotificationCompat;
-
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.core.app.NotificationCompat;
 
 import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
@@ -58,7 +58,7 @@ import org.schabi.newpipelegacy.util.NavigationHelper;
 import org.schabi.newpipelegacy.util.ThemeHelper;
 
 import static org.schabi.newpipelegacy.player.helper.PlayerHelper.getTimeString;
-
+import static org.schabi.newpipelegacy.util.Localization.assureCorrectAppLanguage;
 
 /**
  * Base players joining the common properties
@@ -115,7 +115,7 @@ public final class BackgroundPlayer extends Service {
         notificationManager = ((NotificationManager) getSystemService(NOTIFICATION_SERVICE));
         lockManager = new LockManager(this);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
+        assureCorrectAppLanguage(this);
         ThemeHelper.setTheme(this);
         basePlayerImpl = new BasePlayerImpl(this);
         basePlayerImpl.setup();
@@ -389,12 +389,17 @@ public final class BackgroundPlayer extends Service {
         @Override
         public void onPrepared(boolean playWhenReady) {
             super.onPrepared(playWhenReady);
-            simpleExoPlayer.setVolume(1f);
         }
 
         @Override
         public void onShuffleClicked() {
             super.onShuffleClicked();
+            updatePlayback();
+        }
+
+        @Override
+        public void onMuteUnmuteButtonClicked() {
+            super.onMuteUnmuteButtonClicked();
             updatePlayback();
         }
 
