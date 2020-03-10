@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.net.URI;
 
 import static us.shandian.giga.util.Utility.getDocumentId;
+import static us.shandian.giga.util.Utility.equalsIgnoreCase;
 
 public class StoredFileHelper implements Serializable {
     private static final long serialVersionUID = 0L;
@@ -317,7 +318,7 @@ public class StoredFileHelper implements Serializable {
             return false;
 
         if (this.isInvalid() || storage.isInvalid()) {
-            return this.srcName.equalsIgnoreCase(storage.srcName) && this.srcType.equalsIgnoreCase(storage.srcType);
+            return equalsIgnoreCase(this.srcName, storage.srcName) && equalsIgnoreCase(this.srcType, storage.srcType);
         }
 
         if (this.isDirect() != storage.isDirect()) return false;

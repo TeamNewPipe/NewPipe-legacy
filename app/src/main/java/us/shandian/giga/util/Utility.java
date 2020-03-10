@@ -315,4 +315,8 @@ public class Utility {
         }
         throw new IllegalArgumentException("Invalid URI: " + documentUri);
     }
+
+    public static boolean equalsIgnoreCase(String left, String right) {
+        return left != null && left.equalsIgnoreCase(right);
+    }
 }
