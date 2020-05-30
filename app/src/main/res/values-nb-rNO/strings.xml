@@ -106,7 +106,6 @@
     <string name="add">Nytt mål</string>
     <string name="msg_url_malform">Feilaktig nettadresse eller manglende internettilknytning</string>
     <string name="no_available_dir">Definer en nedlastingsmappe senere i innstillingene</string>
-    <string name="recaptcha">reCAPTCHA</string>
     <string name="title_activity_recaptcha">reCAPTCHA-oppgave</string>
     <string name="open_in_popup_mode">Åpne i oppsprettsmodus</string>
     <string name="popup_mode_share_menu_title">NewPipe oppsprettsmodus</string>
@@ -134,7 +133,7 @@
     <string name="subscription_change_failed">Klarte ikke å endre abonnement</string>
     <string name="subscription_update_failed">Klarte ikke å oppdatere abonnement</string>
     <string name="tab_subscriptions">Abonnementer</string>
-    <string name="fragment_whats_new">Hva er nytt</string>
+    <string name="fragment_feed_title">Hva er nytt</string>
     <string name="controls_background_title">Bakgrunn</string>
     <string name="controls_popup_title">Oppsprett</string>
     <string name="popup_remember_size_pos_title">Husk oppsprettsstørrelse og posisjon</string>
@@ -345,7 +344,6 @@
     <string name="playback_speed_control">Fartskontroller for avspilling</string>
     <string name="playback_tempo">Tempo</string>
     <string name="playback_pitch">Tonehøyde</string>
-    <string name="playback_default">Forvalg</string>
     <string name="clear_views_history_title">Tøm avspillingshistorikk</string>
     <string name="clear_views_history_summary">Slett historikken og posisjon for avspilte strømmer</string>
     <string name="delete_view_history_alert">Slett hele visningshistorikken\?</string>
@@ -456,7 +454,6 @@
     <string name="error_http_unsupported_range">"Tjeneren godtar ikke flertrådede nedlastinger, prøv igjen med @string/msg_threads = 1 "</string>
     <string name="error_http_not_found">Ikke funnet</string>
     <string name="error_postprocessing_failed">Etterbehandling mislyktes</string>
-    <string name="clear_finished_download">Tøm fullførte nedlastinger</string>
     <string name="stop">Stopp</string>
     <string name="max_retry_msg">Maksimalt antall forsøk</string>
     <string name="max_retry_desc">Maksimalt antall tilkoblingsforsøk før nedlastingen avblåses</string>
@@ -465,10 +462,6 @@
     <string name="show_comments_title">Vis kommentarer</string>
     <string name="show_comments_summary">Skru av for å stoppe visning i kommentarer</string>
     <string name="autoplay_title">Spill av automatisk</string>
-    <plurals name="comments">
-        <item quantity="one">Kommentarer</item>
-        <item quantity="other"/>
-    </plurals>
     <string name="no_comments">Ingen kommenterer</string>
     <string name="error_unable_to_load_comments">Kunne ikke laste inn kommentarer</string>
     <string name="close">Lukk</string>
@@ -543,8 +536,50 @@
     <string name="subtitle_activity_recaptcha">Trykk \"Ferdig\" når den er løst</string>
     <string name="recaptcha_done_button">Ferdig</string>
     <string name="videos_string">Videoer</string>
-    <plurals name="dynamic_seek_duration_description">
-        <item quantity="one">%s sekunder</item>
-        <item quantity="other"></item>
+    <plurals name="seconds">
+        <item quantity="one">%d sekund</item>
+        <item quantity="other">%d sekunder</item>
     </plurals>
+    <string name="mute">Forstum</string>
+    <string name="unmute">Opphev forstumming</string>
+    <string name="help">Hjelp</string>
+    <plurals name="minutes">
+        <item quantity="one">%d minutt</item>
+        <item quantity="other">%d minutter</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">%d time</item>
+        <item quantity="other">%d timer</item>
+    </plurals>
+    <plurals name="days">
+        <item quantity="one">%d dag</item>
+        <item quantity="other">%d dager</item>
+    </plurals>
+    <string name="feed_subscription_not_loaded_count">Ikke innlastet: %d</string>
+    <string name="feed_group_dialog_empty_name">Tomt gruppenavn</string>
+    <string name="feed_group_dialog_name_input">Navn</string>
+    <string name="feed_group_dialog_delete_message">Ønsker du å slette denne gruppen\?</string>
+    <string name="feed_create_new_group_button_title">Ny</string>
+    <string name="feed_update_threshold_option_always_update">Alltid oppdater</string>
+    <plurals name="feed_group_dialog_selection_count">
+        <item quantity="one">%d valgt</item>
+        <item quantity="other">%d valgt</item>
+    </plurals>
+    <string name="feed_group_dialog_empty_selection">Ingen abonnement valgt</string>
+    <string name="feed_group_dialog_select_subscriptions">Velg abonnementer</string>
+    <string name="feed_groups_header_title">Kanalgrupper</string>
+    <string name="feed_use_dedicated_fetch_method_disable_button">Skru av raskt modus</string>
+    <string name="feed_update_threshold_title">Strømoppdateringsterskel</string>
+    <string name="settings_category_feed_title">Strøm</string>
+    <string name="feed_processing_message">Behandler strøm…</string>
+    <string name="feed_notification_loading">Laster inn strøm…</string>
+    <string name="feed_oldest_subscription_update">Strøm sist oppdatert: %s</string>
+    <string name="restricted_video">Denne videoen er aldersbegrenset.
+\n
+\nHvis du ønsker å se den, skru på \"Aldersbegrenset innhold\" i innstillingene.</string>
+    <string name="infinite_videos">∞ videoer</string>
+    <string name="more_than_100_videos">100+ videoer</string>
+    <string name="artists">Artister</string>
+    <string name="albums">Album</string>
+    <string name="songs">Sanger</string>
 </resources>

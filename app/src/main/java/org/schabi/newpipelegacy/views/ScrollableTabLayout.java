@@ -18,34 +18,36 @@ public class ScrollableTabLayout extends TabLayout {
     private int layoutWidth = 0;
     private int prevVisibility = View.GONE;
 
-    public ScrollableTabLayout(Context context) {
+    public ScrollableTabLayout(final Context context) {
         super(context);
     }
 
-    public ScrollableTabLayout(Context context, AttributeSet attrs) {
+    public ScrollableTabLayout(final Context context, final AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ScrollableTabLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ScrollableTabLayout(final Context context, final AttributeSet attrs,
+                               final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
     @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+    protected void onLayout(final boolean changed, final int l, final int t, final int r,
+                            final int b) {
         super.onLayout(changed, l, t, r, b);
 
         remeasureTabs();
     }
 
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+    protected void onSizeChanged(final int w, final int h, final int oldw, final int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
 
         layoutWidth = w;
     }
 
     @Override
-    public void addTab(@NonNull Tab tab, int position, boolean setSelected) {
+    public void addTab(@NonNull final Tab tab, final int position, final boolean setSelected) {
         super.addTab(tab, position, setSelected);
 
         hasMultipleTabs();
@@ -57,22 +59,23 @@ public class ScrollableTabLayout extends TabLayout {
     }
 
     @Override
-    public void removeTabAt(int position) {
+    public void removeTabAt(final int position) {
         super.removeTabAt(position);
 
         hasMultipleTabs();
 
-        // Removing a tab won't increase total tabs' width so tabMode won't have to change to SCROLLABLE
+        // Removing a tab won't increase total tabs' width
+        // so tabMode won't have to change to SCROLLABLE
         if (getTabMode() != MODE_FIXED) {
             remeasureTabs();
         }
     }
 
     @Override
-    protected void onVisibilityChanged(View changedView, int visibility) {
+    protected void onVisibilityChanged(final View changedView, final int visibility) {
         super.onVisibilityChanged(changedView, visibility);
 
-        // Recheck content width in case some tabs have been added or removed while ScrollableTabLayout was invisible
+        // Check width if some tabs have been added/removed while ScrollableTabLayout was invisible
         // We don't have to check if it was GONE because then requestLayout() will be called
         if (changedView == this) {
             if (prevVisibility == View.INVISIBLE) {
@@ -82,14 +85,16 @@ public class ScrollableTabLayout extends TabLayout {
         }
     }
 
-    private void setMode(int mode) {
-        if (mode == getTabMode()) return;
+    private void setMode(final int mode) {
+        if (mode == getTabMode()) {
+            return;
+        }
 
         setTabMode(mode);
     }
 
     /**
-     * Make ScrollableTabLayout not visible if there are less than two tabs
+     * Make ScrollableTabLayout not visible if there are less than two tabs.
      */
     private void hasMultipleTabs() {
         if (getTabCount() > 1) {
@@ -100,11 +105,15 @@ public class ScrollableTabLayout extends TabLayout {
     }
 
     /**
-     * Calculate minimal width required by tabs and set tabMode accordingly
+     * Calculate minimal width required by tabs and set tabMode accordingly.
      */
     private void remeasureTabs() {
-        if (prevVisibility != View.VISIBLE) return;
-        if (layoutWidth == 0) return;
+        if (prevVisibility != View.VISIBLE) {
+            return;
+        }
+        if (layoutWidth == 0) {
+            return;
+        }
 
         final int count = getTabCount();
         int contentWidth = 0;
