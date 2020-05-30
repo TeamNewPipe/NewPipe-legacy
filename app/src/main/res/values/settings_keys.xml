@@ -9,6 +9,7 @@
     <string name="default_service_value" translatable="false">@string/youtube</string>
 
     <string name="saved_tabs_key" translatable="false">saved_tabs_key</string>
+    <string name="feed_last_updated_key" translatable="false">feed_last_updated</string>
 
     <!-- Key values -->
     <string name="download_path_video_key" translatable="false">download_path</string>
@@ -32,7 +33,7 @@
     <string name="seek_duration_default_value" translatable="false">10000</string>
     <string-array name="seek_duration_description" translatable="false">
     <!--   They are overridden in VideoAudioSettingsFragment.java if the translation
-    (dynamic_seek_duration_description) exist. Otherwise this array is picked-->
+    (seconds) exist. Otherwise this array is picked-->
         <item>5 seconds</item>
         <item>10 seconds</item>
         <item>15 seconds</item>
@@ -169,6 +170,7 @@
     <string name="peertube_instance_list_key" translatable="false">peertube_instance_list</string>
     <string name="content_country_key" translatable="false">content_country</string>
     <string name="show_age_restricted_content" translatable="false">show_age_restricted_content</string>
+    <string name="youtube_restricted_mode_enabled" translatable="false">youtube_restricted_mode_enabled</string>
     <string name="use_tor_key" translatable="false">use_tor</string>
     <string name="enable_search_history_key" translatable="false">enable_search_history</string>
     <string name="enable_watch_history_key" translatable="false">enable_watch_history</string>
@@ -176,9 +178,37 @@
     <string name="enable_playback_resume_key" translatable="false">enable_playback_resume</string>
     <string name="enable_playback_state_lists_key" translatable="false">enable_playback_state_lists</string>
     <string name="playback_unhook_key" translatable="false">playback_unhook_key</string>
+    <string name="playback_speed_key" translatable="false">playback_speed_key</string>
+    <string name="playback_pitch_key" translatable="false">playback_pitch_key</string>
+    <string name="playback_skip_silence_key" translatable="false">playback_skip_silence_key</string>
 
     <string name="app_language_key" translatable="false">app_language_key</string>
     <string name="enable_lock_screen_video_thumbnail_key" translatable="false">enable_lock_screen_video_thumbnail</string>
+
+    <string name="feed_update_threshold_key" translatable="false">feed_update_threshold_key</string>
+    <string name="feed_update_threshold_default_value" translatable="false">300</string>
+
+    <!-- Values will be localized in runtime -->
+    <string-array name="feed_update_threshold_options" translatable="false">
+        <item>@string/feed_update_threshold_option_always_update</item>
+        <item>5 minutes</item>
+        <item>15 minutes</item>
+        <item>1 hour</item>
+        <item>6 hours</item>
+        <item>12 hours</item>
+        <item>1 day</item>
+    </string-array>
+    <!-- Threshold values in seconds -->
+    <string-array name="feed_update_threshold_values" translatable="false">
+        <item>0</item>
+        <item>300</item>
+        <item>900</item>
+        <item>3600</item>
+        <item>21600</item>
+        <item>43200</item>
+        <item>86400</item>
+    </string-array>
+    <string name="feed_use_dedicated_fetch_method_key" translatable="false">feed_use_dedicated_fetch_method</string>
 
     <string name="import_data" translatable="false">import_data</string>
     <string name="export_data" translatable="false">export_data</string>
@@ -294,7 +324,6 @@
         <item>is</item>
         <item>it</item>
         <item>sw</item>
-        <item>lv</item>
         <item>lt</item>
         <item>hu</item>
         <item>nl</item>
@@ -374,7 +403,6 @@
         <item>Íslenska</item>
         <item>Italiano</item>
         <item>Kiswahili</item>
-        <item>Latviešu valoda</item>
         <item>Lietuvių</item>
         <item>Magyar</item>
         <item>Nederlands</item>
@@ -936,6 +964,7 @@
     <!--The next two arrays are set to change the app language-->
     <string-array name="app_language_code" translatable="false">
         <item>@string/default_localization_key</item>
+        <item>ace</item>
         <item>ar</item>
         <item>az</item>
         <item>ast</item>
@@ -978,7 +1007,6 @@
         <item>oc</item>
         <item>pa</item>
         <item>pl</item>
-        <item>pr</item>
         <item>pt</item>
         <item>pt-br</item>
         <item>ro</item>
@@ -1001,6 +1029,7 @@
     </string-array>
     <string-array name="app_language_name" translatable="false">
         <item>@string/systems_language</item>
+        <item>Basa Acèh</item>
         <item>العربية</item>
         <item>Azərbaycan dili</item>
         <item>Asturianu</item>
@@ -1043,7 +1072,6 @@
         <item>Occitan</item>
         <item>ਪੰਜਾਬੀ</item>
         <item>Polski</item>
-        <item>Pirate Language</item>
         <item>Português (PT)</item>
         <item>Português (BR)</item>
         <item>Română</item>
@@ -1082,12 +1110,17 @@
     </string-array>
 
     <string name="list_view_mode_key" translatable="false">list_view_mode</string>
-    <string name="list_view_mode_value" translatable="false">auto</string>
+    <string name="list_view_mode_value" translatable="false">@string/list_view_mode_auto_key</string>
+
+    <!-- TODO: Use these across the app instead of hardcoding it -->
+    <string name="list_view_mode_auto_key" translatable="false">auto</string>
+    <string name="list_view_mode_list_key" translatable="false">list</string>
+    <string name="list_view_mode_grid_key" translatable="false">grid</string>
 
     <string-array name="list_view_mode_values" translatable="false">
-        <item>auto</item>
-        <item>list</item>
-        <item>grid</item>
+        <item>@string/list_view_mode_auto_key</item>
+        <item>@string/list_view_mode_list_key</item>
+        <item>@string/list_view_mode_grid_key</item>
     </string-array>
     <string-array name="list_view_mode_description" translatable="false">
         <item>@string/auto</item>
@@ -1095,4 +1128,5 @@
         <item>@string/grid</item>
     </string-array>
 
+    <string name="recaptcha_cookies_key" translatable="false">recaptcha_cookies_key</string>
 </resources>

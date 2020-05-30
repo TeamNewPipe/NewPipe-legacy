@@ -115,7 +115,6 @@
     <string name="short_thousand">k</string>
     <string name="short_million">M</string>
     <string name="short_billion">MM</string>
-    <string name="recaptcha">reCAPTCHA</string>
     <string name="open_in_popup_mode">Abrir en modo emergente</string>
     <string name="msg_popup_permission">Se necesita este permiso
 \npara abrir en modo emergente</string>
@@ -166,7 +165,7 @@
     <string name="subscription_update_failed">No se pudo actualizar la suscripción</string>
     <string name="tab_main">Principal</string>
     <string name="tab_subscriptions">Suscripciones</string>
-    <string name="fragment_whats_new">Qué hay de nuevo</string>
+    <string name="fragment_feed_title">Qué hay de nuevo</string>
     <string name="resume_on_audio_focus_gain_title">Reanudar reproducción</string>
     <string name="resume_on_audio_focus_gain_summary">Continuar reproduciendo después de las interrupciones (ej. llamadas telefónicas)</string>
     <string name="settings_category_downloads_title">Descargar</string>
@@ -190,7 +189,7 @@
     <string name="notification_channel_description">Notificaciones de reproductores en segundo plano o emergentes de NewPipe</string>
     <string name="settings_category_player_title">Reproductor</string>
     <string name="settings_category_player_behavior_title">Funcionamiento</string>
-    <string name="settings_category_history_title">Historial y antememoria</string>
+    <string name="settings_category_history_title">Historial y memoria caché</string>
     <string name="playlist">Lista de reproducción</string>
     <string name="undo">Deshacer</string>
     <string name="search_no_results">No hay resultados</string>
@@ -238,10 +237,10 @@
     <string name="play_queue_audio_settings">Configuración de audio</string>
     <string name="unknown_content">[Desconocido]</string>
     <string name="enqueue_on_background">Añadir a cola en segundo plano</string>
-    <string name="enqueue_on_popup">Añadir a cola en reproductor emergente</string>
+    <string name="enqueue_on_popup">Añadir al reproductor emergente</string>
     <string name="start_here_on_main">Comenzar a reproducir aquí</string>
     <string name="start_here_on_background">Comenzar a reproducir en segundo plano</string>
-    <string name="start_here_on_popup">Comenzar a reproducir en modo emergente</string>
+    <string name="start_here_on_popup">Reproducir en modo emergente</string>
     <string name="show_hold_to_append_title">Mostrar consejo «Mantener presionado para agregar»</string>
     <string name="new_and_hot">Novedades</string>
     <string name="hold_to_append">Mantener presionado para agregar a la cola</string>
@@ -319,7 +318,7 @@
     <string name="enable_disposed_exceptions_title">Reportar errores fuera del ciclo de duración</string>
     <string name="enable_disposed_exceptions_summary">Forzar reporte de excepciones no entregables de RX fuera del fragmento o del ciclo de actividad después del descarte</string>
     <string name="use_inexact_seek_title">Usar búsqueda rápida inexacta</string>
-    <string name="use_inexact_seek_summary">La búsqueda inexacta permite al reproductor buscar posiciones más rápido con menor precisión</string>
+    <string name="use_inexact_seek_summary">La búsqueda inexacta permite al reproductor buscar posiciones más rápido con menor precisión. Buscar de a 5, 15 o 25 segundos no funciona.</string>
     <string name="auto_queue_title">Poner en cola vídeo relacionado siguiente</string>
     <string name="auto_queue_summary">Continuar reproducción sin repetir al añadir de forma automática un vídeo relacionado con el último visto</string>
     <string name="file">Archivo</string>
@@ -355,15 +354,15 @@
 \n
 \n¿Quiere continuar\?</string>
     <string name="download_thumbnail_title">Cargar miniaturas</string>
-    <string name="download_thumbnail_summary">Desactívela para evitar la carga de miniaturas y ahorrar datos y memoria. Se vaciará la antememoria de imágenes en la memoria volátil y en el disco.</string>
-    <string name="thumbnail_cache_wipe_complete_notice">Se vació la antememoria de imágenes</string>
-    <string name="metadata_cache_wipe_title">Eliminar metadatos en antememoria</string>
-    <string name="metadata_cache_wipe_summary">Eliminar todos los datos de páginas web en antememoria</string>
-    <string name="metadata_cache_wipe_complete_notice">Se vació la antememoria de metadatos</string>
+    <string name="download_thumbnail_summary">Desactívela para evitar la carga de miniaturas y ahorrar datos y memoria. Se vaciará la caché de imágenes en la memoria volátil y en el disco.</string>
+    <string name="thumbnail_cache_wipe_complete_notice">Se vació la caché de imágenes</string>
+    <string name="metadata_cache_wipe_title">Eliminar metadatos en memoria caché</string>
+    <string name="metadata_cache_wipe_summary">Eliminar todos los datos de páginas web en memoria caché</string>
+    <string name="metadata_cache_wipe_complete_notice">Se vació la caché de metadatos</string>
     <string name="playback_speed_control">Controles de velocidad de reproducción</string>
     <string name="playback_tempo">Tiempo</string>
     <string name="playback_pitch">Tono</string>
-    <string name="unhook_checkbox">Desenganchar (puede causar distorsión)</string>
+    <string name="unhook_checkbox">Desvincular (puede causar distorsión)</string>
     <string name="no_streams_available_download">No hay streams disponibles para descargar</string>
     <string name="preferred_open_action_settings_title">Acción de apertura preferida</string>
     <string name="preferred_open_action_settings_summary">Acción predeterminada al abrir contenido: %s</string>
@@ -424,7 +423,6 @@
     <string name="download_already_pending">Hay una descarga pendiente con este nombre</string>
     <string name="grid">Mostrar como grilla</string>
     <string name="list">Mostrar como lista</string>
-    <string name="clear_finished_download">Limpiar descargas finalizadas</string>
     <string name="confirm_prompt">¿Quiere limpiar su historial de descargas o eliminar todos los ficheros descargados\?</string>
     <string name="stop">Detener</string>
     <string name="max_retry_msg">Intentos máximos</string>
@@ -458,8 +456,8 @@
     <string name="downloads_storage_ask_summary_kitkat">Se le preguntará dónde guardar cada descarga.
 \nHabilite esta opción junto con SAF si quiere descargar en la tarjeta SD</string>
     <string name="downloads_storage_use_saf_title">Usar SAF</string>
-    <string name="downloads_storage_use_saf_summary">El \'Framework de Acceso al Almacenamiento\' permite descargar en una tarjeta SD externa.
-\nNota: algunos dispositivos no son compatibles</string>
+    <string name="downloads_storage_use_saf_summary">El \'Framework de Acceso al Almacenamiento\' permite descargar en una tarjeta SD externa. 
+\nAlgunos dispositivos no son compatibles</string>
     <string name="unsubscribe">Cancelar suscripción</string>
     <string name="tab_new">Pestaña nueva</string>
     <string name="tab_choose">Elija la pestaña</string>
@@ -490,10 +488,6 @@
     <string name="show_comments_title">Mostrar comentarios</string>
     <string name="show_comments_summary">Desactivar para ocultar comentarios</string>
     <string name="autoplay_title">Reproducción automática</string>
-    <plurals name="comments">
-        <item quantity="one">%s comentario</item>
-        <item quantity="other">%s comentarios</item>
-    </plurals>
     <string name="no_comments">Sin comentarios</string>
     <string name="error_unable_to_load_comments">No se pudo cargar comentarios</string>
     <string name="close">Cerrar</string>
@@ -544,8 +538,80 @@
     <string name="subtitle_activity_recaptcha">Pulse en «Hecho» cuando esté resuelto</string>
     <string name="recaptcha_done_button">Hecho</string>
     <string name="videos_string">Vídeos</string>
-    <plurals name="dynamic_seek_duration_description">
-        <item quantity="one">%s segundos</item>
-        <item quantity="other"></item>
+    <plurals name="seconds">
+        <item quantity="one">%d segundo</item>
+        <item quantity="other">%d segundos</item>
     </plurals>
+    <string name="new_seek_duration_toast">Debido a limitaciones de ExoPlayer la duración de la búsqueda fue fijada en %d segundos</string>
+    <string name="mute">Silenciar</string>
+    <string name="unmute">Desactivar silencio</string>
+    <string name="help">Ayuda</string>
+    <plurals name="minutes">
+        <item quantity="one">%d minuto</item>
+        <item quantity="other">%d minutos</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">%d hora</item>
+        <item quantity="other">%d horas</item>
+    </plurals>
+    <plurals name="days">
+        <item quantity="one">%d día</item>
+        <item quantity="other">%d días</item>
+    </plurals>
+    <string name="feed_groups_header_title">Grupos de canales</string>
+    <string name="feed_oldest_subscription_update">Última actualización de canales: %s</string>
+    <string name="feed_subscription_not_loaded_count">No cargado: %d</string>
+    <string name="feed_notification_loading">Cargando contenidos…</string>
+    <string name="feed_processing_message">Procesando contenidos…</string>
+    <string name="feed_group_dialog_select_subscriptions">Elegir suscripciones</string>
+    <string name="feed_group_dialog_empty_selection">No hay suscripciones seleccionadas</string>
+    <plurals name="feed_group_dialog_selection_count">
+        <item quantity="one">%d elegida</item>
+        <item quantity="other">%d elegidas</item>
+    </plurals>
+    <string name="feed_group_dialog_empty_name">Nombre de grupo vacío</string>
+    <string name="feed_group_dialog_name_input">Nombre</string>
+    <string name="feed_group_dialog_delete_message">¿Borrar este grupo\?</string>
+    <string name="feed_create_new_group_button_title">Nuevo</string>
+    <string name="settings_category_feed_title">Contenido</string>
+    <string name="feed_update_threshold_title">Velocidad de actualización del feed</string>
+    <string name="feed_update_threshold_summary">Tiempo para que una suscripción se considere desactualizada — %s</string>
+    <string name="feed_update_threshold_option_always_update">Actualizar siempre</string>
+    <string name="feed_use_dedicated_fetch_method_title">Extraer desde feed dedicado cuando esté disponible</string>
+    <string name="feed_use_dedicated_fetch_method_summary">Disponible para algunos servicios, suele ser más rápido pero puede mostrar una cantidad limitada de ítems y a menudo información incompleta (por ejemplo falta de duración, tipo de ítem o estado).</string>
+    <string name="feed_use_dedicated_fetch_method_enable_button">Activar modo rápido</string>
+    <string name="feed_use_dedicated_fetch_method_disable_button">Desactivar modo rápido</string>
+    <string name="feed_use_dedicated_fetch_method_help_text">¿Piensas que la carga de contenidos es muy lenta\? Entonces intenta habilitar la carga rápida (puedes cambiarlo en los ajustes o presionando el botón debajo).
+\n
+\nNewpipe ofrece dos formas de cargar los contenidos:
+\n• Obtener todos los canales con suscripciones, lento pero completo.
+\n• Usar un punto dedicado de servicio, más rápido pero usualmente incompleto.
+\n
+\nLa diferencia es que en la forma rápida usualmente falta algo de información, como la duración o tipo de ítem (no se puede diferenciar entre videos normales y en vivo) y puede que aparezcan menos ítems.
+\n
+\nYouTube es un ejemplo de un servicio que ofrece este método rápido con su listado de contenidos por RSS.
+\n
+\nEntonces la elección se limita a qué prefieres: velocidad o información exacta.</string>
+    <string name="content_not_supported">Este contenido aún no es soportado por NewPipe.
+\n
+\nEsperamos que sea soportado en una versión futura.</string>
+    <string name="infinite_videos">∞ vídeos</string>
+    <string name="more_than_100_videos">Más de 100 videos</string>
+    <string name="artists">Artistas</string>
+    <string name="albums">Álbumes</string>
+    <string name="songs">Canciones</string>
+    <string name="restricted_video">Este video tiene restricción por edades.
+\n
+\nSi quieres verlo, habilita \"Contenido restringido por edades\" en los ajustes.</string>
+    <string name="remove_watched_popup_yes_and_partially_watched_videos">Sí, y también videos vistos parcialmente</string>
+    <string name="remove_watched_popup_warning">Los videos que ya se hayan visto luego de agregados a la lista de reproducción, serán eliminados.
+\n¿Estás seguro\? ¡Esta acción no se puede deshacer!</string>
+    <string name="remove_watched_popup_title">¿Borrar videos ya vistos\?</string>
+    <string name="remove_watched">Borrar videos ya vistos</string>
+    <string name="video_detail_by">Por %s</string>
+    <string name="channel_created_by">Creado por %s</string>
+    <string name="detail_sub_channel_thumbnail_view_description">Miniatura de avatar del canal</string>
+    <string name="show_original_time_ago_summary">Los textos originales de los servicios serán visibles en los ítems de transmisiones</string>
+    <string name="show_original_time_ago_title">Mostrar tiempo atrás original en ítems</string>
+    <string name="youtube_restricted_mode_enabled_title">Modo restringido de YouTube</string>
 </resources>

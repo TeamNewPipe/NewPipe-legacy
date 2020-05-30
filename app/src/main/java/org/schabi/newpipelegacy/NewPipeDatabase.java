@@ -9,32 +9,32 @@ import androidx.room.Room;
 import org.schabi.newpipelegacy.database.AppDatabase;
 
 import static org.schabi.newpipelegacy.database.AppDatabase.DATABASE_NAME;
-import static org.schabi.newpipelegacy.database.Migrations.MIGRATION_11_12;
+import static org.schabi.newpipelegacy.database.Migrations.MIGRATION_1_2;
+import static org.schabi.newpipelegacy.database.Migrations.MIGRATION_2_3;
 
 public final class NewPipeDatabase {
-
     private static volatile AppDatabase databaseInstance;
 
     private NewPipeDatabase() {
         //no instance
     }
 
-    private static AppDatabase getDatabase(Context context) {
+    private static AppDatabase getDatabase(final Context context) {
         return Room
                 .databaseBuilder(context.getApplicationContext(), AppDatabase.class, DATABASE_NAME)
-                .addMigrations(MIGRATION_11_12)
-                .fallbackToDestructiveMigration()
+                .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
                 .build();
     }
 
     @NonNull
-    public static AppDatabase getInstance(@NonNull Context context) {
+    public static AppDatabase getInstance(@NonNull final Context context) {
         AppDatabase result = databaseInstance;
         if (result == null) {
             synchronized (NewPipeDatabase.class) {
                 result = databaseInstance;
                 if (result == null) {
-                    databaseInstance = (result = getDatabase(context));
+                    databaseInstance = getDatabase(context);
+                    result = databaseInstance;
                 }
             }
         }

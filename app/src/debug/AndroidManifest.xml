@@ -5,13 +5,6 @@
     package="org.schabi.newpipelegacy">
 
     <application
-        android:name="org.schabi.newpipelegacy.DebugApp"
-        android:label="NewPipe Legacy Debug"
-        tools:replace="android:name, android:label">
-        <activity
-            android:name="org.schabi.newpipelegacy.MainActivity"
-            android:label="NewPipe Legacy Debug"
-            tools:replace="android:label"/>
-    </application>
-
+        android:name=".DebugApp"
+        tools:replace="android:name" />
 </manifest>

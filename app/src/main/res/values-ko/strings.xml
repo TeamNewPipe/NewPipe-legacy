@@ -98,7 +98,7 @@
     <string name="subscription_update_failed">구독을 업데이트할 수 없음</string>
     <string name="tab_main">메인 화면</string>
     <string name="tab_subscriptions">구독</string>
-    <string name="fragment_whats_new">새로운 영상</string>
+    <string name="fragment_feed_title">새로운 영상</string>
     <string name="controls_background_title">백그라운드</string>
     <string name="controls_popup_title">팝업</string>
     <string name="default_popup_resolution_title">기본 팝업 해상도</string>
@@ -180,7 +180,6 @@
     <string name="no_available_dir">다운로드 할 폴더를 설정에서 지정하세요</string>
     <string name="msg_popup_permission">이 권한은 팝업 모드에서
 \n열기 위해 필요합니다</string>
-    <string name="recaptcha">reCAPTCHA</string>
     <string name="recaptcha_request_toast">reCAPTCHA 확인 요청됨</string>
     <string name="settings_category_downloads_title">다운로드</string>
     <string name="settings_file_charset_title">파일명에 허용되는 문자</string>
@@ -358,7 +357,6 @@
     <string name="playback_tempo">템포</string>
     <string name="playback_pitch">피치</string>
     <string name="unhook_checkbox">영상과 소리 분리 (소리가 깨질 수 있음)</string>
-    <string name="playback_default">기본</string>
     <string name="no_streams_available_download">다운로드 가능한 스트림이 없습니다</string>
     <string name="toast_no_player">이 파일을 재생할 수 있는 플레이어 앱이 없습니다</string>
     <string name="preferred_open_action_settings_title">선호하는 열기 동작</string>
@@ -453,7 +451,6 @@
     <string name="error_http_unsupported_range">서버가 다중 스레드 다운로드를 받아들이지 않습니다, @string/msg_threads = 1 를 사용해 다시 시도해보세요</string>
     <string name="error_http_not_found">HTTP 찾을 수 없습니다</string>
     <string name="error_postprocessing_failed">후처리 작업이 실패하였습니다</string>
-    <string name="clear_finished_download">완료된 다운로드 비우기</string>
     <string name="stop">멈추기</string>
     <string name="max_retry_msg">최대 재시도 횟수</string>
     <string name="max_retry_desc">다운로드를 취소하기 전까지 다시 시도할 최대 횟수</string>
@@ -463,9 +460,6 @@
     <string name="show_comments_title">댓글 보기</string>
     <string name="show_comments_summary">댓글을 보지 않으려면 비활성화하세요</string>
     <string name="autoplay_title">자동 재생</string>
-    <plurals name="comments">
-        <item quantity="other">댓글</item>
-    </plurals>
     <string name="no_comments">댓글 없음</string>
     <string name="error_unable_to_load_comments">댓글을 불러올 수 없음</string>
     <string name="close">닫기</string>
