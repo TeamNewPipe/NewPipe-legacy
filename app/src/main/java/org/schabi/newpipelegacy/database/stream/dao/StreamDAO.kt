@@ -8,12 +8,12 @@ import androidx.room.Query
 import androidx.room.Transaction
 import io.reactivex.Flowable
 import java.util.Date
-import org.schabi.newpipelegacy.database.BasicDAO
-import org.schabi.newpipelegacy.database.stream.model.StreamEntity
-import org.schabi.newpipelegacy.database.stream.model.StreamEntity.Companion.STREAM_ID
 import org.schabi.newpipe.extractor.stream.StreamType
 import org.schabi.newpipe.extractor.stream.StreamType.AUDIO_LIVE_STREAM
 import org.schabi.newpipe.extractor.stream.StreamType.LIVE_STREAM
+import org.schabi.newpipelegacy.database.BasicDAO
+import org.schabi.newpipelegacy.database.stream.model.StreamEntity
+import org.schabi.newpipelegacy.database.stream.model.StreamEntity.Companion.STREAM_ID
 
 @Dao
 abstract class StreamDAO : BasicDAO<StreamEntity> {

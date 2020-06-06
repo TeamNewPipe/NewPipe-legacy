@@ -47,12 +47,12 @@ import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicInteger
 import org.reactivestreams.Subscriber
 import org.reactivestreams.Subscription
-import org.schabi.newpipelegacy.MainActivity.DEBUG
-import org.schabi.newpipelegacy.R
-import org.schabi.newpipelegacy.database.feed.model.FeedGroupEntity
 import org.schabi.newpipe.extractor.ListInfo
 import org.schabi.newpipe.extractor.exceptions.ReCaptchaException
 import org.schabi.newpipe.extractor.stream.StreamInfoItem
+import org.schabi.newpipelegacy.MainActivity.DEBUG
+import org.schabi.newpipelegacy.R
+import org.schabi.newpipelegacy.database.feed.model.FeedGroupEntity
 import org.schabi.newpipelegacy.local.feed.FeedDatabaseManager
 import org.schabi.newpipelegacy.local.feed.service.FeedEventManager.Event.ErrorResultEvent
 import org.schabi.newpipelegacy.local.feed.service.FeedEventManager.Event.IdleEvent

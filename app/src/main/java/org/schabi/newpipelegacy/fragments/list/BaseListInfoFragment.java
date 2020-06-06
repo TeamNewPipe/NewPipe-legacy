@@ -106,7 +106,8 @@ public abstract class BaseListInfoFragment<I extends ListInfo>
 
     /**
      * Implement the logic to load the info from the network.<br/>
-     * You can use the default implementations from {@link org.schabi.newpipelegacy.util.ExtractorHelper}.
+     * You can use the default implementations from
+     * {@link org.schabi.newpipelegacy.util.ExtractorHelper}.
      *
      * @param forceLoad allow or disallow the result to come from the cache
      * @return Rx {@link Single} containing the {@link ListInfo}

@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 /**
@@ -671,6 +670,7 @@ public class WebMWriter implements Closeable {
         return buffer;
     }
 
+    @SuppressWarnings("CharsetObjectCanBeUsed")
     private ArrayList<byte[]> encode(final String value) {
         byte[] str = null;
         try {
@@ -680,6 +680,7 @@ public class WebMWriter implements Closeable {
         }
 
         ArrayList<byte[]> buffer = new ArrayList<>(2);
+        // noinspection ConstantConditions
         buffer.add(encode(str.length, false));
         buffer.add(str);
 

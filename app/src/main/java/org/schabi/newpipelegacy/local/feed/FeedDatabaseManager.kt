@@ -9,14 +9,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.util.Calendar
 import java.util.Date
+import org.schabi.newpipe.extractor.stream.StreamInfoItem
+import org.schabi.newpipe.extractor.stream.StreamType
 import org.schabi.newpipelegacy.MainActivity.DEBUG
 import org.schabi.newpipelegacy.NewPipeDatabase
 import org.schabi.newpipelegacy.database.feed.model.FeedEntity
 import org.schabi.newpipelegacy.database.feed.model.FeedGroupEntity
 import org.schabi.newpipelegacy.database.feed.model.FeedLastUpdatedEntity
 import org.schabi.newpipelegacy.database.stream.model.StreamEntity
-import org.schabi.newpipe.extractor.stream.StreamInfoItem
-import org.schabi.newpipe.extractor.stream.StreamType
 import org.schabi.newpipelegacy.local.subscription.FeedGroupIcon
 
 class FeedDatabaseManager(context: Context) {
