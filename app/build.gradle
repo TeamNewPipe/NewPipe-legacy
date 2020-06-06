@@ -13,8 +13,8 @@ android {
         resValue "string", "app_name", "NewPipe Legacy"
         minSdkVersion 16
         targetSdkVersion 29
-        versionCode 80
-        versionName "0.19.5"
+        versionCode 81
+        versionName "0.19.5-fdroid"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
