@@ -14,9 +14,9 @@ import kotlinx.android.synthetic.main.feed_import_export_group.import_export
 import kotlinx.android.synthetic.main.feed_import_export_group.import_export_expand_icon
 import kotlinx.android.synthetic.main.feed_import_export_group.import_export_options
 import kotlinx.android.synthetic.main.feed_import_export_group.import_from_options
-import org.schabi.newpipelegacy.R
 import org.schabi.newpipe.extractor.NewPipe
 import org.schabi.newpipe.extractor.exceptions.ExtractionException
+import org.schabi.newpipelegacy.R
 import org.schabi.newpipelegacy.util.AnimationUtils
 import org.schabi.newpipelegacy.util.ServiceHelper
 import org.schabi.newpipelegacy.util.ThemeHelper

@@ -23,8 +23,8 @@ import org.schabi.newpipelegacy.BuildConfig;
 import org.schabi.newpipelegacy.R;
 import org.schabi.newpipelegacy.util.ThemeHelper;
 
-import static org.schabi.newpipe.util.Localization.assureCorrectAppLanguage;
-import static org.schabi.newpipe.util.ShareUtils.openUrlInBrowser;
+import static org.schabi.newpipelegacy.util.Localization.assureCorrectAppLanguage;
+import static org.schabi.newpipelegacy.util.ShareUtils.openUrlInBrowser;
 
 public class AboutActivity extends AppCompatActivity {
     /**

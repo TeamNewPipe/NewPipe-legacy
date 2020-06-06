@@ -2,10 +2,10 @@ package org.schabi.newpipelegacy.database.playlist
 
 import androidx.room.ColumnInfo
 import androidx.room.Embedded
+import org.schabi.newpipe.extractor.stream.StreamInfoItem
 import org.schabi.newpipelegacy.database.LocalItem
 import org.schabi.newpipelegacy.database.playlist.model.PlaylistStreamEntity
 import org.schabi.newpipelegacy.database.stream.model.StreamEntity
-import org.schabi.newpipe.extractor.stream.StreamInfoItem
 
 class PlaylistStreamEntry(
     @Embedded

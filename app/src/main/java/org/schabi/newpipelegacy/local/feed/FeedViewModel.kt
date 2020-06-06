@@ -12,8 +12,8 @@ import io.reactivex.schedulers.Schedulers
 import java.util.Calendar
 import java.util.Date
 import java.util.concurrent.TimeUnit
-import org.schabi.newpipelegacy.database.feed.model.FeedGroupEntity
 import org.schabi.newpipe.extractor.stream.StreamInfoItem
+import org.schabi.newpipelegacy.database.feed.model.FeedGroupEntity
 import org.schabi.newpipelegacy.local.feed.service.FeedEventManager
 import org.schabi.newpipelegacy.local.feed.service.FeedEventManager.Event.ErrorResultEvent
 import org.schabi.newpipelegacy.local.feed.service.FeedEventManager.Event.IdleEvent

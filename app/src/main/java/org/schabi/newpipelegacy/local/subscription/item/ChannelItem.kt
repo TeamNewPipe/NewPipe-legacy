@@ -8,8 +8,8 @@ import kotlinx.android.synthetic.main.list_channel_item.itemAdditionalDetails
 import kotlinx.android.synthetic.main.list_channel_item.itemChannelDescriptionView
 import kotlinx.android.synthetic.main.list_channel_item.itemThumbnailView
 import kotlinx.android.synthetic.main.list_channel_item.itemTitleView
-import org.schabi.newpipelegacy.R
 import org.schabi.newpipe.extractor.channel.ChannelInfoItem
+import org.schabi.newpipelegacy.R
 import org.schabi.newpipelegacy.util.ImageDisplayConstants
 import org.schabi.newpipelegacy.util.Localization
 import org.schabi.newpipelegacy.util.OnClickGesture

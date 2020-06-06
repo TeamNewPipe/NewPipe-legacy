@@ -5,7 +5,6 @@ import org.schabi.newpipelegacy.streams.io.SharpStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
@@ -122,8 +121,9 @@ public class WebMReader {
         return value;
     }
 
+    @SuppressWarnings("CharsetObjectCanBeUsed")
     private String readString(final Element parent) throws IOException {
-        return new String(readBlob(parent), "utf-8");// or use "utf-8"
+        return new String(readBlob(parent), "utf-8");
     }
 
     private byte[] readBlob(final Element parent) throws IOException {

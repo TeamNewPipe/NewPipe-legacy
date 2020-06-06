@@ -15,7 +15,7 @@
       files="ListHelper.java"
       lines="278,310"/>
 
-  <!-- org.schabi.newpipe.streams -->
+  <!-- org.schabi.newpipelegacy.streams -->
   <suppress checks="FinalParameters"
       files="DataReader.java"
       lines="46,93"/>
@@ -24,6 +24,10 @@
       files="Mp4FromDashWriter.java"
       lines="643"/>
 
+  <suppress checks="MethodLength"
+      files="Mp4FromDashWriter.java"
+      lines="145"/>
+
   <suppress checks="FinalParameters"
       files="OggFromWebMWriter.java"
       lines="380,422"/>
@@ -31,7 +35,28 @@
   <suppress checks="FinalParameters"
       files="WebMWriter.java"
       lines="419,591"/>
+
   <suppress checks="LineLength"
       files="WebMWriter.java"
       lines="156,158"/>
+
+  <suppress checks="MethodLength"
+      files="WebMWriter.java"
+      lines="124"/>
+
+  <suppress checks="MethodLength"
+      files="VideoDetailFragment.java"
+      lines="1140"/>
+
+  <suppress checks="ParameterNumber"
+      files="PopupVideoPlayer.java"
+      lines="618"/>
+
+  <suppress checks="EqualsHashCode"
+      files="Tab.java"
+      lines="106,351,425"/>
+
+  <suppress checks="EqualsHashCode"
+      files="StreamStateEntity.java"
+      lines="69"/>
 </suppressions>

@@ -11,8 +11,6 @@ import org.schabi.newpipelegacy.streams.io.SharpStream;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 
 /**
  * @author kapodamy
@@ -49,6 +47,7 @@ public class SrtFromTtmlWriter {
         writeString(NEW_LINE);
     }
 
+    @SuppressWarnings("CharsetObjectCanBeUsed")
     private void writeString(final String text) throws IOException {
         out.write(text.getBytes("utf-8"));
     }

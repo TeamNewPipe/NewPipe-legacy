@@ -9,9 +9,9 @@ android {
     buildToolsVersion '29.0.3'
 
     defaultConfig {
-        applicationId "org.schabi.newpipe"
-        resValue "string", "app_name", "NewPipe"
-        minSdkVersion 19
+        applicationId 'org.schabi.newpipelegacy'
+        resValue "string", "app_name", "NewPipe Legacy"
+        minSdkVersion 16
         targetSdkVersion 29
         versionCode 80
         versionName "0.19.5"

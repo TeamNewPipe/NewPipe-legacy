@@ -48,6 +48,7 @@ public class CheckForNewAppVersionTask extends AsyncTask<Void, Void, String> {
     private static final String GITHUB_APK_SHA1
             = "C7:A4:55:67:6C:34:97:42:10:CE:3B:02:8F:D4:11:E5:10:FB:01:17";
     private static final String NEWPIPE_API_URL = "https://newpipe.schabi.org/api/data.json";
+    private static final String FLAVOR = "github_legacy";
 
     /**
      * Method to get the apk's SHA1 key. See https://stackoverflow.com/questions/9293019/#22506133.
@@ -159,7 +160,7 @@ public class CheckForNewAppVersionTask extends AsyncTask<Void, Void, String> {
 
             try {
                 final JsonObject githubStableObject = JsonParser.object().from(response)
-                        .getObject("flavors").getObject("github").getObject("stable");
+                        .getObject("flavors").getObject(FLAVOR).getObject("stable");
 
                 final String versionName = githubStableObject.getString("version");
                 final int versionCode = githubStableObject.getInt("version_code");

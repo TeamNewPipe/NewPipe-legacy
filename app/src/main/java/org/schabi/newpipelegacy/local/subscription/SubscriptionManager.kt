@@ -4,13 +4,13 @@ import android.content.Context
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import org.schabi.newpipelegacy.NewPipeDatabase
-import org.schabi.newpipelegacy.database.subscription.SubscriptionDAO
-import org.schabi.newpipelegacy.database.subscription.SubscriptionEntity
 import org.schabi.newpipe.extractor.ListInfo
 import org.schabi.newpipe.extractor.channel.ChannelInfo
 import org.schabi.newpipe.extractor.feed.FeedInfo
 import org.schabi.newpipe.extractor.stream.StreamInfoItem
+import org.schabi.newpipelegacy.NewPipeDatabase
+import org.schabi.newpipelegacy.database.subscription.SubscriptionDAO
+import org.schabi.newpipelegacy.database.subscription.SubscriptionEntity
 import org.schabi.newpipelegacy.local.feed.FeedDatabaseManager
 
 class SubscriptionManager(context: Context) {
