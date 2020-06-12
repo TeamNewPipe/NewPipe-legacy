@@ -18,6 +18,7 @@
         android:layout_gravity="center_vertical"
         android:textColor="?android:attr/textColorPrimary"
         android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:textSize="14sp"
         android:textStyle="bold"
         tools:text="@string/fragment_feed_title"/>
@@ -27,6 +28,8 @@
         android:layout_height="2dp"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
         android:background="?attr/separator_color"/>
 </LinearLayout>

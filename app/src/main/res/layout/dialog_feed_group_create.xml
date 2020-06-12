@@ -37,6 +37,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
                 android:gravity="center_vertical"
                 android:hint="@string/feed_group_dialog_name_input"
                 android:paddingTop="6dp"
@@ -179,6 +180,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:minWidth="0dp"
             android:scaleType="centerInside"
@@ -193,6 +195,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toStartOf="@+id/confirm_button"
+            android:layout_toLeftOf="@+id/confirm_button"
             android:text="@android:string/cancel" />
 
         <Button
@@ -201,6 +204,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:text="@string/create" />
     </RelativeLayout>
 </LinearLayout>
