@@ -755,10 +755,7 @@ public class RouterActivity extends AppCompatActivity {
         boolean checkNetwork() {
             final ConnectivityManager connManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             Network activeNetwork = connManager.getActiveNetwork();
-            if (activeNetwork != null) {
-                return true;
-            }
-            return false;
+            return (activeNetwork != null);
         }
 
         public static class NetworkStateReceiver extends BroadcastReceiver {
