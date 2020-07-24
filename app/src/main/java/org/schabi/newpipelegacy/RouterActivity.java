@@ -627,7 +627,7 @@ public class RouterActivity extends AppCompatActivity {
 
         @Override
         protected void onHandleIntent(@Nullable final Intent intent) {
-            if (checkNetwork()) {
+            if (hasActiveNetwork()) {
                 if (intent == null) {
                     return;
                 }
@@ -752,7 +752,8 @@ public class RouterActivity extends AppCompatActivity {
                             getString(R.string.preferred_player_fetcher_notification_message));
         }
 
-        boolean checkNetwork() {
+        // This method checks if there is an active network connection or not
+        protected boolean hasActiveNetwork() {
             final ConnectivityManager connManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             Network activeNetwork = connManager.getActiveNetwork();
             return (activeNetwork != null);
@@ -767,13 +768,14 @@ public class RouterActivity extends AppCompatActivity {
                 service = newService;
             }
 
+
+            // If there is an active work connection, this method will "turn off" this class and arrange to process the request
+            // Otherwise, nothing is done
             @Override
             public void onReceive(Context context, Intent intent) {
-                if (service.checkNetwork()) {
+                if (service.hasActiveNetwork()) {
                     NetworkStateReceiver.disable(context);
-
                     final AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
                     final Intent innerIntent = new Intent(context, FetcherService.class);
                     final PendingIntent pendingIntent = PendingIntent.getService(context, 0, innerIntent, 0);
 
@@ -793,12 +795,15 @@ public class RouterActivity extends AppCompatActivity {
                 }
             }
 
+            // Method to  "turn on" this class
             public static void enable(Context context) {
                 final PackageManager packageManager = context.getPackageManager();
                 final ComponentName receiver = new ComponentName(context, NetworkStateReceiver.class);
                 packageManager.setComponentEnabledSetting(receiver, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
             }
 
+
+            // Method to  "turn off" this class
             public static void disable(Context context) {
                 final PackageManager packageManager = context.getPackageManager();
                 final ComponentName receiver = new ComponentName(context, NetworkStateReceiver.class);
