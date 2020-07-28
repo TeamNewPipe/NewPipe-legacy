@@ -33,13 +33,13 @@ import com.grack.nanojson.JsonWriter;
 
 import org.acra.ReportField;
 import org.acra.data.CrashReportData;
-import org.schabi.newpipe.ActivityCommunicator;
-import org.schabi.newpipe.BuildConfig;
-import org.schabi.newpipe.MainActivity;
-import org.schabi.newpipe.R;
-import org.schabi.newpipe.util.Localization;
-import org.schabi.newpipe.util.ShareUtils;
-import org.schabi.newpipe.util.ThemeHelper;
+import org.schabi.newpipelegacy.ActivityCommunicator;
+import org.schabi.newpipelegacy.BuildConfig;
+import org.schabi.newpipelegacy.MainActivity;
+import org.schabi.newpipelegacy.R;
+import org.schabi.newpipelegacy.util.Localization;
+import org.schabi.newpipelegacy.util.ShareUtils;
+import org.schabi.newpipelegacy.util.ThemeHelper;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

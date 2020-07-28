@@ -10,8 +10,8 @@ import androidx.annotation.NonNull;
 import org.schabi.newpipe.extractor.ListExtractor;
 import org.schabi.newpipe.extractor.ListInfo;
 import org.schabi.newpipe.extractor.Page;
-import org.schabi.newpipe.util.Constants;
-import org.schabi.newpipe.views.NewPipeRecyclerView;
+import org.schabi.newpipelegacy.util.Constants;
+import org.schabi.newpipelegacy.views.NewPipeRecyclerView;
 
 import java.util.Queue;
 

@@ -1,4 +1,4 @@
-package org.schabi.newpipe.settings;
+package org.schabi.newpipelegacy.settings;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -18,17 +18,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import org.schabi.newpipe.NewPipeDatabase;
-import org.schabi.newpipe.R;
-import org.schabi.newpipe.database.AppDatabase;
-import org.schabi.newpipe.database.LocalItem;
-import org.schabi.newpipe.database.playlist.PlaylistLocalItem;
-import org.schabi.newpipe.database.playlist.PlaylistMetadataEntry;
-import org.schabi.newpipe.database.playlist.model.PlaylistRemoteEntity;
-import org.schabi.newpipe.local.playlist.LocalPlaylistManager;
-import org.schabi.newpipe.local.playlist.RemotePlaylistManager;
-import org.schabi.newpipe.report.ErrorActivity;
-import org.schabi.newpipe.report.UserAction;
+import org.schabi.newpipelegacy.NewPipeDatabase;
+import org.schabi.newpipelegacy.R;
+import org.schabi.newpipelegacy.database.AppDatabase;
+import org.schabi.newpipelegacy.database.LocalItem;
+import org.schabi.newpipelegacy.database.playlist.PlaylistLocalItem;
+import org.schabi.newpipelegacy.database.playlist.PlaylistMetadataEntry;
+import org.schabi.newpipelegacy.database.playlist.model.PlaylistRemoteEntity;
+import org.schabi.newpipelegacy.local.playlist.LocalPlaylistManager;
+import org.schabi.newpipelegacy.local.playlist.RemotePlaylistManager;
+import org.schabi.newpipelegacy.report.ErrorActivity;
+import org.schabi.newpipelegacy.report.UserAction;
 
 import java.util.List;
 import java.util.Vector;

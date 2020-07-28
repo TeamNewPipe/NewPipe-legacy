@@ -30,13 +30,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.schabi.newpipelegacy.R;
 import org.schabi.newpipe.extractor.NewPipe;
-import org.schabi.newpipe.report.ErrorActivity;
-import org.schabi.newpipe.report.UserAction;
-import org.schabi.newpipe.settings.SelectChannelFragment;
-import org.schabi.newpipe.settings.SelectKioskFragment;
-import org.schabi.newpipe.settings.SelectPlaylistFragment;
-import org.schabi.newpipe.settings.tabs.AddTabDialog.ChooseTabListItem;
-import org.schabi.newpipe.util.ThemeHelper;
+import org.schabi.newpipelegacy.report.ErrorActivity;
+import org.schabi.newpipelegacy.report.UserAction;
+import org.schabi.newpipelegacy.settings.SelectChannelFragment;
+import org.schabi.newpipelegacy.settings.SelectKioskFragment;
+import org.schabi.newpipelegacy.settings.SelectPlaylistFragment;
+import org.schabi.newpipelegacy.settings.tabs.AddTabDialog.ChooseTabListItem;
+import org.schabi.newpipelegacy.util.ThemeHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;

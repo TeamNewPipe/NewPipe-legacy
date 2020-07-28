@@ -5,15 +5,15 @@ import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import org.schabi.newpipe.NewPipeDatabase
-import org.schabi.newpipe.database.feed.model.FeedGroupEntity
-import org.schabi.newpipe.database.subscription.SubscriptionDAO
-import org.schabi.newpipe.database.subscription.SubscriptionEntity
 import org.schabi.newpipe.extractor.ListInfo
 import org.schabi.newpipe.extractor.channel.ChannelInfo
 import org.schabi.newpipe.extractor.feed.FeedInfo
 import org.schabi.newpipe.extractor.stream.StreamInfoItem
-import org.schabi.newpipe.local.feed.FeedDatabaseManager
+import org.schabi.newpipelegacy.NewPipeDatabase
+import org.schabi.newpipelegacy.database.feed.model.FeedGroupEntity
+import org.schabi.newpipelegacy.database.subscription.SubscriptionDAO
+import org.schabi.newpipelegacy.database.subscription.SubscriptionEntity
+import org.schabi.newpipelegacy.local.feed.FeedDatabaseManager
 
 class SubscriptionManager(context: Context) {
     private val database = NewPipeDatabase.getInstance(context)

@@ -45,8 +45,8 @@ import org.schabi.newpipelegacy.util.ThemeHelper;
 import java.util.Collections;
 import java.util.List;
 
-import static org.schabi.newpipe.player.helper.PlayerHelper.formatSpeed;
-import static org.schabi.newpipe.util.Localization.assureCorrectAppLanguage;
+import static org.schabi.newpipelegacy.player.helper.PlayerHelper.formatSpeed;
+import static org.schabi.newpipelegacy.util.Localization.assureCorrectAppLanguage;
 
 public abstract class ServicePlayerActivity extends AppCompatActivity
         implements PlayerEventListener, SeekBar.OnSeekBarChangeListener,

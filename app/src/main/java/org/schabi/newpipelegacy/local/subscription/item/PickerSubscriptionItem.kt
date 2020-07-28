@@ -6,11 +6,11 @@ import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.picker_subscription_item.*
 import kotlinx.android.synthetic.main.picker_subscription_item.view.*
-import org.schabi.newpipe.R
-import org.schabi.newpipe.database.subscription.SubscriptionEntity
-import org.schabi.newpipe.util.AnimationUtils
-import org.schabi.newpipe.util.AnimationUtils.animateView
-import org.schabi.newpipe.util.ImageDisplayConstants
+import org.schabi.newpipelegacy.R
+import org.schabi.newpipelegacy.database.subscription.SubscriptionEntity
+import org.schabi.newpipelegacy.util.AnimationUtils
+import org.schabi.newpipelegacy.util.AnimationUtils.animateView
+import org.schabi.newpipelegacy.util.ImageDisplayConstants
 
 data class PickerSubscriptionItem(
     val subscriptionEntity: SubscriptionEntity,

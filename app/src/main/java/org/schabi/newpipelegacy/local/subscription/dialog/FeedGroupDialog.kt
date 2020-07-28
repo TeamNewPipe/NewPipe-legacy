@@ -27,21 +27,21 @@ import java.io.Serializable
 import kotlin.collections.contains
 import kotlinx.android.synthetic.main.dialog_feed_group_create.*
 import kotlinx.android.synthetic.main.toolbar_search_layout.*
-import org.schabi.newpipe.R
-import org.schabi.newpipe.database.feed.model.FeedGroupEntity
-import org.schabi.newpipe.fragments.BackPressable
-import org.schabi.newpipe.local.subscription.FeedGroupIcon
-import org.schabi.newpipe.local.subscription.dialog.FeedGroupDialog.ScreenState.DeleteScreen
-import org.schabi.newpipe.local.subscription.dialog.FeedGroupDialog.ScreenState.IconPickerScreen
-import org.schabi.newpipe.local.subscription.dialog.FeedGroupDialog.ScreenState.InitialScreen
-import org.schabi.newpipe.local.subscription.dialog.FeedGroupDialog.ScreenState.SubscriptionsPickerScreen
-import org.schabi.newpipe.local.subscription.dialog.FeedGroupDialogViewModel.DialogEvent.ProcessingEvent
-import org.schabi.newpipe.local.subscription.dialog.FeedGroupDialogViewModel.DialogEvent.SuccessEvent
-import org.schabi.newpipe.local.subscription.item.EmptyPlaceholderItem
-import org.schabi.newpipe.local.subscription.item.PickerIconItem
-import org.schabi.newpipe.local.subscription.item.PickerSubscriptionItem
-import org.schabi.newpipe.util.AndroidTvUtils
-import org.schabi.newpipe.util.ThemeHelper
+import org.schabi.newpipelegacy.R
+import org.schabi.newpipelegacy.database.feed.model.FeedGroupEntity
+import org.schabi.newpipelegacy.fragments.BackPressable
+import org.schabi.newpipelegacy.local.subscription.FeedGroupIcon
+import org.schabi.newpipelegacy.local.subscription.dialog.FeedGroupDialog.ScreenState.DeleteScreen
+import org.schabi.newpipelegacy.local.subscription.dialog.FeedGroupDialog.ScreenState.IconPickerScreen
+import org.schabi.newpipelegacy.local.subscription.dialog.FeedGroupDialog.ScreenState.InitialScreen
+import org.schabi.newpipelegacy.local.subscription.dialog.FeedGroupDialog.ScreenState.SubscriptionsPickerScreen
+import org.schabi.newpipelegacy.local.subscription.dialog.FeedGroupDialogViewModel.DialogEvent.ProcessingEvent
+import org.schabi.newpipelegacy.local.subscription.dialog.FeedGroupDialogViewModel.DialogEvent.SuccessEvent
+import org.schabi.newpipelegacy.local.subscription.item.EmptyPlaceholderItem
+import org.schabi.newpipelegacy.local.subscription.item.PickerIconItem
+import org.schabi.newpipelegacy.local.subscription.item.PickerSubscriptionItem
+import org.schabi.newpipelegacy.util.AndroidTvUtils
+import org.schabi.newpipelegacy.util.ThemeHelper
 
 class FeedGroupDialog : DialogFragment(), BackPressable {
     private lateinit var viewModel: FeedGroupDialogViewModel

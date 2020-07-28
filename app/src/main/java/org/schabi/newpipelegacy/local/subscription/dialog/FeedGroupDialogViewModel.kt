@@ -11,11 +11,11 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiFunction
 import io.reactivex.processors.BehaviorProcessor
 import io.reactivex.schedulers.Schedulers
-import org.schabi.newpipe.database.feed.model.FeedGroupEntity
-import org.schabi.newpipe.local.feed.FeedDatabaseManager
-import org.schabi.newpipe.local.subscription.FeedGroupIcon
-import org.schabi.newpipe.local.subscription.SubscriptionManager
-import org.schabi.newpipe.local.subscription.item.PickerSubscriptionItem
+import org.schabi.newpipelegacy.database.feed.model.FeedGroupEntity
+import org.schabi.newpipelegacy.local.feed.FeedDatabaseManager
+import org.schabi.newpipelegacy.local.subscription.FeedGroupIcon
+import org.schabi.newpipelegacy.local.subscription.SubscriptionManager
+import org.schabi.newpipelegacy.local.subscription.item.PickerSubscriptionItem
 
 class FeedGroupDialogViewModel(
     applicationContext: Context,
