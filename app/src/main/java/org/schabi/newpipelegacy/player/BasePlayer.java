@@ -58,26 +58,24 @@ import org.schabi.newpipelegacy.BuildConfig;
 import org.schabi.newpipelegacy.DownloaderImpl;
 import org.schabi.newpipelegacy.R;
 import org.schabi.newpipe.extractor.stream.StreamInfo;
-import org.schabi.newpipelegacy.local.history.HistoryRecordManager;
-import org.schabi.newpipelegacy.player.helper.AudioReactor;
-import org.schabi.newpipelegacy.player.helper.LoadController;
-import org.schabi.newpipelegacy.player.helper.MediaSessionManager;
-import org.schabi.newpipelegacy.player.helper.PlayerDataSource;
-import org.schabi.newpipelegacy.player.helper.PlayerHelper;
-import org.schabi.newpipelegacy.player.mediasource.FailedMediaSource;
-import org.schabi.newpipelegacy.player.playback.BasePlayerMediaSession;
-import org.schabi.newpipelegacy.player.playback.CustomTrackSelector;
-import org.schabi.newpipelegacy.player.playback.MediaSourceManager;
-import org.schabi.newpipelegacy.player.playback.PlaybackListener;
-import org.schabi.newpipelegacy.player.playqueue.PlayQueue;
-import org.schabi.newpipelegacy.player.playqueue.PlayQueueAdapter;
-import org.schabi.newpipelegacy.player.playqueue.PlayQueueItem;
-import org.schabi.newpipelegacy.player.resolver.MediaSourceTag;
-import org.schabi.newpipelegacy.util.ImageDisplayConstants;
-import org.schabi.newpipelegacy.util.SerializedCache;
+import org.schabi.newpipe.local.history.HistoryRecordManager;
+import org.schabi.newpipe.player.helper.AudioReactor;
+import org.schabi.newpipe.player.helper.LoadController;
+import org.schabi.newpipe.player.helper.MediaSessionManager;
+import org.schabi.newpipe.player.helper.PlayerDataSource;
+import org.schabi.newpipe.player.helper.PlayerHelper;
+import org.schabi.newpipe.player.playback.BasePlayerMediaSession;
+import org.schabi.newpipe.player.playback.CustomTrackSelector;
+import org.schabi.newpipe.player.playback.MediaSourceManager;
+import org.schabi.newpipe.player.playback.PlaybackListener;
+import org.schabi.newpipe.player.playqueue.PlayQueue;
+import org.schabi.newpipe.player.playqueue.PlayQueueAdapter;
+import org.schabi.newpipe.player.playqueue.PlayQueueItem;
+import org.schabi.newpipe.player.resolver.MediaSourceTag;
+import org.schabi.newpipe.util.ImageDisplayConstants;
+import org.schabi.newpipe.util.SerializedCache;
 
 import java.io.IOException;
-import java.net.UnknownHostException;
 
 import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
@@ -217,7 +215,7 @@ public abstract class BasePlayer implements
 
         final TrackSelection.Factory trackSelectionFactory = PlayerHelper
                 .getQualitySelector(context);
-        this.trackSelector = new CustomTrackSelector(trackSelectionFactory);
+        this.trackSelector = new CustomTrackSelector(context, trackSelectionFactory);
 
         this.loadControl = new LoadController();
         this.renderFactory = new DefaultRenderersFactory(context);
@@ -333,13 +331,12 @@ public abstract class BasePlayer implements
         final SharedPreferences preferences =
                 PreferenceManager.getDefaultSharedPreferences(context);
 
-        final float speed = preferences
-            .getFloat(context.getString(R.string.playback_speed_key), getPlaybackSpeed());
-        final float pitch = preferences.getFloat(context.getString(R.string.playback_pitch_key),
-            getPlaybackPitch());
-        final boolean skipSilence = preferences
-            .getBoolean(context.getString(R.string.playback_skip_silence_key),
-                getPlaybackSkipSilence());
+        final float speed = preferences.getFloat(
+                context.getString(R.string.playback_speed_key), getPlaybackSpeed());
+        final float pitch = preferences.getFloat(
+                context.getString(R.string.playback_pitch_key), getPlaybackPitch());
+        final boolean skipSilence = preferences.getBoolean(
+                context.getString(R.string.playback_skip_silence_key), getPlaybackSkipSilence());
         return new PlaybackParameters(speed, pitch, skipSilence);
     }
 
@@ -835,16 +832,8 @@ public abstract class BasePlayer implements
         final Throwable cause = error.getCause();
         if (error instanceof BehindLiveWindowException) {
             reload();
-        } else if (cause instanceof UnknownHostException) {
-            playQueue.error(/*isNetworkProblem=*/true);
-        } else if (isCurrentWindowValid()) {
-            playQueue.error(/*isTransitioningToBadStream=*/true);
-        } else if (cause instanceof FailedMediaSource.MediaSourceResolutionException) {
-            playQueue.error(/*recoverableWithNoAvailableStream=*/false);
-        } else if (cause instanceof FailedMediaSource.StreamInfoLoadException) {
-            playQueue.error(/*recoverableIfLoadFailsWhenNetworkIsFine=*/false);
         } else {
-            playQueue.error(/*noIdeaWhatHappenedAndLetUserChooseWhatToDo=*/true);
+            playQueue.error();
         }
     }
 
@@ -1131,6 +1120,7 @@ public abstract class BasePlayer implements
             Log.d(TAG, "onFastRewind() called");
         }
         seekBy(-getSeekDuration());
+        triggerProgressUpdate();
     }
 
     public void onFastForward() {
@@ -1138,6 +1128,7 @@ public abstract class BasePlayer implements
             Log.d(TAG, "onFastForward() called");
         }
         seekBy(getSeekDuration());
+        triggerProgressUpdate();
     }
 
     private int getSeekDuration() {
@@ -1479,10 +1470,21 @@ public abstract class BasePlayer implements
         return parameters == null ? PlaybackParameters.DEFAULT : parameters;
     }
 
+    /**
+     * Sets the playback parameters of the player, and also saves them to shared preferences.
+     * Speed and pitch are rounded up to 2 decimal places before being used or saved.
+     * @param speed the playback speed, will be rounded to up to 2 decimal places
+     * @param pitch the playback pitch, will be rounded to up to 2 decimal places
+     * @param skipSilence skip silence during playback
+     */
     public void setPlaybackParameters(final float speed, final float pitch,
                                       final boolean skipSilence) {
-        savePlaybackParametersToPreferences(speed, pitch, skipSilence);
-        simpleExoPlayer.setPlaybackParameters(new PlaybackParameters(speed, pitch, skipSilence));
+        final float roundedSpeed = Math.round(speed * 100.0f) / 100.0f;
+        final float roundedPitch = Math.round(pitch * 100.0f) / 100.0f;
+
+        savePlaybackParametersToPreferences(roundedSpeed, roundedPitch, skipSilence);
+        simpleExoPlayer.setPlaybackParameters(
+                new PlaybackParameters(roundedSpeed, roundedPitch, skipSilence));
     }
 
     private void savePlaybackParametersToPreferences(final float speed, final float pitch,

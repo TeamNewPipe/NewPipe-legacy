@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.schabi.newpipelegacy.R;
@@ -20,7 +21,6 @@ import org.schabi.newpipelegacy.util.FallbackViewHolder;
 import java.util.List;
 
 import io.reactivex.Observer;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 
 /**
@@ -115,9 +115,6 @@ public class PlayQueueAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 break;
             case ERROR:
                 final ErrorEvent errorEvent = (ErrorEvent) message;
-                if (!errorEvent.isSkippable()) {
-                    notifyItemRemoved(errorEvent.getErrorIndex());
-                }
                 notifyItemChanged(errorEvent.getErrorIndex());
                 notifyItemChanged(errorEvent.getQueueIndex());
                 break;
