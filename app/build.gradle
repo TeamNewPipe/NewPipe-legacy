@@ -98,7 +98,7 @@ configurations {
 
 checkstyle {
     configFile rootProject.file('checkstyle.xml')
-    ignoreFailures false
+    ignoreFailures true
     showViolations true
     toolVersion = checkstyleVersion
 }
