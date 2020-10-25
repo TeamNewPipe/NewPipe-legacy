@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:textColor="?android:attr/textColorPrimary"
         android:textSize="14sp"
         android:textStyle="bold"
@@ -26,6 +27,8 @@
         android:layout_height="2dp"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
         android:background="?attr/separator_color" />
 </LinearLayout>
