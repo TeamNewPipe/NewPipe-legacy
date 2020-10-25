@@ -1,7 +1,5 @@
 package org.schabi.newpipelegacy
 
-import android.content.Context
-import androidx.multidex.MultiDex
 import androidx.preference.PreferenceManager
 import com.facebook.stetho.Stetho
 import com.facebook.stetho.okhttp3.StethoInterceptor
@@ -11,11 +9,6 @@ import okhttp3.OkHttpClient
 import org.schabi.newpipe.extractor.downloader.Downloader
 
 class DebugApp : App() {
-    override fun attachBaseContext(base: Context) {
-        super.attachBaseContext(base)
-        MultiDex.install(this)
-    }
-
     override fun onCreate() {
         super.onCreate()
         initStetho()

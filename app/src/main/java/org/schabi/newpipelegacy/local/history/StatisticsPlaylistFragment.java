@@ -29,6 +29,7 @@ import org.schabi.newpipe.extractor.stream.StreamInfoItem;
 import org.schabi.newpipe.extractor.stream.StreamType;
 import org.schabi.newpipelegacy.info_list.InfoItemDialog;
 import org.schabi.newpipelegacy.local.BaseLocalListFragment;
+import org.schabi.newpipelegacy.player.helper.PlayerHolder;
 import org.schabi.newpipelegacy.player.playqueue.PlayQueue;
 import org.schabi.newpipelegacy.player.playqueue.SinglePlayQueue;
 import org.schabi.newpipelegacy.report.ErrorActivity;
@@ -40,6 +41,7 @@ import org.schabi.newpipelegacy.util.StreamDialogEntry;
 import org.schabi.newpipelegacy.util.ThemeHelper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -321,7 +323,7 @@ public class StatisticsPlaylistFragment
         }
 
         headerPlayAllButton.setOnClickListener(view ->
-                NavigationHelper.playOnMainPlayer(activity, getPlayQueue(), false));
+                NavigationHelper.playOnMainPlayer(activity, getPlayQueue(), true));
         headerPopupButton.setOnClickListener(view ->
                 NavigationHelper.playOnPopupPlayer(activity, getPlayQueue(), false));
         headerBackgroundButton.setOnClickListener(view ->
@@ -387,27 +389,28 @@ public class StatisticsPlaylistFragment
         }
         final StreamInfoItem infoItem = item.toStreamInfoItem();
 
+        final ArrayList<StreamDialogEntry> entries = new ArrayList<>();
+
+        if (PlayerHolder.getType() != null) {
+            entries.add(StreamDialogEntry.enqueue);
+        }
         if (infoItem.getStreamType() == StreamType.AUDIO_STREAM) {
-            StreamDialogEntry.setEnabledEntries(
-                    StreamDialogEntry.enqueue_on_background,
+            entries.addAll(Arrays.asList(
                     StreamDialogEntry.start_here_on_background,
                     StreamDialogEntry.delete,
                     StreamDialogEntry.append_playlist,
-                    StreamDialogEntry.share);
-        } else {
-            StreamDialogEntry.setEnabledEntries(
-                    StreamDialogEntry.enqueue_on_background,
-                    StreamDialogEntry.enqueue_on_popup,
+                    StreamDialogEntry.share
+            ));
+        } else  {
+            entries.addAll(Arrays.asList(
                     StreamDialogEntry.start_here_on_background,
                     StreamDialogEntry.start_here_on_popup,
                     StreamDialogEntry.delete,
                     StreamDialogEntry.append_playlist,
-                    StreamDialogEntry.share);
-
-            StreamDialogEntry.start_here_on_popup.setCustomAction((fragment, infoItemDuplicate) ->
-                    NavigationHelper
-                            .playOnPopupPlayer(context, getPlayQueueStartingAt(item), true));
+                    StreamDialogEntry.share
+            ));
         }
+        StreamDialogEntry.setEnabledEntries(entries);
 
         StreamDialogEntry.start_here_on_background.setCustomAction((fragment, infoItemDuplicate) ->
                 NavigationHelper
@@ -420,14 +423,14 @@ public class StatisticsPlaylistFragment
     }
 
     private void deleteEntry(final int index) {
-        final LocalItem infoItem = itemListAdapter.getItemsList()
-                .get(index);
+        final LocalItem infoItem = itemListAdapter.getItemsList().get(index);
         if (infoItem instanceof StreamStatisticsEntry) {
             final StreamStatisticsEntry entry = (StreamStatisticsEntry) infoItem;
-            final Disposable onDelete = recordManager.deleteStreamHistory(entry.getStreamId())
+            final Disposable onDelete = recordManager
+                    .deleteStreamHistoryAndState(entry.getStreamId())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
-                            howManyDeleted -> {
+                            () -> {
                                 if (getView() != null) {
                                     Snackbar.make(getView(), R.string.one_item_deleted,
                                             Snackbar.LENGTH_SHORT).show();
@@ -455,7 +458,7 @@ public class StatisticsPlaylistFragment
         }
 
         final List<LocalItem> infoItems = itemListAdapter.getItemsList();
-        List<StreamInfoItem> streamInfoItems = new ArrayList<>(infoItems.size());
+        final List<StreamInfoItem> streamInfoItems = new ArrayList<>(infoItems.size());
         for (final LocalItem item : infoItems) {
             if (item instanceof StreamStatisticsEntry) {
                 streamInfoItems.add(((StreamStatisticsEntry) item).toStreamInfoItem());

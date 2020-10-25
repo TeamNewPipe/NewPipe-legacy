@@ -3,7 +3,9 @@ package org.schabi.newpipelegacy.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
-import android.preference.PreferenceManager;
+
+import androidx.core.content.ContextCompat;
+import androidx.preference.PreferenceManager;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
@@ -44,7 +46,7 @@ public final class ListHelper {
      */
     public static int getDefaultResolutionIndex(final Context context,
                                                 final List<VideoStream> videoStreams) {
-        String defaultResolution = computeDefaultResolution(context,
+        final String defaultResolution = computeDefaultResolution(context,
                 R.string.default_resolution_key, R.string.default_resolution_value);
         return getDefaultResolutionWithDefaultFormat(context, defaultResolution, videoStreams);
     }
@@ -70,7 +72,7 @@ public final class ListHelper {
      */
     public static int getPopupDefaultResolutionIndex(final Context context,
                                                      final List<VideoStream> videoStreams) {
-        String defaultResolution = computeDefaultResolution(context,
+        final String defaultResolution = computeDefaultResolution(context,
                 R.string.default_popup_resolution_key, R.string.default_popup_resolution_value);
         return getDefaultResolutionWithDefaultFormat(context, defaultResolution, videoStreams);
     }
@@ -90,8 +92,8 @@ public final class ListHelper {
 
     public static int getDefaultAudioFormat(final Context context,
                                             final List<AudioStream> audioStreams) {
-        MediaFormat defaultFormat = getDefaultFormat(context, R.string.default_audio_format_key,
-                R.string.default_audio_format_value);
+        final MediaFormat defaultFormat = getDefaultFormat(context,
+                R.string.default_audio_format_key, R.string.default_audio_format_value);
 
         // If the user has chosen to limit resolution to conserve mobile data
         // usage then we should also limit our audio usage.
@@ -117,12 +119,13 @@ public final class ListHelper {
                                                               final List<VideoStream>
                                                                       videoOnlyStreams,
                                                               final boolean ascendingOrder) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        final SharedPreferences preferences
+                = PreferenceManager.getDefaultSharedPreferences(context);
 
-        boolean showHigherResolutions = preferences.getBoolean(
+        final boolean showHigherResolutions = preferences.getBoolean(
                 context.getString(R.string.show_higher_resolutions_key), false);
-        MediaFormat defaultFormat = getDefaultFormat(context, R.string.default_video_format_key,
-                R.string.default_video_format_value);
+        final MediaFormat defaultFormat = getDefaultFormat(context,
+                R.string.default_video_format_key, R.string.default_video_format_value);
 
         return getSortedStreamVideosList(defaultFormat, showHigherResolutions, videoStreams,
                 videoOnlyStreams, ascendingOrder);
@@ -134,14 +137,15 @@ public final class ListHelper {
 
     private static String computeDefaultResolution(final Context context, final int key,
                                                    final int value) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        final SharedPreferences preferences
+                = PreferenceManager.getDefaultSharedPreferences(context);
 
         // Load the prefered resolution otherwise the best available
         String resolution = preferences != null
                 ? preferences.getString(context.getString(key), context.getString(value))
                 : context.getString(R.string.best_resolution_key);
 
-        String maxResolution = getResolutionLimit(context);
+        final String maxResolution = getResolutionLimit(context);
         if (maxResolution != null
                 && (resolution.equals(context.getString(R.string.best_resolution_key))
                 || compareVideoStreamResolution(maxResolution, resolution) < 1)) {
@@ -173,7 +177,7 @@ public final class ListHelper {
             return 0;
         }
 
-        int defaultStreamIndex
+        final int defaultStreamIndex
                 = getVideoStreamIndex(defaultResolution, defaultFormat, videoStreams);
 
         // this is actually an error,
@@ -200,11 +204,11 @@ public final class ListHelper {
                                                        final List<VideoStream> videoStreams,
                                                        final List<VideoStream> videoOnlyStreams,
                                                        final boolean ascendingOrder) {
-        ArrayList<VideoStream> retList = new ArrayList<>();
-        HashMap<String, VideoStream> hashMap = new HashMap<>();
+        final ArrayList<VideoStream> retList = new ArrayList<>();
+        final HashMap<String, VideoStream> hashMap = new HashMap<>();
 
         if (videoOnlyStreams != null) {
-            for (VideoStream stream : videoOnlyStreams) {
+            for (final VideoStream stream : videoOnlyStreams) {
                 if (!showHigherResolutions
                         && HIGH_RESOLUTION_LIST.contains(stream.getResolution())) {
                     continue;
@@ -213,7 +217,7 @@ public final class ListHelper {
             }
         }
         if (videoStreams != null) {
-            for (VideoStream stream : videoStreams) {
+            for (final VideoStream stream : videoStreams) {
                 if (!showHigherResolutions
                         && HIGH_RESOLUTION_LIST.contains(stream.getResolution())) {
                     continue;
@@ -223,12 +227,12 @@ public final class ListHelper {
         }
 
         // Add all to the hashmap
-        for (VideoStream videoStream : retList) {
+        for (final VideoStream videoStream : retList) {
             hashMap.put(videoStream.getResolution(), videoStream);
         }
 
         // Override the values when the key == resolution, with the defaultFormat
-        for (VideoStream videoStream : retList) {
+        for (final VideoStream videoStream : retList) {
             if (videoStream.getFormat() == defaultFormat) {
                 hashMap.put(videoStream.getResolution(), videoStream);
             }
@@ -262,7 +266,7 @@ public final class ListHelper {
     private static void sortStreamList(final List<VideoStream> videoStreams,
                                        final boolean ascendingOrder) {
         Collections.sort(videoStreams, (o1, o2) -> {
-            int result = compareVideoStreamResolution(o1, o2);
+            final int result = compareVideoStreamResolution(o1, o2);
             return result == 0 ? 0 : (ascendingOrder ? result : -result);
         });
     }
@@ -282,7 +286,7 @@ public final class ListHelper {
             while (result == -1) {
                 AudioStream prevStream = null;
                 for (int idx = 0; idx < audioStreams.size(); idx++) {
-                    AudioStream stream = audioStreams.get(idx);
+                    final AudioStream stream = audioStreams.get(idx);
                     if ((format == null || stream.getFormat() == format)
                             && (prevStream == null || compareAudioStreamBitrate(prevStream, stream,
                                     AUDIO_FORMAT_QUALITY_RANKING) < 0)) {
@@ -314,7 +318,7 @@ public final class ListHelper {
             while (result == -1) {
                 AudioStream prevStream = null;
                 for (int idx = 0; idx < audioStreams.size(); idx++) {
-                    AudioStream stream = audioStreams.get(idx);
+                    final AudioStream stream = audioStreams.get(idx);
                     if ((format == null || stream.getFormat() == format)
                             && (prevStream == null || compareAudioStreamBitrate(prevStream, stream,
                                     AUDIO_FORMAT_EFFICIENCY_RANKING) > 0)) {
@@ -357,12 +361,13 @@ public final class ListHelper {
         int resMatchOnlyIndex = -1;
         int resMatchOnlyNoRefreshIndex = -1;
         int lowerResMatchNoRefreshIndex = -1;
-        String targetResolutionNoRefresh = targetResolution.replaceAll("p\\d+$", "p");
+        final String targetResolutionNoRefresh = targetResolution.replaceAll("p\\d+$", "p");
 
         for (int idx = 0; idx < videoStreams.size(); idx++) {
-            MediaFormat format = targetFormat == null ? null : videoStreams.get(idx).getFormat();
-            String resolution = videoStreams.get(idx).getResolution();
-            String resolutionNoRefresh = resolution.replaceAll("p\\d+$", "p");
+            final MediaFormat format
+                    = targetFormat == null ? null : videoStreams.get(idx).getFormat();
+            final String resolution = videoStreams.get(idx).getResolution();
+            final String resolutionNoRefresh = resolution.replaceAll("p\\d+$", "p");
 
             if (format == targetFormat && resolution.equals(targetResolution)) {
                 fullMatchIndex = idx;
@@ -414,8 +419,8 @@ public final class ListHelper {
     private static int getDefaultResolutionWithDefaultFormat(final Context context,
                                                              final String defaultResolution,
                                                              final List<VideoStream> videoStreams) {
-        MediaFormat defaultFormat = getDefaultFormat(context, R.string.default_video_format_key,
-                R.string.default_video_format_value);
+        final MediaFormat defaultFormat = getDefaultFormat(context,
+                R.string.default_video_format_key, R.string.default_video_format_value);
         return getDefaultResolutionIndex(defaultResolution,
                 context.getString(R.string.best_resolution_key), defaultFormat, videoStreams);
     }
@@ -423,10 +428,11 @@ public final class ListHelper {
     private static MediaFormat getDefaultFormat(final Context context,
                                                 @StringRes final int defaultFormatKey,
                                                 @StringRes final int defaultFormatValueKey) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        final SharedPreferences preferences
+                = PreferenceManager.getDefaultSharedPreferences(context);
 
-        String defaultFormat = context.getString(defaultFormatValueKey);
-        String defaultFormatString = preferences.getString(
+        final String defaultFormat = context.getString(defaultFormatValueKey);
+        final String defaultFormatString = preferences.getString(
                 context.getString(defaultFormatKey), defaultFormat);
 
         MediaFormat defaultMediaFormat = getMediaFormatFromKey(context, defaultFormatString);
@@ -479,9 +485,9 @@ public final class ListHelper {
     }
 
     private static int compareVideoStreamResolution(final String r1, final String r2) {
-        int res1 = Integer.parseInt(r1.replaceAll("0p\\d+$", "1")
+        final int res1 = Integer.parseInt(r1.replaceAll("0p\\d+$", "1")
                 .replaceAll("[^\\d.]", ""));
-        int res2 = Integer.parseInt(r2.replaceAll("0p\\d+$", "1")
+        final int res2 = Integer.parseInt(r2.replaceAll("0p\\d+$", "1")
                 .replaceAll("[^\\d.]", ""));
         return res1 - res2;
     }
@@ -496,7 +502,7 @@ public final class ListHelper {
             return 1;
         }
 
-        int resComp = compareVideoStreamResolution(streamA.getResolution(),
+        final int resComp = compareVideoStreamResolution(streamA.getResolution(),
                 streamB.getResolution());
         if (resComp != 0) {
             return resComp;
@@ -521,9 +527,10 @@ public final class ListHelper {
     private static String getResolutionLimit(final Context context) {
         String resolutionLimit = null;
         if (isMeteredNetwork(context)) {
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-            String defValue = context.getString(R.string.limit_data_usage_none_key);
-            String value = preferences.getString(
+            final SharedPreferences preferences
+                    = PreferenceManager.getDefaultSharedPreferences(context);
+            final String defValue = context.getString(R.string.limit_data_usage_none_key);
+            final String value = preferences.getString(
                     context.getString(R.string.limit_mobile_data_usage_key), defValue);
             resolutionLimit = defValue.equals(value) ? null : value;
         }
@@ -536,9 +543,9 @@ public final class ListHelper {
      * @param context App context
      * @return {@code true} if connected to a metered network
      */
-    private static boolean isMeteredNetwork(final Context context) {
-        ConnectivityManager manager
-                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+    public static boolean isMeteredNetwork(final Context context) {
+        final ConnectivityManager manager
+                = ContextCompat.getSystemService(context, ConnectivityManager.class);
         if (manager == null || manager.getActiveNetworkInfo() == null) {
             return false;
         }

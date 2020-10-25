@@ -16,8 +16,8 @@ import org.schabi.newpipelegacy.util.ThemeHelper;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.lang.ref.WeakReference;
-import java.nio.charset.StandardCharsets;
 
 import static org.schabi.newpipelegacy.util.Localization.assureCorrectAppLanguage;
 
@@ -35,13 +35,14 @@ public class LicenseFragmentHelper extends AsyncTask<Object, Void, Integer> {
      * @return String which contains a HTML formatted license page
      * styled according to the context's theme
      */
+    @SuppressWarnings("CharsetObjectCanBeUsed")
     private static String getFormattedLicense(@NonNull final Context context,
                                               @NonNull final License license) {
         final StringBuilder licenseContent = new StringBuilder();
         final String webViewData;
         try {
             final BufferedReader in = new BufferedReader(new InputStreamReader(
-                    context.getAssets().open(license.getFilename()), StandardCharsets.UTF_8));
+                    context.getAssets().open(license.getFilename()), "utf-8"));
             String str;
             while ((str = in.readLine()) != null) {
                 licenseContent.append(str);
@@ -51,7 +52,7 @@ public class LicenseFragmentHelper extends AsyncTask<Object, Void, Integer> {
             // split the HTML file and insert the stylesheet into the HEAD of the file
             webViewData = licenseContent.toString().replace("</head>",
                     "<style>" + getLicenseStylesheet(context) + "</style></head>");
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new IllegalArgumentException(
                     "Could not get license file: " + license.getFilename(), e);
         }
@@ -105,6 +106,7 @@ public class LicenseFragmentHelper extends AsyncTask<Object, Void, Integer> {
         return 1;
     }
 
+    @SuppressWarnings("CharsetObjectCanBeUsed")
     @Override
     protected void onPostExecute(final Integer result) {
         final Activity activity = getActivity();
@@ -112,8 +114,13 @@ public class LicenseFragmentHelper extends AsyncTask<Object, Void, Integer> {
             return;
         }
 
-        final String webViewData = Base64.encodeToString(getFormattedLicense(activity, license)
-                .getBytes(StandardCharsets.UTF_8), Base64.NO_PADDING);
+        String webViewData = null;
+        try {
+            webViewData = Base64.encodeToString(getFormattedLicense(activity, license)
+                    .getBytes("utf-8"), Base64.NO_PADDING);
+        } catch (final UnsupportedEncodingException e) {
+            // not possible
+        }
         final WebView webView = new WebView(activity);
         webView.loadData(webViewData, "text/html; charset=UTF-8", "base64");
 

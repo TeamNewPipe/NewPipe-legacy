@@ -85,7 +85,6 @@
     <string name="video_is_age_restricted">ভিডিওটিকে বয়স সীমিত করা হয়েছে। প্রথমে সেটিংসে বয়স সীমাবদ্ধ ভিডিওগুলি সক্ষম করো।</string>
     <string name="show_age_restricted_content_title">বয়স সীমাবদ্ধ কন্টেন্ট দেখাও</string>
     <string name="content">কন্টেন্ট</string>
-    <string name="play_btn_text">চালাও</string>
     <string name="popup_playing_toast">পপআপ মোডে চলছে</string>
     <string name="background_player_playing_toast">ব্যাকগ্রাউন্ডে চলছে</string>
     <string name="settings_category_debug_title">ডিবাগ</string>
@@ -98,9 +97,8 @@
     <string name="settings_category_player_title">প্লেয়ার</string>
     <string name="content_language_title">কন্টেন্ট এর জন্য পছন্দসই ভাষা</string>
     <string name="service_title">সেবা</string>
-    <string name="url_not_supported_toast">URL সমর্থিত নয়</string>
+    <string name="unsupported_url">URL সমর্থিত নয়</string>
     <string name="show_next_and_similar_title">পরবর্তী এবং অনুরূপ ভিডিওগুলি দেখাও</string>
-    <string name="next_video_title">পরবর্তী ভিডিও</string>
     <string name="download_dialog_title">ডাউনলোড</string>
     <string name="enable_watch_history_title">ইতিহাস</string>
     <string name="enable_search_history_title">খোজ ইতিহাস</string>
@@ -121,8 +119,6 @@
     <string name="seek_duration_title">দ্রুত-ফরওয়ার্ড/-পুনরায় সন্ধান সময়কাল</string>
     <string name="use_inexact_seek_summary">অনির্দিষ্ট সন্ধান প্লেয়ারকে আরো দ্রুত গতিতে সন্ধান করার সুবিধা দেয়, কিন্তু এটি সম্পূর্ণ নির্ভুল নাও হতে পারে ৷ ৫, ১৫ ও ২৫ সেকেন্ডের জন্য এটা কাজ করবে না ৷</string>
     <string name="use_inexact_seek_title">দ্রুত টানা ব্যাবহার করুন</string>
-    <string name="popup_remember_size_pos_summary">শেষ আকার এবং পপআপ সেট অবস্থান মনে রাখো</string>
-    <string name="popup_remember_size_pos_title">পপআপ আকার এবং অবস্থান মনে রাখো</string>
     <string name="black_theme_title">কালো</string>
     <string name="dark_theme_title">অন্ধকার</string>
     <string name="light_theme_title">উজ্জ্বল</string>
@@ -130,9 +126,7 @@
     <string name="default_video_format_title">পছন্দসই ভিডিও ফরম্যাট</string>
     <string name="default_audio_format_title">ডিফল্ট অডিও ফরম্যাট</string>
     <string name="play_audio">অডিও</string>
-    <string name="enable_lock_screen_video_thumbnail_summary">ব্যাকগ্রাউন্ড প্লেয়ার ব্যবহার করার সময় লক স্ক্রিনে ভিডিও থাম্বনেইল প্রদর্শিত হবে</string>
     <string name="show_play_with_kodi_summary">Kodi মিডিয়া সেন্টারে এর মাধ্যমে ভিডিও প্লে করার জন্য একটি বিকল্প প্রদর্শন কর</string>
-    <string name="enable_lock_screen_video_thumbnail_title">লক স্ক্রিনের ভিডিও থাম্বনেইল</string>
     <string name="show_play_with_kodi_title">দেখাও \"Kodi এর মাধ্যমে চালাও \" বিকল্প</string>
     <string name="kore_not_found">হারানো কোর ইনস্টল করবেন\?</string>
     <string name="play_with_kodi_title">Kodi এর মাধ্যমে চালান</string>
@@ -170,7 +164,7 @@
     <string name="screen_rotation">ঘূর্ণন</string>
     <string name="choose_browser">ব্রাউজার বাছাই করুন</string>
     <string name="share_dialog_title">শেয়ার করুন</string>
-    <string name="did_you_mean">আপনি কি বুঝিয়েছেনঃ %1$s\?</string>
+    <string name="did_you_mean">আপনি কি বুঝিয়েছেন \"%1$s\"\?</string>
     <string name="settings">সেটিংস</string>
     <string name="search">খুঁজুন</string>
     <string name="controls_download_desc">স্ট্রিম ফাইল ডাউনলোড করুন</string>
@@ -184,9 +178,9 @@
     <string name="no_player_found">কোন স্ট্রিম প্লেয়ার পাওয়া যায়নি। VLC ইনস্টল করতে চান\?</string>
     <string name="upload_date_text">প্রকাশকাল %1$s</string>
     <string name="view_count_text">%1$s জন দেখেছে</string>
-    <string name="main_bg_subtitle">অনুসন্ধান এ চাপ দিয়ে শুরু করুন</string>
+    <string name="main_bg_subtitle">অনুসন্ধান এ চাপ দিয়ে শুরু করুন
+\n</string>
     <string name="feed_create_new_group_button_title">নতুন</string>
-    <string name="feed_group_dialog_name_input">নাম</string>
     <string name="fragment_feed_title">নতুন কি</string>
     <string name="app_language_title">অ্যাপ এর ভাষা</string>
     <string name="stop">বন্ধ করুন</string>
@@ -239,7 +233,7 @@
     <string name="invalid_url_toast">অবৈধ ইউ আর এল</string>
     <string name="download_to_sdcard_error_title">বাহ্যিক স্টোরেজ নেই</string>
     <string name="search_history_deleted">সার্চ ইতিহাস ডিলিট হয়েছে।</string>
-    <string name="playlist_name_input">নাম</string>
+    <string name="name">নাম</string>
     <string name="rename_playlist">নাম পরিবর্তন</string>
     <string name="action_history">ইতিহাস</string>
     <string name="read_full_license">লাইসেন্স পড়ুন</string>
@@ -329,4 +323,15 @@
     <string name="enable_search_history_summary">সার্চ গুলি স্থানীয় ভাবে জমা করুন</string>
     <string name="show_search_suggestions_summary">সার্চ এর সময় সাজেশন দেখান</string>
     <string name="show_search_suggestions_title">সার্চ সাজেশন</string>
+    <string name="feed_notification_loading">ফিড লোড হচ্ছে…</string>
+    <string name="show_error">এরর দেখান</string>
+    <string name="select_a_playlist">একটি প্লে লিস্ট পছন্দ করুন</string>
+    <string name="tab_about">সম্পর্কিত</string>
+    <string name="title_licenses">থার্ড-পার্টি লাইসেন্স সমূহ</string>
+    <string name="action_about">সম্পর্কিত</string>
+    <string name="error_report_open_issue_button_text">গিটহাব এ এরর রিপোর্ট করুন</string>
+    <string name="restore_defaults">ডিফল্ট এ ফিরে যান</string>
+    <string name="search_showing_result_for">রেজাল্ট দেখান হচ্ছেঃ %s</string>
+    <string name="clear_queue_confirmation_title">কিউ মোছার আগে নিশ্চিত করুন</string>
+    <string name="notification_action_repeat">পুনরায়</string>
 </resources>

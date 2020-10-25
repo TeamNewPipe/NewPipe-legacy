@@ -134,7 +134,7 @@ public abstract class BaseListInfoFragment<I extends ListInfo>
                     currentInfo = result;
                     currentNextPage = result.getNextPage();
                     handleResult(result);
-                }, (@NonNull Throwable throwable) -> onError(throwable));
+                }, this::onError);
     }
 
     /**

@@ -32,8 +32,6 @@ import org.schabi.newpipelegacy.util.KioskTranslator;
 import org.schabi.newpipelegacy.util.ServiceHelper;
 import org.schabi.newpipelegacy.util.ThemeHelper;
 
-import java.util.Objects;
-
 public abstract class Tab {
     private static final String JSON_TAB_ID_KEY = "tab_id";
 
@@ -66,7 +64,7 @@ public abstract class Tab {
 
     @Nullable
     public static Type typeFrom(final int tabId) {
-        for (Type available : Type.values()) {
+        for (final Type available : Type.values()) {
             if (available.getTabId() == tabId) {
                 return available;
             }
@@ -482,7 +480,7 @@ public abstract class Tab {
             try {
                 final StreamingService service = NewPipe.getService(kioskServiceId);
                 kioskId = service.getKioskList().getDefaultKioskId();
-            } catch (ExtractionException e) {
+            } catch (final ExtractionException e) {
                 ErrorActivity.reportError(context, e, null, null,
                         ErrorActivity.ErrorInfo.make(UserAction.REQUESTED_KIOSK, "none",
                                 "Loading default kiosk from selected service", 0));
@@ -579,14 +577,14 @@ public abstract class Tab {
         @Override
         public boolean equals(final Object obj) {
             if (!(super.equals(obj)
-                    && Objects.equals(playlistType, ((PlaylistTab) obj).playlistType)
-                    && Objects.equals(playlistName, ((PlaylistTab) obj).playlistName))) {
+                    && ObjectsCompat.equals(playlistType, ((PlaylistTab) obj).playlistType)
+                    && ObjectsCompat.equals(playlistName, ((PlaylistTab) obj).playlistName))) {
                 return false; // base objects are different
             }
 
             return (playlistId == ((PlaylistTab) obj).playlistId)                     // local
                     || (playlistServiceId == ((PlaylistTab) obj).playlistServiceId    // remote
-                    && Objects.equals(playlistUrl, ((PlaylistTab) obj).playlistUrl));
+                    && ObjectsCompat.equals(playlistUrl, ((PlaylistTab) obj).playlistUrl));
         }
 
         public int getPlaylistServiceId() {

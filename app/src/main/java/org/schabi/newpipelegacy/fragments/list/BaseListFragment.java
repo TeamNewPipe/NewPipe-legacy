@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,6 +14,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,6 +29,7 @@ import org.schabi.newpipelegacy.fragments.BaseStateFragment;
 import org.schabi.newpipelegacy.fragments.OnScrollBelowItemsListener;
 import org.schabi.newpipelegacy.info_list.InfoItemDialog;
 import org.schabi.newpipelegacy.info_list.InfoListAdapter;
+import org.schabi.newpipelegacy.player.helper.PlayerHolder;
 import org.schabi.newpipelegacy.report.ErrorActivity;
 import org.schabi.newpipelegacy.util.NavigationHelper;
 import org.schabi.newpipelegacy.util.OnClickGesture;
@@ -36,6 +37,8 @@ import org.schabi.newpipelegacy.util.StateSaver;
 import org.schabi.newpipelegacy.util.StreamDialogEntry;
 import org.schabi.newpipelegacy.views.SuperScrollLayoutManager;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Queue;
 
@@ -136,7 +139,7 @@ public abstract class BaseListFragment<I, N> extends BaseStateFragment<I>
             final RecyclerView.ViewHolder itemHolder =
                     itemsList.findContainingViewHolder(focusedItem);
             return itemHolder.getAdapterPosition();
-        } catch (NullPointerException e) {
+        } catch (final NullPointerException e) {
             return -1;
         }
     }
@@ -169,7 +172,7 @@ public abstract class BaseListFragment<I, N> extends BaseStateFragment<I>
         }
 
         itemsList.post(() -> {
-            RecyclerView.ViewHolder focusedHolder =
+            final RecyclerView.ViewHolder focusedHolder =
                     itemsList.findViewHolderForAdapterPosition(position);
 
             if (focusedHolder != null) {
@@ -279,7 +282,7 @@ public abstract class BaseListFragment<I, N> extends BaseStateFragment<I>
                             selectedItem.getServiceId(),
                             selectedItem.getUrl(),
                             selectedItem.getName());
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     ErrorActivity.reportUiError((AppCompatActivity) getActivity(), e);
                 }
             }
@@ -294,7 +297,7 @@ public abstract class BaseListFragment<I, N> extends BaseStateFragment<I>
                             selectedItem.getServiceId(),
                             selectedItem.getUrl(),
                             selectedItem.getName());
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     ErrorActivity.reportUiError((AppCompatActivity) getActivity(), e);
                 }
             }
@@ -336,21 +339,26 @@ public abstract class BaseListFragment<I, N> extends BaseStateFragment<I>
             return;
         }
 
+        final ArrayList<StreamDialogEntry> entries = new ArrayList<>();
+
+        if (PlayerHolder.getType() != null) {
+            entries.add(StreamDialogEntry.enqueue);
+        }
         if (item.getStreamType() == StreamType.AUDIO_STREAM) {
-            StreamDialogEntry.setEnabledEntries(
-                    StreamDialogEntry.enqueue_on_background,
+            entries.addAll(Arrays.asList(
                     StreamDialogEntry.start_here_on_background,
                     StreamDialogEntry.append_playlist,
-                    StreamDialogEntry.share);
-        } else {
-            StreamDialogEntry.setEnabledEntries(
-                    StreamDialogEntry.enqueue_on_background,
-                    StreamDialogEntry.enqueue_on_popup,
+                    StreamDialogEntry.share
+            ));
+        } else  {
+            entries.addAll(Arrays.asList(
                     StreamDialogEntry.start_here_on_background,
                     StreamDialogEntry.start_here_on_popup,
                     StreamDialogEntry.append_playlist,
-                    StreamDialogEntry.share);
+                    StreamDialogEntry.share
+            ));
         }
+        StreamDialogEntry.setEnabledEntries(entries);
 
         new InfoItemDialog(activity, item, StreamDialogEntry.getCommands(context),
                 (dialog, which) -> StreamDialogEntry.clickOn(which, this, item)).show();
@@ -367,7 +375,7 @@ public abstract class BaseListFragment<I, N> extends BaseStateFragment<I>
                     + "menu = [" + menu + "], inflater = [" + inflater + "]");
         }
         super.onCreateOptionsMenu(menu, inflater);
-        ActionBar supportActionBar = activity.getSupportActionBar();
+        final ActionBar supportActionBar = activity.getSupportActionBar();
         if (supportActionBar != null) {
             supportActionBar.setDisplayShowTitleEnabled(true);
             if (useAsFrontPage) {

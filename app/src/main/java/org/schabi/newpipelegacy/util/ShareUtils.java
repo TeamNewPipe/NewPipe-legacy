@@ -9,6 +9,8 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
+
 import org.schabi.newpipelegacy.R;
 
 public final class ShareUtils {
@@ -31,8 +33,9 @@ public final class ShareUtils {
             // no browser set as default
             openInDefaultApp(context, url);
         } else {
-            final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            intent.setPackage(defaultBrowserPackageName);
+            final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                    .setPackage(defaultBrowserPackageName)
+                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         }
     }
@@ -48,7 +51,8 @@ public final class ShareUtils {
     private static void openInDefaultApp(final Context context, final String url) {
         final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         context.startActivity(Intent.createChooser(
-                intent, context.getString(R.string.share_dialog_title)));
+                intent, context.getString(R.string.share_dialog_title))
+                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
     }
 
     /**
@@ -60,7 +64,8 @@ public final class ShareUtils {
      * @return the package name of the default browser, or "android" if there's no default
      */
     private static String getDefaultBrowserPackageName(final Context context) {
-        final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://"));
+        final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://"))
+                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         final ResolveInfo resolveInfo = context.getPackageManager().resolveActivity(
                 intent, PackageManager.MATCH_DEFAULT_ONLY);
         return resolveInfo.activityInfo.packageName;
@@ -74,12 +79,13 @@ public final class ShareUtils {
      * @param url     the url to share
      */
     public static void shareUrl(final Context context, final String subject, final String url) {
-        Intent intent = new Intent(Intent.ACTION_SEND);
+        final Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_SUBJECT, subject);
         intent.putExtra(Intent.EXTRA_TEXT, url);
         context.startActivity(Intent.createChooser(
-                intent, context.getString(R.string.share_dialog_title)));
+                intent, context.getString(R.string.share_dialog_title))
+                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
     }
 
     /**
@@ -91,7 +97,7 @@ public final class ShareUtils {
      */
     public static void copyToClipboard(final Context context, final String text) {
         final ClipboardManager clipboardManager =
-                (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                ContextCompat.getSystemService(context, ClipboardManager.class);
 
         if (clipboardManager == null) {
             Toast.makeText(context,

@@ -29,6 +29,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.DiffUtil;
@@ -49,6 +50,7 @@ import java.io.File;
 import java.lang.ref.WeakReference;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 
 import us.shandian.giga.get.DownloadMission;
@@ -119,7 +121,7 @@ public class MissionAdapter extends Adapter<ViewHolder> implements Handler.Callb
         mContext = context;
         mDownloadManager = downloadManager;
 
-        mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mInflater = ContextCompat.getSystemService(mContext, LayoutInflater.class);
         mLayout = R.layout.mission_item;
 
         mHandler = new Handler(context.getMainLooper());
@@ -210,7 +212,7 @@ public class MissionAdapter extends Adapter<ViewHolder> implements Handler.Callb
         } else {
             h.progress.setMarquee(false);
             h.status.setText("100%");
-            h.progress.setProgress(1f);
+            h.progress.setProgress(1.0f);
             h.size.setText(Utility.formatBytes(item.mission.length));
         }
     }
@@ -243,7 +245,7 @@ public class MissionAdapter extends Adapter<ViewHolder> implements Handler.Callb
         double progress;
         if (mission.unknownLength) {
             progress = Double.NaN;
-            h.progress.setProgress(0f);
+            h.progress.setProgress(0.0f);
         } else {
             progress = done / length;
         }
@@ -302,15 +304,13 @@ public class MissionAdapter extends Adapter<ViewHolder> implements Handler.Callb
             float averageSpeed = speed;
 
             if (h.lastSpeedIdx < 0) {
-                for (int i = 0; i < h.lastSpeed.length; i++) {
-                    h.lastSpeed[i] = speed;
-                }
+                Arrays.fill(h.lastSpeed, speed);
                 h.lastSpeedIdx = 0;
             } else {
                 for (int i = 0; i < h.lastSpeed.length; i++) {
                     averageSpeed += h.lastSpeed[i];
                 }
-                averageSpeed /= h.lastSpeed.length + 1f;
+                averageSpeed /= h.lastSpeed.length + 1.0f;
             }
 
             String speedStr = Utility.formatSpeed(averageSpeed);

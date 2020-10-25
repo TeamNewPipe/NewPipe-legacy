@@ -4,12 +4,12 @@ import android.os.Bundle;
 
 import androidx.preference.Preference;
 
-import org.schabi.newpipelegacy.BuildConfig;
 import org.schabi.newpipelegacy.CheckForNewAppVersionTask;
+import org.schabi.newpipelegacy.MainActivity;
 import org.schabi.newpipelegacy.R;
 
 public class MainSettingsFragment extends BasePreferenceFragment {
-    public static final boolean DEBUG = !BuildConfig.BUILD_TYPE.equals("release");
+    public static final boolean DEBUG = MainActivity.DEBUG;
 
     @Override
     public void onCreatePreferences(final Bundle savedInstanceState, final String rootKey) {
@@ -20,11 +20,6 @@ public class MainSettingsFragment extends BasePreferenceFragment {
             getPreferenceScreen().removePreference(update);
 
             defaultPreferences.edit().putBoolean(getString(R.string.update_app_key), false).apply();
-        }
-
-        if (!DEBUG) {
-            final Preference debug = findPreference(getString(R.string.debug_pref_screen_key));
-            getPreferenceScreen().removePreference(debug);
         }
     }
 }
