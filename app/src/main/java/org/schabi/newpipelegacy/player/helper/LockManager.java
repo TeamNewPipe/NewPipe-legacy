@@ -5,8 +5,7 @@ import android.net.wifi.WifiManager;
 import android.os.PowerManager;
 import android.util.Log;
 
-import static android.content.Context.POWER_SERVICE;
-import static android.content.Context.WIFI_SERVICE;
+import androidx.core.content.ContextCompat;
 
 public class LockManager {
     private final String TAG = "LockManager@" + hashCode();
@@ -18,10 +17,9 @@ public class LockManager {
     private WifiManager.WifiLock wifiLock;
 
     public LockManager(final Context context) {
-        powerManager = ((PowerManager) context.getApplicationContext()
-                .getSystemService(POWER_SERVICE));
-        wifiManager = ((WifiManager) context.getApplicationContext()
-                .getSystemService(WIFI_SERVICE));
+        powerManager = ContextCompat.getSystemService(context.getApplicationContext(),
+                PowerManager.class);
+        wifiManager = ContextCompat.getSystemService(context, WifiManager.class);
     }
 
     public void acquireWifiAndCpu() {
@@ -34,7 +32,7 @@ public class LockManager {
         wifiLock = wifiManager.createWifiLock(WifiManager.WIFI_MODE_FULL, TAG);
 
         if (wakeLock != null) {
-            wakeLock.acquire();
+            wakeLock.acquire(10 * 60 * 1000L /*10 minutes*/);
         }
         if (wifiLock != null) {
             wifiLock.acquire();

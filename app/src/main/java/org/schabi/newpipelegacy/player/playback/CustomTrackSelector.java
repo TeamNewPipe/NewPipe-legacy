@@ -1,5 +1,6 @@
 package org.schabi.newpipelegacy.player.playback;
 
+import android.content.Context;
 import android.text.TextUtils;
 import android.util.Pair;
 
@@ -26,8 +27,9 @@ import com.google.android.exoplayer2.util.Assertions;
 public class CustomTrackSelector extends DefaultTrackSelector {
     private String preferredTextLanguage;
 
-    public CustomTrackSelector(final TrackSelection.Factory adaptiveTrackSelectionFactory) {
-        super(adaptiveTrackSelectionFactory);
+    public CustomTrackSelector(final Context context,
+                               final TrackSelection.Factory adaptiveTrackSelectionFactory) {
+        super(context, adaptiveTrackSelectionFactory);
     }
 
     private static boolean formatHasLanguage(final Format format, final String language) {
@@ -58,14 +60,14 @@ public class CustomTrackSelector extends DefaultTrackSelector {
         TextTrackScore selectedTrackScore = null;
 
         for (int groupIndex = 0; groupIndex < groups.length; groupIndex++) {
-            TrackGroup trackGroup = groups.get(groupIndex);
-            @Capabilities int[] trackFormatSupport = formatSupport[groupIndex];
+            final TrackGroup trackGroup = groups.get(groupIndex);
+            @Capabilities final int[] trackFormatSupport = formatSupport[groupIndex];
 
             for (int trackIndex = 0; trackIndex < trackGroup.length; trackIndex++) {
                 if (isSupported(trackFormatSupport[trackIndex],
                         params.exceedRendererCapabilitiesIfNecessary)) {
-                    Format format = trackGroup.getFormat(trackIndex);
-                    TextTrackScore trackScore = new TextTrackScore(format, params,
+                    final Format format = trackGroup.getFormat(trackIndex);
+                    final TextTrackScore trackScore = new TextTrackScore(format, params,
                             trackFormatSupport[trackIndex], selectedAudioLanguage);
 
                     if (formatHasLanguage(format, preferredTextLanguage)) {

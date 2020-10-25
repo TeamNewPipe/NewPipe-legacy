@@ -33,6 +33,7 @@ import org.schabi.newpipe.extractor.stream.StreamType;
 import org.schabi.newpipelegacy.fragments.list.BaseListInfoFragment;
 import org.schabi.newpipelegacy.info_list.InfoItemDialog;
 import org.schabi.newpipelegacy.local.playlist.RemotePlaylistManager;
+import org.schabi.newpipelegacy.player.helper.PlayerHolder;
 import org.schabi.newpipelegacy.player.playqueue.PlayQueue;
 import org.schabi.newpipelegacy.player.playqueue.PlaylistPlayQueue;
 import org.schabi.newpipelegacy.report.ErrorActivity;
@@ -46,6 +47,7 @@ import org.schabi.newpipelegacy.util.StreamDialogEntry;
 import org.schabi.newpipelegacy.util.ThemeHelper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -85,7 +87,7 @@ public class PlaylistFragment extends BaseListInfoFragment<PlaylistInfo> {
 
     public static PlaylistFragment getInstance(final int serviceId, final String url,
                                                final String name) {
-        PlaylistFragment instance = new PlaylistFragment();
+        final PlaylistFragment instance = new PlaylistFragment();
         instance.setInitialData(serviceId, url, name);
         return instance;
     }
@@ -151,25 +153,26 @@ public class PlaylistFragment extends BaseListInfoFragment<PlaylistInfo> {
             return;
         }
 
+        final ArrayList<StreamDialogEntry> entries = new ArrayList<>();
+
+        if (PlayerHolder.getType() != null) {
+            entries.add(StreamDialogEntry.enqueue);
+        }
         if (item.getStreamType() == StreamType.AUDIO_STREAM) {
-            StreamDialogEntry.setEnabledEntries(
-                    StreamDialogEntry.enqueue_on_background,
+            entries.addAll(Arrays.asList(
                     StreamDialogEntry.start_here_on_background,
                     StreamDialogEntry.append_playlist,
-                    StreamDialogEntry.share);
-        } else {
-            StreamDialogEntry.setEnabledEntries(
-                    StreamDialogEntry.enqueue_on_background,
-                    StreamDialogEntry.enqueue_on_popup,
+                    StreamDialogEntry.share
+            ));
+        } else  {
+            entries.addAll(Arrays.asList(
                     StreamDialogEntry.start_here_on_background,
                     StreamDialogEntry.start_here_on_popup,
                     StreamDialogEntry.append_playlist,
-                    StreamDialogEntry.share);
-
-            StreamDialogEntry.start_here_on_popup.setCustomAction((fragment, infoItem) ->
-                    NavigationHelper.playOnPopupPlayer(context,
-                            getPlayQueueStartingAt(infoItem), true));
+                    StreamDialogEntry.share
+            ));
         }
+        StreamDialogEntry.setEnabledEntries(entries);
 
         StreamDialogEntry.start_here_on_background.setCustomAction((fragment, infoItem) ->
                 NavigationHelper.playOnBackgroundPlayer(context,
@@ -229,7 +232,7 @@ public class PlaylistFragment extends BaseListInfoFragment<PlaylistInfo> {
 
     @Override
     protected Single<ListExtractor.InfoItemsPage> loadMoreItemsLogic() {
-        return ExtractorHelper.getMorePlaylistItems(serviceId, url, currentNextPageUrl);
+        return ExtractorHelper.getMorePlaylistItems(serviceId, url, currentNextPage);
     }
 
     @Override
@@ -286,11 +289,9 @@ public class PlaylistFragment extends BaseListInfoFragment<PlaylistInfo> {
             if (!TextUtils.isEmpty(result.getUploaderUrl())) {
                 headerUploaderLayout.setOnClickListener(v -> {
                     try {
-                        NavigationHelper.openChannelFragment(getFragmentManager(),
-                                result.getServiceId(),
-                                result.getUploaderUrl(),
-                                result.getUploaderName());
-                    } catch (Exception e) {
+                        NavigationHelper.openChannelFragment(getFM(), result.getServiceId(),
+                                result.getUploaderUrl(), result.getUploaderName());
+                    } catch (final Exception e) {
                         ErrorActivity.reportUiError((AppCompatActivity) getActivity(), e);
                     }
                 });
@@ -318,7 +319,7 @@ public class PlaylistFragment extends BaseListInfoFragment<PlaylistInfo> {
                 .subscribe(getPlaylistBookmarkSubscriber());
 
         headerPlayAllButton.setOnClickListener(view ->
-                NavigationHelper.playOnMainPlayer(activity, getPlayQueue(), false));
+                NavigationHelper.playOnMainPlayer(activity, getPlayQueue(), true));
         headerPopupButton.setOnClickListener(view ->
                 NavigationHelper.playOnPopupPlayer(activity, getPlayQueue(), false));
         headerBackgroundButton.setOnClickListener(view ->
@@ -341,7 +342,7 @@ public class PlaylistFragment extends BaseListInfoFragment<PlaylistInfo> {
 
     private PlayQueue getPlayQueue(final int index) {
         final List<StreamInfoItem> infoItems = new ArrayList<>();
-        for (InfoItem i : infoListAdapter.getItemsList()) {
+        for (final InfoItem i : infoListAdapter.getItemsList()) {
             if (i instanceof StreamInfoItem) {
                 infoItems.add((StreamInfoItem) i);
             }
@@ -349,7 +350,7 @@ public class PlaylistFragment extends BaseListInfoFragment<PlaylistInfo> {
         return new PlaylistPlayQueue(
                 currentInfo.getServiceId(),
                 currentInfo.getUrl(),
-                currentInfo.getNextPageUrl(),
+                currentInfo.getNextPage(),
                 infoItems,
                 index
         );
@@ -375,7 +376,7 @@ public class PlaylistFragment extends BaseListInfoFragment<PlaylistInfo> {
             return true;
         }
 
-        int errorId = exception instanceof ExtractionException
+        final int errorId = exception instanceof ExtractionException
                 ? R.string.parsing_error : R.string.general_error;
         onUnrecoverableError(exception, UserAction.REQUESTED_PLAYLIST,
                 NewPipe.getNameOfService(serviceId), url, errorId);

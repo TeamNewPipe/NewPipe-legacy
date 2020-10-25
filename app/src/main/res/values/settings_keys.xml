@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources translatable="false">
+    <!-- App versioning -->
+    <string name="last_used_version" translatable="false">last_used_version</string>
+    <string name="last_used_preferences_version" translatable="false">last_used_preferences_version</string>
+
     <!-- Service -->
     <string-array name="service_list" translatable="false">
         <item>@string/youtube</item>
@@ -28,12 +32,13 @@
     <string name="auto_queue_key" translatable="false">auto_queue_key</string>
     <string name="screen_brightness_key" translatable="false">screen_brightness_key</string>
     <string name="screen_brightness_timestamp_key" translatable="false">screen_brightness_timestamp_key</string>
+    <string name="clear_queue_confirmation_key" translatable="false">clear_queue_confirmation_key</string>
 
     <string name="seek_duration_key" translatable="false">seek_duration</string>
     <string name="seek_duration_default_value" translatable="false">10000</string>
     <string-array name="seek_duration_description" translatable="false">
-    <!--   They are overridden in VideoAudioSettingsFragment.java if the translation
-    (seconds) exist. Otherwise this array is picked-->
+        <!--   They are overridden in VideoAudioSettingsFragment.java if the translation
+        (seconds) exist. Otherwise this array is picked-->
         <item>5 seconds</item>
         <item>10 seconds</item>
         <item>15 seconds</item>
@@ -51,7 +56,7 @@
     </string-array>
 
     <string name="minimize_on_exit_key" translatable="false">minimize_on_exit_key</string>
-    <string name="minimize_on_exit_value" translatable="false">@string/minimize_on_exit_none_key</string>
+    <string name="minimize_on_exit_value" translatable="false">@string/minimize_on_exit_background_key</string>
     <string name="minimize_on_exit_none_key" translatable="false">minimize_on_exit_none_key</string>
     <string name="minimize_on_exit_background_key" translatable="false">minimize_on_exit_background_key</string>
     <string name="minimize_on_exit_popup_key" translatable="false">minimize_on_exit_popup_key</string>
@@ -66,11 +71,28 @@
         <item>@string/minimize_on_exit_popup_description</item>
     </string-array>
 
+
+    <string name="autoplay_key" translatable="false">autoplay_key</string>
+    <string name="autoplay_value" translatable="false">@string/autoplay_wifi_key</string>
+    <string name="autoplay_always_key" translatable="false">autoplay_always_key</string>
+    <string name="autoplay_wifi_key" translatable="false">autoplay_wifi_key</string>
+    <string name="autoplay_never_key" translatable="false">autoplay_never_key</string>
+    <string-array name="autoplay_type_key" translatable="false">
+        <item>@string/autoplay_always_key</item>
+        <item>@string/autoplay_wifi_key</item>
+        <item>@string/autoplay_never_key</item>
+    </string-array>
+    <string-array name="autoplay_type_description" translatable="false">
+        <item>@string/always</item>
+        <item>@string/wifi_only</item>
+        <item>@string/never</item>
+    </string-array>
+
     <string name="default_resolution_key" translatable="false">default_resolution</string>
-    <string name="default_resolution_value" translatable="false">360p</string>
+    <string name="default_resolution_value" translatable="false">720p60</string>
     <string name="show_higher_resolutions_key" translatable="false">show_higher_resolutions</string>
     <string name="default_popup_resolution_key" translatable="false">default_popup_resolution</string>
-    <string name="default_popup_resolution_value" translatable="false">360p</string>
+    <string name="default_popup_resolution_value" translatable="false">480p</string>
     <string name="best_resolution_key" translatable="false">best_resolution</string>
 
     <string-array name="resolution_list_values" translatable="false">
@@ -96,6 +118,19 @@
         <item>144p</item>
     </string-array>
 
+    <string name="settings_notifications_compact_view_key" translatable="false">notifications_compact_view</string>
+    <string name="settings_notifications_compact_view_default_value" translatable="false">0,1,2</string>
+    <string name="scale_to_square_image_in_notifications_key" translatable="false">scale_to_square_image_in_notifications</string>
+
+    <string name="notification_slot_0_key" translatable="false">notification_slot_0_key</string>
+    <string name="notification_slot_1_key" translatable="false">notification_slot_1_key</string>
+    <string name="notification_slot_2_key" translatable="false">notification_slot_2_key</string>
+    <string name="notification_slot_3_key" translatable="false">notification_slot_3_key</string>
+    <string name="notification_slot_4_key" translatable="false">notification_slot_4_key</string>
+
+    <string name="notification_slot_compact_0_key" translatable="false">notification_slot_compact_0_key</string>
+    <string name="notification_slot_compact_1_key" translatable="false">notification_slot_compact_1_key</string>
+    <string name="notification_slot_compact_2_key" translatable="false">notification_slot_compact_2_key</string>
 
     <string name="video_mp4_key" translatable="false">video_mp4</string>
     <string name="video_webm_key" translatable="false">video_webm</string>
@@ -126,13 +161,12 @@
         <item>@string/audio_webm_key</item>
     </string-array>
 
-    <string name="last_orientation_landscape_key" translatable="false">last_orientation_landscape_key</string>
-
     <string name="last_resize_mode" translatable="false">last_resize_mode</string>
 
     <!-- DEBUG ONLY -->
     <string name="debug_pref_screen_key" translatable="false">debug_pref_screen_key</string>
     <string name="allow_heap_dumping_key" translatable="false">allow_heap_dumping_key</string>
+    <string name="show_memory_leaks_key" translatable="false">show_memory_leaks_key</string>
     <string name="allow_disposed_exceptions_key" translatable="false">allow_disposed_exceptions_key</string>
     <string name="show_original_time_ago_key" translatable="false">show_original_time_ago_text_key</string>
 
@@ -183,7 +217,6 @@
     <string name="playback_skip_silence_key" translatable="false">playback_skip_silence_key</string>
 
     <string name="app_language_key" translatable="false">app_language_key</string>
-    <string name="enable_lock_screen_video_thumbnail_key" translatable="false">enable_lock_screen_video_thumbnail</string>
 
     <string name="feed_update_threshold_key" translatable="false">feed_update_threshold_key</string>
     <string name="feed_update_threshold_default_value" translatable="false">300</string>
@@ -213,12 +246,19 @@
     <string name="import_data" translatable="false">import_data</string>
     <string name="export_data" translatable="false">export_data</string>
 
+    <string name="clear_cookie_key" translatable="false">clear_cookie</string>
+
     <string name="download_thumbnail_key" translatable="false">download_thumbnail_key</string>
 
     <string name="metadata_cache_wipe_key" translatable="false">cache_wipe_key</string>
     <string name="clear_views_history_key" translatable="false">clear_play_history</string>
     <string name="clear_playback_states_key" translatable="false">clear_playback_states</string>
     <string name="clear_search_history_key" translatable="false">clear_search_history</string>
+
+    <string name="last_used_download_type" translatable="false">@string/last_download_type_video_key</string>
+    <string name="last_download_type_video_key" translatable="false">last_dl_type_video</string>
+    <string name="last_download_type_audio_key" translatable="false">last_dl_type_audio</string>
+    <string name="last_download_type_subtitle_key" translatable="false">last_dl_type_subtitle</string>
 
     <string name="downloads_storage_ask" translatable="false">downloads_storage_ask</string>
     <string name="storage_use_saf" translatable="false">storage_use_saf</string>
@@ -966,12 +1006,17 @@
         <item>@string/default_localization_key</item>
         <item>ace</item>
         <item>ar</item>
+        <item>ar-ly</item>
         <item>az</item>
         <item>ast</item>
         <item>be</item>
-        <item>bg-bd</item>
+        <item>ber</item>
+        <item>bg</item>
         <item>bn</item>
+        <item>bn-bd</item>
+        <item>bn-in</item>
         <item>ca</item>
+        <item>ckb</item>
         <item>cs</item>
         <item>da</item>
         <item>de</item>
@@ -995,11 +1040,14 @@
         <item>in</item>
         <item>it</item>
         <item>ja</item>
+        <item>jv</item>
+        <item>kab</item>
         <item>ko</item>
         <item>ku</item>
         <item>lt</item>
         <item>mk</item>
         <item>ms</item>
+        <item>nap</item>
         <item>nb-no</item>
         <item>ne</item>
         <item>nl</item>
@@ -1009,8 +1057,10 @@
         <item>pl</item>
         <item>pt</item>
         <item>pt-br</item>
+        <item>pt-pt</item>
         <item>ro</item>
         <item>ru</item>
+        <item>sc</item>
         <item>sk</item>
         <item>sl</item>
         <item>sq</item>
@@ -1031,12 +1081,17 @@
         <item>@string/systems_language</item>
         <item>Basa Acèh</item>
         <item>العربية</item>
+        <item>العربية (ليبيا)</item>
         <item>Azərbaycan dili</item>
         <item>Asturianu</item>
         <item>Беларуская</item>
+        <item>ⵜⴰⵎⴰⵣⵉⵖⵜ</item>
         <item>български език</item>
         <item>বাংলা</item>
+        <item>বাংলা (বাংলাদেশ)</item>
+        <item>বাংলা (भारत)</item>
         <item>Català</item>
+        <item>کوردیی سۆرانی</item>
         <item>Čeština</item>
         <item>Dansk</item>
         <item>Deutsch</item>
@@ -1060,11 +1115,14 @@
         <item>Bahasa Indonesia</item>
         <item>Italiano</item>
         <item>日本語</item>
+        <item>ꦧꦱꦗꦮ</item>
+        <item>Taqbaylit</item>
         <item>한국어</item>
         <item>کوردی</item>
         <item>Lietuvių kalba</item>
         <item>македонски јазик</item>
         <item>Bahasa Melayu</item>
+        <item>napulitano</item>
         <item>Norsk bokmål</item>
         <item>Nनेपाली</item>
         <item>Nederlands (NL)</item>
@@ -1072,10 +1130,12 @@
         <item>Occitan</item>
         <item>ਪੰਜਾਬੀ</item>
         <item>Polski</item>
-        <item>Português (PT)</item>
+        <item>Português</item>
         <item>Português (BR)</item>
+        <item>Português (PT)</item>
         <item>Română</item>
         <item>русский язык</item>
+        <item>sardu</item>
         <item>Slovenčina</item>
         <item>Slovenščina</item>
         <item>Shqip</item>

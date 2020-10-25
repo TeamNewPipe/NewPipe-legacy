@@ -1,5 +1,6 @@
 package us.shandian.giga.io;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -145,12 +146,18 @@ public class StoredFileHelper implements Serializable {
         // SAF notes:
         //           ACTION_OPEN_DOCUMENT       Do not let you create the file, useful for overwrite files
         //           ACTION_CREATE_DOCUMENT     No overwrite support, useless the file provider resolve the conflict
+        final String intentAction = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
+                ? Intent.ACTION_CREATE_DOCUMENT
+                : "android.intent.action.CREATE_DOCUMENT";
+        final int uriPermissionFlag = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
+                ? Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
+                : 0x00000040;
 
-        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT)
+        @SuppressLint("WrongConstant") Intent intent = new Intent(intentAction)
                 .addCategory(Intent.CATEGORY_OPENABLE)
                 .setType(mime)
                 .putExtra(Intent.EXTRA_TITLE, filename)
-                .addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION | StoredDirectoryHelper.PERMISSION_FLAGS)
+                .addFlags(uriPermissionFlag | StoredDirectoryHelper.PERMISSION_FLAGS)
                 .putExtra("android.content.extra.SHOW_ADVANCED", true);// hack, show all storage disks
 
         who.startActivityForResult(intent, requestCode);

@@ -12,6 +12,7 @@ import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.analytics.AnalyticsListener;
@@ -39,7 +40,7 @@ public class AudioReactor implements AudioManager.OnAudioFocusChangeListener, An
                         @NonNull final SimpleExoPlayer player) {
         this.player = player;
         this.context = context;
-        this.audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        this.audioManager = ContextCompat.getSystemService(context, AudioManager.class);
         player.addAnalyticsListener(this);
 
         if (SHOULD_BUILD_FOCUS_REQUEST) {
@@ -114,7 +115,7 @@ public class AudioReactor implements AudioManager.OnAudioFocusChangeListener, An
     private void onAudioFocusGain() {
         Log.d(TAG, "onAudioFocusGain() called");
         player.setVolume(DUCK_AUDIO_TO);
-        animateAudio(DUCK_AUDIO_TO, 1f);
+        animateAudio(DUCK_AUDIO_TO, 1.0f);
 
         if (PlayerHelper.isResumeAfterAudioFocusGain(context)) {
             player.setPlayWhenReady(true);
@@ -133,7 +134,7 @@ public class AudioReactor implements AudioManager.OnAudioFocusChangeListener, An
     }
 
     private void animateAudio(final float from, final float to) {
-        ValueAnimator valueAnimator = new ValueAnimator();
+        final ValueAnimator valueAnimator = new ValueAnimator();
         valueAnimator.setFloatValues(from, to);
         valueAnimator.setDuration(AudioReactor.DUCK_DURATION);
         valueAnimator.addListener(new AnimatorListenerAdapter() {

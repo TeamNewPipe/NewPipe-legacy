@@ -21,8 +21,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public final class PlaylistCreationDialog extends PlaylistDialog {
     public static PlaylistCreationDialog newInstance(final List<StreamEntity> streams) {
-        PlaylistCreationDialog dialog = new PlaylistCreationDialog();
+        final PlaylistCreationDialog dialog = new PlaylistCreationDialog();
         dialog.setInfo(streams);
+        return dialog;
+    }
+
+    public static PlaylistCreationDialog newInstance(final PlaylistAppendDialog appendDialog) {
+        final PlaylistCreationDialog dialog = new PlaylistCreationDialog();
+        dialog.setInfo(appendDialog.getStreams());
         return dialog;
     }
 
@@ -37,8 +43,8 @@ public final class PlaylistCreationDialog extends PlaylistDialog {
             return super.onCreateDialog(savedInstanceState);
         }
 
-        View dialogView = View.inflate(getContext(), R.layout.dialog_playlist_name, null);
-        EditText nameInput = dialogView.findViewById(R.id.playlist_name);
+        final View dialogView = View.inflate(getContext(), R.layout.dialog_playlist_name, null);
+        final EditText nameInput = dialogView.findViewById(R.id.playlist_name);
 
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext())
                 .setTitle(R.string.create_playlist)
