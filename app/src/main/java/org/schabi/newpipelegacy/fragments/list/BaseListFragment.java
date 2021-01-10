@@ -48,7 +48,7 @@ public abstract class BaseListFragment<I, N> extends BaseStateFragment<I>
         implements ListViewContract<I, N>, StateSaver.WriteRead,
         SharedPreferences.OnSharedPreferenceChangeListener {
     private static final int LIST_MODE_UPDATE_FLAG = 0x32;
-    protected org.schabi.newpipe.util.SavedState savedState;
+    protected org.schabi.newpipelegacy.util.SavedState savedState;
 
     private boolean useDefaultStateSaving = true;
     private int updateFlags = 0;

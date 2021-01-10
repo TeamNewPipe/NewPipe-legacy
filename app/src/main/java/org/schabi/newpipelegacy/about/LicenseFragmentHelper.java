@@ -14,7 +14,6 @@ import org.schabi.newpipelegacy.util.ThemeHelper;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
@@ -38,7 +37,7 @@ public final class LicenseFragmentHelper {
         final StringBuilder licenseContent = new StringBuilder();
         final String webViewData;
         try (BufferedReader in = new BufferedReader(new InputStreamReader(
-                context.getAssets().open(license.getFilename()), StandardCharsets.UTF_8))) {
+                context.getAssets().open(license.getFilename()), "utf-8"))) {
             String str;
             while ((str = in.readLine()) != null) {
                 licenseContent.append(str);
@@ -84,6 +83,7 @@ public final class LicenseFragmentHelper {
         return context.getResources().getString(color).substring(3);
     }
 
+    @SuppressWarnings("CharsetObjectCanBeUsed")
     static Disposable showLicense(@Nullable final Context context, @NonNull final License license) {
         if (context == null) {
             return Disposable.empty();
@@ -94,7 +94,7 @@ public final class LicenseFragmentHelper {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(formattedLicense -> {
                     final String webViewData = Base64.encodeToString(formattedLicense
-                            .getBytes(StandardCharsets.UTF_8), Base64.NO_PADDING);
+                            .getBytes("utf-8"), Base64.NO_PADDING);
                     final WebView webView = new WebView(context);
                     webView.loadData(webViewData, "text/html; charset=UTF-8", "base64");
 

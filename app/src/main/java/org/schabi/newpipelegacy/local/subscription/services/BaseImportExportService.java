@@ -19,6 +19,7 @@
 
 package org.schabi.newpipelegacy.local.subscription.services;
 
+import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Build;
@@ -211,6 +212,7 @@ public abstract class BaseImportExportService extends Service {
     // Error handling
     //////////////////////////////////////////////////////////////////////////*/
 
+    @SuppressLint("StringFormatInvalid")
     protected void handleError(@StringRes final int errorTitle, @NonNull final Throwable error) {
         String message = getErrorMessage(error);
 

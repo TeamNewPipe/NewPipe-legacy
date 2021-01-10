@@ -18,6 +18,7 @@
  */
 package org.schabi.newpipelegacy.views;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -211,6 +212,7 @@ public final class FocusOverlayView extends Drawable implements
         setupOverlay(window, overlay);
     }
 
+    @SuppressLint("RestrictedAPI")
     private static void setupOverlay(final Window window, final FocusOverlayView overlay) {
         final ViewGroup decor = (ViewGroup) window.getDecorView();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {

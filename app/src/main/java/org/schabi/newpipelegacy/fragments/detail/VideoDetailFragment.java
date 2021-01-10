@@ -1,6 +1,7 @@
 package org.schabi.newpipelegacy.fragments.detail;
 
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -1593,6 +1594,7 @@ public final class VideoDetailFragment
                 noVideoStreams ? R.drawable.ic_headset_shadow : R.drawable.ic_play_arrow_shadow);
     }
 
+    @SuppressLint("StringFormatInvalid")
     private void hideAgeRestrictedContent() {
         showError(getString(R.string.restricted_video,
                 getString(R.string.show_age_restricted_content_title)), false);

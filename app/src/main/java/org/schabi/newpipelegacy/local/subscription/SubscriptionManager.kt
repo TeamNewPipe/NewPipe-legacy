@@ -5,10 +5,6 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import org.schabi.newpipelegacy.NewPipeDatabase
-import org.schabi.newpipelegacy.database.feed.model.FeedGroupEntity
-import org.schabi.newpipelegacy.database.subscription.SubscriptionDAO
-import org.schabi.newpipelegacy.database.subscription.SubscriptionEntity
 import org.schabi.newpipe.extractor.ListInfo
 import org.schabi.newpipe.extractor.channel.ChannelInfo
 import org.schabi.newpipe.extractor.feed.FeedInfo

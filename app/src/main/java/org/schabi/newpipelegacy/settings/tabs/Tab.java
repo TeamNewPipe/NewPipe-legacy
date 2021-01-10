@@ -33,8 +33,6 @@ import org.schabi.newpipelegacy.util.KioskTranslator;
 import org.schabi.newpipelegacy.util.ServiceHelper;
 import org.schabi.newpipelegacy.util.ThemeHelper;
 
-import java.util.Objects;
-
 public abstract class Tab {
     private static final String JSON_TAB_ID_KEY = "tab_id";
 

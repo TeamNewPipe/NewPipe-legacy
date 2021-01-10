@@ -20,7 +20,6 @@ public class SrtFromTtmlWriter {
 
     private final SharpStream out;
     private final boolean ignoreEmptyFrames;
-    private final Charset charset = StandardCharsets.UTF_8;
 
     private int frameIndex = 0;
 

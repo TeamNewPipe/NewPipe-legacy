@@ -7,14 +7,14 @@ import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Maybe
 import io.reactivex.rxjava3.schedulers.Schedulers
+import org.schabi.newpipe.extractor.stream.StreamInfoItem
+import org.schabi.newpipe.extractor.stream.StreamType
 import org.schabi.newpipelegacy.MainActivity.DEBUG
 import org.schabi.newpipelegacy.NewPipeDatabase
 import org.schabi.newpipelegacy.database.feed.model.FeedEntity
 import org.schabi.newpipelegacy.database.feed.model.FeedGroupEntity
 import org.schabi.newpipelegacy.database.feed.model.FeedLastUpdatedEntity
 import org.schabi.newpipelegacy.database.stream.model.StreamEntity
-import org.schabi.newpipe.extractor.stream.StreamInfoItem
-import org.schabi.newpipe.extractor.stream.StreamType
 import org.schabi.newpipelegacy.local.subscription.FeedGroupIcon
 import java.time.LocalDate
 import java.time.OffsetDateTime

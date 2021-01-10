@@ -33,6 +33,8 @@ import kotlinx.android.synthetic.main.dialog_title.view.itemAdditionalDetails
 import kotlinx.android.synthetic.main.dialog_title.view.itemTitleView
 import kotlinx.android.synthetic.main.fragment_subscription.items_list
 import org.schabi.newpipe.extractor.channel.ChannelInfoItem
+import org.schabi.newpipelegacy.R
+import org.schabi.newpipelegacy.database.feed.model.FeedGroupEntity
 import org.schabi.newpipelegacy.fragments.BaseStateFragment
 import org.schabi.newpipelegacy.local.subscription.SubscriptionViewModel.SubscriptionState
 import org.schabi.newpipelegacy.local.subscription.dialog.FeedGroupDialog
