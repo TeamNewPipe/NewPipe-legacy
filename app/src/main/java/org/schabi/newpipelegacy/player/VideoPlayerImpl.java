@@ -76,9 +76,7 @@ import com.google.android.exoplayer2.ui.SubtitleView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 
-import org.schabi.newpipelegacy.MainActivity;
 import org.schabi.newpipelegacy.R;
-import org.schabi.newpipe.extractor.StreamingService;
 import org.schabi.newpipe.extractor.stream.StreamInfo;
 import org.schabi.newpipe.extractor.stream.VideoStream;
 import org.schabi.newpipelegacy.fragments.OnScrollBelowItemsListener;
@@ -97,7 +95,6 @@ import org.schabi.newpipelegacy.player.resolver.AudioPlaybackResolver;
 import org.schabi.newpipelegacy.player.resolver.MediaSourceTag;
 import org.schabi.newpipelegacy.player.resolver.VideoPlaybackResolver;
 import org.schabi.newpipelegacy.util.AnimationUtils;
-import org.schabi.newpipelegacy.util.Constants;
 import org.schabi.newpipelegacy.util.DeviceUtils;
 import org.schabi.newpipelegacy.util.KoreUtil;
 import org.schabi.newpipelegacy.util.ListHelper;
@@ -106,6 +103,7 @@ import org.schabi.newpipelegacy.util.ShareUtils;
 
 import java.util.List;
 
+import static org.schabi.newpipe.extractor.ServiceList.YouTube;
 import static org.schabi.newpipelegacy.player.MainPlayer.ACTION_CLOSE;
 import static org.schabi.newpipelegacy.player.MainPlayer.ACTION_FAST_FORWARD;
 import static org.schabi.newpipelegacy.player.MainPlayer.ACTION_FAST_REWIND;
@@ -260,7 +258,12 @@ public class VideoPlayerImpl extends VideoPlayer
             onQueueClosed();
             // Android TV: without it focus will frame the whole player
             playPauseButton.requestFocus();
-            onPlay();
+
+            if (simpleExoPlayer.getPlayWhenReady()) {
+                onPlay();
+            } else {
+                onPause();
+            }
         }
         NavigationHelper.sendPlayerStartedEvent(service);
     }
@@ -335,7 +338,7 @@ public class VideoPlayerImpl extends VideoPlayer
             view.setFixedTextSize(TypedValue.COMPLEX_UNIT_PX,
                     (float) minimumLength / captionRatioInverse);
         }
-        view.setApplyEmbeddedStyles(captionStyle.equals(CaptionStyleCompat.DEFAULT));
+        view.setApplyEmbeddedStyles(captionStyle == CaptionStyleCompat.DEFAULT);
         view.setStyle(captionStyle);
     }
 
@@ -506,6 +509,11 @@ public class VideoPlayerImpl extends VideoPlayer
         switch (keyCode) {
             default:
                 break;
+            case KeyEvent.KEYCODE_SPACE:
+                if (isFullscreen) {
+                    onPlayPause();
+                }
+                break;
             case KeyEvent.KEYCODE_BACK:
                 if (DeviceUtils.isTv(service) && isControlsVisible()) {
                     hideControls(0, 0);
@@ -673,9 +681,13 @@ public class VideoPlayerImpl extends VideoPlayer
         super.onUpdateProgress(currentProgress, duration, bufferPercent);
         updateProgress(currentProgress, duration, bufferPercent);
 
+        final boolean showThumbnail =
+                sharedPreferences.getBoolean(
+                        context.getString(R.string.show_thumbnail_key),
+                        true);
         // setMetadata only updates the metadata when any of the metadata keys are null
-        mediaSessionManager.setMetadata(getVideoTitle(), getUploaderName(), getThumbnail(),
-                duration);
+        mediaSessionManager.setMetadata(getVideoTitle(), getUploaderName(),
+                showThumbnail ? getThumbnail() : null, duration);
     }
 
     @Override
@@ -760,40 +772,6 @@ public class VideoPlayerImpl extends VideoPlayer
         setupScreenRotationButton();
     }
 
-    public void switchFromPopupToMain() {
-        if (DEBUG) {
-            Log.d(TAG, "switchFromPopupToMain() called");
-        }
-        if (!popupPlayerSelected() || simpleExoPlayer == null || getCurrentMetadata() == null) {
-            return;
-        }
-
-        setRecovery();
-        service.removeViewFromParent();
-        final Intent intent = NavigationHelper.getPlayerIntent(
-                service,
-                MainActivity.class,
-                this.getPlayQueue(),
-                this.getRepeatMode(),
-                this.getPlaybackSpeed(),
-                this.getPlaybackPitch(),
-                this.getPlaybackSkipSilence(),
-                null,
-                true,
-                !isPlaying(),
-                isMuted()
-        );
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(Constants.KEY_SERVICE_ID,
-                getCurrentMetadata().getMetadata().getServiceId());
-        intent.putExtra(Constants.KEY_LINK_TYPE, StreamingService.LinkType.STREAM);
-        intent.putExtra(Constants.KEY_URL, getVideoUrl());
-        intent.putExtra(Constants.KEY_TITLE, getVideoTitle());
-        intent.putExtra(VideoDetailFragment.AUTO_PLAY, true);
-        service.onDestroy();
-        context.startActivity(intent);
-    }
-
     @Override
     public void onClick(final View v) {
         super.onClick(v);
@@ -821,7 +799,9 @@ public class VideoPlayerImpl extends VideoPlayer
         } else if (v.getId() == openInBrowser.getId()) {
             onOpenInBrowserClicked();
         } else if (v.getId() == fullscreenButton.getId()) {
-            switchFromPopupToMain();
+            setRecovery();
+            NavigationHelper.playOnMainPlayer(context, getPlayQueue(), true);
+            return;
         } else if (v.getId() == screenRotationButton.getId()) {
             // Only if it's not a vertical video or vertical video but in landscape with locked
             // orientation a screen orientation can be changed automatically
@@ -919,10 +899,17 @@ public class VideoPlayerImpl extends VideoPlayer
     private void onShareClicked() {
         // share video at the current time (youtube.com/watch?v=ID&t=SECONDS)
         // Timestamp doesn't make sense in a live stream so drop it
-        final String ts = isLive() ? "" : ("&t=" + (getPlaybackSeekBar().getProgress() / 1000));
+
+        final int ts = getPlaybackSeekBar().getProgress() / 1000;
+        final MediaSourceTag metadata = getCurrentMetadata();
+        String videoUrl = getVideoUrl();
+        if (!isLive() && ts >= 0 && metadata != null
+                && metadata.getMetadata().getServiceId() == YouTube.getServiceId()) {
+            videoUrl += ("&t=" + ts);
+        }
         ShareUtils.shareUrl(service,
                 getVideoTitle(),
-                getVideoUrl() + ts);
+                videoUrl);
     }
 
     private void onPlayWithKodiClicked() {
@@ -1093,11 +1080,25 @@ public class VideoPlayerImpl extends VideoPlayer
 
     private void animatePlayButtons(final boolean show, final int duration) {
         animateView(playPauseButton, AnimationUtils.Type.SCALE_AND_ALPHA, show, duration);
-        if (playQueue.getIndex() > 0 || !show) {
-            animateView(playPreviousButton, AnimationUtils.Type.SCALE_AND_ALPHA, show, duration);
+
+        boolean showQueueButtons = show;
+        if (playQueue == null) {
+            showQueueButtons = false;
         }
-        if (playQueue.getIndex() + 1 < playQueue.getStreams().size() || !show) {
-            animateView(playNextButton, AnimationUtils.Type.SCALE_AND_ALPHA, show, duration);
+
+        if (!showQueueButtons || playQueue.getIndex() > 0) {
+            animateView(
+                playPreviousButton,
+                AnimationUtils.Type.SCALE_AND_ALPHA,
+                showQueueButtons,
+                duration);
+        }
+        if (!showQueueButtons || playQueue.getIndex() + 1 < playQueue.getStreams().size()) {
+            animateView(
+                playNextButton,
+                AnimationUtils.Type.SCALE_AND_ALPHA,
+                showQueueButtons,
+                duration);
         }
 
     }
@@ -1660,10 +1661,13 @@ public class VideoPlayerImpl extends VideoPlayer
 
         updateScreenSize();
 
+        final boolean popupRememberSizeAndPos = PlayerHelper.isRememberingPopupDimensions(service);
         final float defaultSize = service.getResources().getDimension(R.dimen.popup_default_width);
         final SharedPreferences sharedPreferences =
                 PreferenceManager.getDefaultSharedPreferences(service);
-        popupWidth = sharedPreferences.getFloat(POPUP_SAVED_WIDTH, defaultSize);
+        popupWidth = popupRememberSizeAndPos
+                ? sharedPreferences.getFloat(POPUP_SAVED_WIDTH, defaultSize)
+                : defaultSize;
         popupHeight = getMinimumVideoHeight(popupWidth);
 
         popupLayoutParams = new WindowManager.LayoutParams(
@@ -1677,8 +1681,10 @@ public class VideoPlayerImpl extends VideoPlayer
 
         final int centerX = (int) (screenWidth / 2f - popupWidth / 2f);
         final int centerY = (int) (screenHeight / 2f - popupHeight / 2f);
-        popupLayoutParams.x = sharedPreferences.getInt(POPUP_SAVED_X, centerX);
-        popupLayoutParams.y = sharedPreferences.getInt(POPUP_SAVED_Y, centerY);
+        popupLayoutParams.x = popupRememberSizeAndPos
+                ? sharedPreferences.getInt(POPUP_SAVED_X, centerX) : centerX;
+        popupLayoutParams.y = popupRememberSizeAndPos
+                ? sharedPreferences.getInt(POPUP_SAVED_Y, centerY) : centerY;
 
         checkPopupPositionBounds();
 

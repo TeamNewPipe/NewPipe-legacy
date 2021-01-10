@@ -2,8 +2,8 @@ package org.schabi.newpipelegacy.database.history.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Embedded
-import java.util.Date
 import org.schabi.newpipelegacy.database.stream.model.StreamEntity
+import java.time.OffsetDateTime
 
 data class StreamHistoryEntry(
     @Embedded
@@ -13,7 +13,7 @@ data class StreamHistoryEntry(
     val streamId: Long,
 
     @ColumnInfo(name = StreamHistoryEntity.STREAM_ACCESS_DATE)
-    val accessDate: Date,
+    val accessDate: OffsetDateTime,
 
     @ColumnInfo(name = StreamHistoryEntity.STREAM_REPEAT_COUNT)
     val repeatCount: Long
@@ -25,6 +25,6 @@ data class StreamHistoryEntry(
 
     fun hasEqualValues(other: StreamHistoryEntry): Boolean {
         return this.streamEntity.uid == other.streamEntity.uid && streamId == other.streamId &&
-                accessDate.compareTo(other.accessDate) == 0
+            accessDate.isEqual(other.accessDate)
     }
 }

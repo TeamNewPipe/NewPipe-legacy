@@ -39,6 +39,7 @@ import org.schabi.newpipelegacy.ReCaptchaActivity;
 import org.schabi.newpipelegacy.database.history.model.SearchHistoryEntry;
 import org.schabi.newpipe.extractor.InfoItem;
 import org.schabi.newpipe.extractor.ListExtractor;
+import org.schabi.newpipe.extractor.MetaInfo;
 import org.schabi.newpipe.extractor.NewPipe;
 import org.schabi.newpipe.extractor.Page;
 import org.schabi.newpipe.extractor.StreamingService;
@@ -49,6 +50,7 @@ import org.schabi.newpipelegacy.fragments.BackPressable;
 import org.schabi.newpipelegacy.fragments.list.BaseListFragment;
 import org.schabi.newpipelegacy.local.history.HistoryRecordManager;
 import org.schabi.newpipelegacy.report.ErrorActivity;
+import org.schabi.newpipelegacy.report.ErrorInfo;
 import org.schabi.newpipelegacy.report.UserAction;
 import org.schabi.newpipelegacy.util.AnimationUtils;
 import org.schabi.newpipelegacy.util.Constants;
@@ -61,24 +63,24 @@ import org.schabi.newpipelegacy.util.ServiceHelper;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.TimeUnit;
 
 import icepick.State;
-import io.reactivex.Flowable;
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
-import io.reactivex.subjects.PublishSubject;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+import io.reactivex.rxjava3.subjects.PublishSubject;
 
 import static androidx.recyclerview.widget.ItemTouchHelper.Callback.makeMovementFlags;
 import static java.util.Arrays.asList;
 import static org.schabi.newpipelegacy.util.AnimationUtils.animateView;
+import static org.schabi.newpipelegacy.util.ExtractorHelper.showMetaInfoInTextView;
 
 public class SearchFragment extends BaseListFragment<SearchInfo, ListExtractor.InfoItemsPage<?>>
         implements BackPressable {
@@ -130,6 +132,9 @@ public class SearchFragment extends BaseListFragment<SearchInfo, ListExtractor.I
     boolean isCorrectedSearch;
 
     @State
+    MetaInfo[] metaInfo;
+
+    @State
     boolean wasSearchFocused = false;
 
     private Map<Integer, String> menuItemToFilterName;
@@ -153,6 +158,8 @@ public class SearchFragment extends BaseListFragment<SearchInfo, ListExtractor.I
     private View searchClear;
 
     private TextView correctSuggestion;
+    private TextView metaInfoTextView;
+    private View metaInfoSeparator;
 
     private View suggestionsPanel;
     private boolean suggestionsPanelVisible = false;
@@ -249,7 +256,7 @@ public class SearchFragment extends BaseListFragment<SearchInfo, ListExtractor.I
         } catch (final Exception e) {
             ErrorActivity.reportError(getActivity(), e, requireActivity().getClass(),
                     requireActivity().findViewById(android.R.id.content),
-                    ErrorActivity.ErrorInfo.make(UserAction.UI_ERROR,
+                    ErrorInfo.make(UserAction.UI_ERROR,
                             "",
                             "", R.string.general_error));
         }
@@ -257,7 +264,7 @@ public class SearchFragment extends BaseListFragment<SearchInfo, ListExtractor.I
         if (!TextUtils.isEmpty(searchString)) {
             if (wasLoading.getAndSet(false)) {
                 search(searchString, contentFilter, sortFilter);
-            } else if (infoListAdapter.getItemsList().size() == 0) {
+            } else if (infoListAdapter.getItemsList().isEmpty()) {
                 if (savedState == null) {
                     search(searchString, contentFilter, sortFilter);
                 } else if (!isLoading.get() && !wasSearchFocused) {
@@ -268,6 +275,9 @@ public class SearchFragment extends BaseListFragment<SearchInfo, ListExtractor.I
         }
 
         handleSearchSuggestion();
+
+        showMetaInfoInTextView(metaInfo == null ? null : Arrays.asList(metaInfo),
+                    metaInfoTextView, metaInfoSeparator);
 
         if (suggestionDisposable == null || suggestionDisposable.isDisposed()) {
             initSuggestionObserver();
@@ -353,6 +363,8 @@ public class SearchFragment extends BaseListFragment<SearchInfo, ListExtractor.I
         searchClear = searchToolbarContainer.findViewById(R.id.toolbar_search_clear);
 
         correctSuggestion = rootView.findViewById(R.id.correct_suggestion);
+        metaInfoTextView = rootView.findViewById(R.id.search_meta_info_text_view);
+        metaInfoSeparator = rootView.findViewById(R.id.search_meta_info_separator);
     }
 
     /*//////////////////////////////////////////////////////////////////////////
@@ -709,7 +721,7 @@ public class SearchFragment extends BaseListFragment<SearchInfo, ListExtractor.I
 
         final Observable<String> observable = suggestionPublisher
                 .debounce(SUGGESTIONS_DEBOUNCE, TimeUnit.MILLISECONDS)
-                .startWith(searchString != null
+                .startWithItem(searchString != null
                         ? searchString
                         : "")
                 .filter(ss -> isSuggestionsEnabled);
@@ -758,16 +770,9 @@ public class SearchFragment extends BaseListFragment<SearchInfo, ListExtractor.I
                         }
 
                         // Remove duplicates
-                        final Iterator<SuggestionItem> iterator = networkResult.iterator();
-                        while (iterator.hasNext() && localResult.size() > 0) {
-                            final SuggestionItem next = iterator.next();
-                            for (final SuggestionItem item : localResult) {
-                                if (item.query.equals(next.query)) {
-                                    iterator.remove();
-                                    break;
-                                }
-                            }
-                        }
+                        networkResult.removeIf(networkItem ->
+                                localResult.stream().anyMatch(localItem ->
+                                        localItem.query.equals(networkItem.query)));
 
                         if (networkResult.size() > 0) {
                             result.addAll(networkResult);
@@ -980,12 +985,18 @@ public class SearchFragment extends BaseListFragment<SearchInfo, ListExtractor.I
         searchSuggestion = result.getSearchSuggestion();
         isCorrectedSearch = result.isCorrectedSearch();
 
+        // List<MetaInfo> cannot be bundled without creating some containers
+        metaInfo = new MetaInfo[result.getMetaInfo().size()];
+        metaInfo = result.getMetaInfo().toArray(metaInfo);
+
         handleSearchSuggestion();
+
+        showMetaInfoInTextView(result.getMetaInfo(), metaInfoTextView, metaInfoSeparator);
 
         lastSearchedString = searchString;
         nextPage = result.getNextPage();
 
-        if (infoListAdapter.getItemsList().size() == 0) {
+        if (infoListAdapter.getItemsList().isEmpty()) {
             if (!result.getRelatedItems().isEmpty()) {
                 infoListAdapter.addInfoItemList(result.getRelatedItems());
             } else {

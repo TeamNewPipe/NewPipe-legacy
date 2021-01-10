@@ -20,14 +20,17 @@ import org.ocpsoft.prettytime.units.Decade;
 import org.schabi.newpipelegacy.R;
 import org.schabi.newpipe.extractor.ListExtractor;
 import org.schabi.newpipe.extractor.localization.ContentCountry;
+import org.schabi.newpipelegacy.ktx.OffsetDateTimeKt;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.DateFormat;
 import java.text.NumberFormat;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -54,7 +57,7 @@ import java.util.Locale;
 
 public final class Localization {
 
-    private static final String DOT_SEPARATOR = " • ";
+    public static final String DOT_SEPARATOR = " • ";
     private static PrettyTime prettyTime;
 
     private Localization() { }
@@ -139,13 +142,16 @@ public final class Localization {
         return nf.format(number);
     }
 
-    public static String formatDate(final Date date, final Context context) {
-        return DateFormat.getDateInstance(DateFormat.MEDIUM, getAppLocale(context)).format(date);
+    public static String formatDate(final OffsetDateTime offsetDateTime, final Context context) {
+        return DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
+                .withLocale(getAppLocale(context)).format(offsetDateTime
+                        .atZoneSameInstant(ZoneId.systemDefault()));
     }
 
     @SuppressLint("StringFormatInvalid")
-    public static String localizeUploadDate(final Context context, final Date date) {
-        return context.getString(R.string.upload_date_text, formatDate(date, context));
+    public static String localizeUploadDate(final Context context,
+                                            final OffsetDateTime offsetDateTime) {
+        return context.getString(R.string.upload_date_text, formatDate(offsetDateTime, context));
     }
 
     public static String localizeViewCount(final Context context, final long viewCount) {
@@ -186,7 +192,7 @@ public final class Localization {
     }
 
     public static String shortCount(final Context context, final long count) {
-        if (Build.VERSION.SDK_INT >= 24) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             return CompactDecimalFormat.getInstance(getAppLocale(context),
                     CompactDecimalFormat.CompactStyle.SHORT).format(count);
         }
@@ -307,12 +313,12 @@ public final class Localization {
         prettyTime.removeUnit(Decade.class);
     }
 
-    private static PrettyTime getPrettyTime() {
-        return prettyTime;
+    public static String relativeTime(final OffsetDateTime offsetDateTime) {
+        return relativeTime(OffsetDateTimeKt.toCalendar(offsetDateTime));
     }
 
     public static String relativeTime(final Calendar calendarTime) {
-        return getPrettyTime().formatUnrounded(calendarTime);
+        return prettyTime.formatUnrounded(calendarTime);
     }
 
     private static void changeAppLanguage(final Locale loc, final Resources res) {

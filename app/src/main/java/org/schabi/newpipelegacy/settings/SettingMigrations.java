@@ -8,7 +8,7 @@ import androidx.preference.PreferenceManager;
 
 import org.schabi.newpipelegacy.R;
 import org.schabi.newpipelegacy.report.ErrorActivity;
-import org.schabi.newpipelegacy.report.ErrorActivity.ErrorInfo;
+import org.schabi.newpipelegacy.report.ErrorInfo;
 import org.schabi.newpipelegacy.report.UserAction;
 
 import static org.schabi.newpipelegacy.MainActivity.DEBUG;

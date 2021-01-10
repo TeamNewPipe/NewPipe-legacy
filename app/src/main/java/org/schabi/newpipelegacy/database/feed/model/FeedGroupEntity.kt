@@ -9,8 +9,8 @@ import org.schabi.newpipelegacy.database.feed.model.FeedGroupEntity.Companion.SO
 import org.schabi.newpipelegacy.local.subscription.FeedGroupIcon
 
 @Entity(
-        tableName = FEED_GROUP_TABLE,
-        indices = [Index(SORT_ORDER)]
+    tableName = FEED_GROUP_TABLE,
+    indices = [Index(SORT_ORDER)]
 )
 data class FeedGroupEntity(
     @PrimaryKey(autoGenerate = true)

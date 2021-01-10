@@ -44,16 +44,17 @@ import org.schabi.newpipe.extractor.InfoItem;
 import org.schabi.newpipe.extractor.stream.StreamInfo;
 import org.schabi.newpipelegacy.player.playqueue.PlayQueueItem;
 
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
-import io.reactivex.Completable;
-import io.reactivex.Flowable;
-import io.reactivex.Maybe;
-import io.reactivex.Single;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Maybe;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class HistoryRecordManager {
     private final AppDatabase database;
@@ -85,7 +86,7 @@ public class HistoryRecordManager {
             return Maybe.empty();
         }
 
-        final Date currentTime = new Date();
+        final OffsetDateTime currentTime = OffsetDateTime.now(ZoneOffset.UTC);
         return Maybe.fromCallable(() -> database.runInTransaction(() -> {
             final long streamId = streamTable.upsert(new StreamEntity(info));
             final StreamHistoryEntity latestEntry = streamHistoryTable.getLatestEntry(streamId);
@@ -161,7 +162,7 @@ public class HistoryRecordManager {
             return Maybe.empty();
         }
 
-        final Date currentTime = new Date();
+        final OffsetDateTime currentTime = OffsetDateTime.now(ZoneOffset.UTC);
         final SearchHistoryEntry newEntry = new SearchHistoryEntry(currentTime, serviceId, search);
 
         return Maybe.fromCallable(() -> database.runInTransaction(() -> {

@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.app.ServiceCompat;
 import androidx.core.content.ContextCompat;
 
 import org.schabi.newpipelegacy.MainActivity;
@@ -48,7 +49,7 @@ public final class NotificationUtil {
     @Nullable private static NotificationUtil instance = null;
 
     @NotificationConstants.Action
-    private int[] notificationSlots = NotificationConstants.SLOT_DEFAULTS.clone();
+    private final int[] notificationSlots = NotificationConstants.SLOT_DEFAULTS.clone();
 
     private NotificationManagerCompat notificationManager;
     private NotificationCompat.Builder notificationBuilder;
@@ -120,7 +121,10 @@ public final class NotificationUtil {
                 .setCategory(NotificationCompat.CATEGORY_TRANSPORT)
                 .setShowWhen(false)
                 .setSmallIcon(R.drawable.ic_newpipe_triangle_white)
-                .setColor(ContextCompat.getColor(player.context, R.color.gray))
+                .setColor(ContextCompat.getColor(player.context, R.color.dark_background_color))
+                .setColorized(player.sharedPreferences.getBoolean(
+                        player.context.getString(R.string.notification_colorize_key),
+                        true))
                 .setDeleteIntent(PendingIntent.getBroadcast(player.context, NOTIFICATION_ID,
                         new Intent(ACTION_CLOSE), FLAG_UPDATE_CURRENT));
 
@@ -143,7 +147,11 @@ public final class NotificationUtil {
         notificationBuilder.setContentText(player.getUploaderName());
         notificationBuilder.setTicker(player.getVideoTitle());
         updateActions(notificationBuilder, player);
-        setLargeIcon(notificationBuilder, player);
+        final boolean showThumbnail = player.sharedPreferences.getBoolean(
+                player.context.getString(R.string.show_thumbnail_key), true);
+        if (showThumbnail) {
+            setLargeIcon(notificationBuilder, player);
+        }
     }
 
 
@@ -181,7 +189,7 @@ public final class NotificationUtil {
     }
 
     void cancelNotificationAndStopForeground(final Service service) {
-        service.stopForeground(true);
+        ServiceCompat.stopForeground(service, ServiceCompat.STOP_FOREGROUND_REMOVE);
 
         if (notificationManager != null) {
             notificationManager.cancel(NOTIFICATION_ID);

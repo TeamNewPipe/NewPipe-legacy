@@ -72,6 +72,8 @@
     <string name="notification_action_shuffle">Shuffle</string>
     <string name="notification_action_buffering">Buffering</string>
     <string name="notification_action_nothing">Nothing</string>
+    <string name="notification_colorize_title">Colorize notification</string>
+    <string name="notification_colorize_summary">Have Android customize the notification\'s color according to the main color in the thumbnail (note that this is not available on all devices)</string>
     <string name="play_audio">Audio</string>
     <string name="default_audio_format_title">Default audio format</string>
     <string name="default_video_format_title">Default video format</string>
@@ -79,6 +81,8 @@
     <string name="light_theme_title">Light</string>
     <string name="dark_theme_title">Dark</string>
     <string name="black_theme_title">Black</string>
+    <string name="popup_remember_size_pos_title">Remember popup properties</string>
+    <string name="popup_remember_size_pos_summary">Remember last size and position of popup</string>
     <string name="use_inexact_seek_title">Use fast inexact seek</string>
     <string name="use_inexact_seek_summary">Inexact seek allows the player to seek to positions faster with reduced precision. Seeking for 5, 15 or 25 seconds doesn\'t work with this.</string>
     <string name="seek_duration_title">Fast-forward/-rewind seek duration</string>
@@ -89,6 +93,8 @@
     <string name="show_comments_title">Show comments</string>
     <string name="show_comments_summary">Turn off to hide comments</string>
     <string name="download_thumbnail_summary">Turn off to prevent loading thumbnails, saving data and memory usage. Changes clear both in-memory and on-disk image cache.</string>
+    <string name="show_meta_info_title">Show meta info</string>
+    <string name="show_meta_info_summary">Turn off to hide meta info boxes with additional information about the stream creator, stream content or a search request.</string>
     <string name="thumbnail_cache_wipe_complete_notice">Image cache wiped</string>
     <string name="metadata_cache_wipe_title">Wipe cached metadata</string>
     <string name="metadata_cache_wipe_summary">Remove all cached webpage data</string>
@@ -151,9 +157,9 @@
     <string name="c3s_url" translatable="false">https://www.c3s.cc/</string>
     <string name="content">Content</string>
     <string name="show_age_restricted_content_title">Show age restricted content</string>
-    <string name="show_age_restricted_content_summary">Show content possibly unsuitable for children because it has an age limit (like 18+).</string>
+    <string name="show_age_restricted_content_summary">Show content possibly unsuitable for children because it has an age limit (like 18+)</string>
     <string name="youtube_restricted_mode_enabled_title">Turn on YouTube\'s \"Restricted Mode\"</string>
-    <string name="youtube_restricted_mode_enabled_summary">YouTube provides a \"Restricted Mode\" which hides potentially mature content.</string>
+    <string name="youtube_restricted_mode_enabled_summary">YouTube provides a \"Restricted Mode\" which hides potentially mature content</string>
     <string name="restricted_video">This video is age restricted.\n\nTurn on \"%1$s\" in the settings if you want to see it.</string>
     <string name="duration_live">Live</string>
     <string name="downloads">Downloads</string>
@@ -191,6 +197,9 @@
     <string name="app_update_notification_channel_id" translatable="false">newpipeAppUpdate</string>
     <string name="app_update_notification_channel_name">App Update Notification</string>
     <string name="app_update_notification_channel_description">Notifications for new NewPipe version</string>
+    <string name="hash_channel_id" translatable="false">newpipeHash</string>
+    <string name="hash_channel_name">Video Hash Notification</string>
+    <string name="hash_channel_description">Notifications for video hashing progress</string>
     <string name="unknown_content">[Unknown]</string>
     <string name="toggle_orientation">Toggle Orientation</string>
     <string name="switch_to_background">Switch to Background</string>
@@ -200,8 +209,8 @@
     <string name="export_data_title">Export database</string>
     <string name="clear_cookie_title">Clear reCAPTCHA cookies</string>
     <string name="recaptcha_cookies_cleared">reCAPTCHA cookies have been cleared</string>
-    <string name="import_data_summary">Overrides your current history and subscriptions</string>
-    <string name="export_data_summary">Export history, subscriptions and playlists</string>
+    <string name="import_data_summary">Overrides your current history, subscriptions, playlists and (optionally) settings</string>
+    <string name="export_data_summary">Export history, subscriptions, playlists and settings</string>
     <string name="clear_cookie_summary">Clear cookies that NewPipe stores when you solve a reCAPTCHA</string>
     <string name="clear_views_history_title">Clear watch history</string>
     <string name="clear_views_history_summary">Deletes the history of played streams and the playback positions</string>
@@ -343,6 +352,7 @@
     <string name="msg_url_malform">Malformed URL or Internet not available</string>
     <string name="msg_running">NewPipe Downloading</string>
     <string name="msg_running_detail">Tap for details</string>
+    <string name="msg_calculating_hash">Calculating hash</string>
     <string name="msg_wait">Please wait…</string>
     <string name="msg_copied">Copied to clipboard</string>
     <string name="no_available_dir">Please define a download folder later in settings</string>
@@ -383,14 +393,14 @@
     <string name="view_on_github">View on GitHub</string>
     <string name="donation_title">Donate</string>
     <string name="donation_encouragement">NewPipe is developed by volunteers spending their free time bringing you the best user experience. Give back to help developers make NewPipe even better while they enjoy a cup of coffee.</string>
-    <string name="donation_url" translatable="false">https://newpipe.schabi.org/donate</string>
+    <string name="donation_url" translatable="false">https://newpipe.net/donate</string>
     <string name="give_back">Give back</string>
     <string name="website_title">Website</string>
     <string name="website_encouragement">Visit the NewPipe Website for more info and news.</string>
-    <string name="website_url" translatable="false">https://newpipe.schabi.org/</string>
+    <string name="website_url" translatable="false">https://newpipe.net/</string>
     <string name="privacy_policy_title">NewPipe\'s Privacy Policy</string>
     <string name="privacy_policy_encouragement">The NewPipe project takes your privacy very seriously. Therefore, the app does not collect any data without your consent.\nNewPipe\'s privacy policy explains in detail what data is sent and stored when you send a crash report.</string>
-    <string name="privacy_policy_url" translatable="false">https://newpipe.schabi.org/legal/privacy/</string>
+    <string name="privacy_policy_url" translatable="false">https://newpipe.net/legal/privacy/</string>
     <string name="read_privacy_policy">Read privacy policy</string>
     <string name="app_license_title">NewPipe\'s License</string>
     <string name="app_license">NewPipe is copyleft libre software: You can use, study share and improve it at will. Specifically you can redistribute and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</string>
@@ -514,7 +524,7 @@
     <string name="previous_export">Previous export</string>
     <string name="subscriptions_import_unsuccessful">Could not import subscriptions</string>
     <string name="subscriptions_export_unsuccessful">Could not export subscriptions</string>
-    <string name="import_youtube_instructions">Import YouTube subscriptions by downloading the export file:\n\n1. Go to this URL: %1$s\n2. Log in when asked\n3. A download should start (that\'s the export file) </string>
+    <string name="import_youtube_instructions">Import YouTube subscriptions from Google takeout:\n\n1. Go to this URL: %1$s\n2. Log in when asked\n3. Click on \"All data included\", then on \"Deselect all\", then select only \"subscriptions\" and click \"OK\"\n4. Click on \"Next step\" and then on \"Create export\"\n5. Click on the \"Download\" button after it appears and \n6. From the downloaded takeout zip extract the .json file (usually under \"YouTube and YouTube Music/subscriptions/subscriptions.json\") and import it here.</string>
     <string name="import_soundcloud_instructions">Import a SoundCloud profile by typing either the URL or your ID:\n\n1. Enable \"desktop mode\" in a web-browser (the site is not available for mobile devices)\n2. Go to this URL: %1$s\n3. Log in when asked\n4. Copy the profile URL you were redirected to.</string>
     <string name="import_soundcloud_instructions_hint">yourID, soundcloud.com/yourid</string>
     <string name="import_network_expensive_warning">Keep in mind this operation can be network expensive.\n\nDo you want to continue?</string>
@@ -679,4 +689,7 @@
     <string name="channel_created_by">Created by %s</string>
     <string name="video_detail_by">By %s</string>
     <string name="playlist_page_summary">Playlist page</string>
+    <string name="show_thumbnail_title">Show thumbnail</string>
+    <string name="show_thumbnail_summary">Use thumbnail for both lock screen background and notifications</string>
+    <string name="recent">Recent</string>
 </resources>

@@ -58,8 +58,7 @@
     <string name="autoplay_by_calling_app_title">Automaticky přehrávat</string>
     <string name="autoplay_by_calling_app_summary">Přehrává video, když je NewPipe otevřen z jiné aplikace</string>
     <string name="content">Obsah</string>
-    <string name="show_age_restricted_content_title">Věkově omezený obsah</string>
-    <string name="video_is_age_restricted">Zobrazit video s věkovým omezením. Změnit tuto volbu v budoucnu lze v \"Nastavení\".</string>
+    <string name="show_age_restricted_content_title">Zobrazit věkově omezený obsah</string>
     <string name="duration_live">Živě</string>
     <string name="light_parsing_error">Nebylo možné kompletně analyzovat stránku</string>
     <string name="main_bg_subtitle">Začít klepnutím na \"Hledat\"
@@ -121,6 +120,8 @@
     <string name="show_higher_resolutions_title">Zobrazovat vyšší rozlišení</string>
     <string name="show_higher_resolutions_summary">Pouze některá zařízení dokáží přehrát 2K/4K videa</string>
     <string name="default_video_format_title">Výchozí formát videa</string>
+    <string name="popup_remember_size_pos_title">Pamatovat si vlastnosti vyskakovacího okna</string>
+    <string name="popup_remember_size_pos_summary">Pamatovat si poslední velikost a pozici vyskakovacího okna</string>
     <string name="popup_mode_share_menu_title">Režim vyskakovacího okna</string>
     <string name="subscribe_button_title">Odebírat</string>
     <string name="subscribed_button_title">Odebíráno</string>
@@ -257,8 +258,8 @@
     <string name="just_once">Pouze jednou</string>
     <string name="import_data_title">Importovat databázi</string>
     <string name="export_data_title">Exportovat databázi</string>
-    <string name="import_data_summary">Přepíše vaši dosavadní historii a odběry</string>
-    <string name="export_data_summary">Exportuje historii, odběry a playlisty</string>
+    <string name="import_data_summary">Přepíše Vaši dosavadní historii, odběry, playlisty a (volitelně) nastavení</string>
+    <string name="export_data_summary">Exportuje historii, odběry, playlisty a nastavení</string>
     <string name="external_player_unsupported_link_type">Externí přehrávače nepodporují tyto druhy odkazů</string>
     <string name="invalid_url_toast">Neplatná URL</string>
     <string name="video_streams_empty">Nenalezeny žádné video streamy</string>
@@ -337,11 +338,14 @@
     <string name="previous_export">Předchozí export</string>
     <string name="subscriptions_import_unsuccessful">Odběry nelze importovat</string>
     <string name="subscriptions_export_unsuccessful">Odběry nelze exportovat</string>
-    <string name="import_youtube_instructions">Importovat YouTube odběry stáhnutím exportního souboru: 
-\n 
-\n1. Přejděte na tuto URL adresu: %1$s 
+    <string name="import_youtube_instructions">Importovat YouTube odběry stáhnutím exportního souboru:
+\n
+\n1. Přejděte na tuto URL adresu: %1$s
 \n2. Na vyžádání se přihlašte
-\n3. Mělo by začít stahování (onoho exportního souboru)</string>
+\n3. Klikněte na \"Jsou zahrnuta všechna data z YouTube\" pak na \"Zrušit výběr všech\" a pak vyberte jen \"odběry\" a klikněte na OK
+\n4. Klikněte na \"Další krok\" a pak na \"Vytvořit export\"
+\n5. Vyčkejte než se objeví tlačítko \"Stáhnout\" a klikněte na něj
+\n6. Ze staženého zip archivu extrahujte .json soubor (nejčastěji na cestě \"Takeout/YouTube a YouTube Music/odběry/odběry.json\") a importujte jej.</string>
     <string name="import_soundcloud_instructions">Importovat SoundCloud profil zadáním URL adresy nebo vašeho ID: 
 \n 
 \n1. Ve svém prohlížeči povolte \"režim pro PC\" (pro mobilní zařízení není stránka dostupná) 
@@ -600,7 +604,7 @@
     <string name="songs">Písně</string>
     <string name="restricted_video">Toto je video s věkovým omezením.
 \n
-\nPokud ho chcete vidět, povolte \"Věkově omezený obsah\" v Nastavení.</string>
+\nPokud ho chcete vidět, povolte \"%1$s\" v Nastavení.</string>
     <string name="remove_watched_popup_yes_and_partially_watched_videos">Ano, i zčásti shlédnutá videa</string>
     <string name="remove_watched_popup_title">Odstranit shlédnutá videa\?</string>
     <string name="remove_watched">Odstranit shlédnutá</string>
@@ -608,10 +612,10 @@
 \nJste se jisti\? Nelze zvrátit!</string>
     <string name="show_original_time_ago_summary">Původní texty služeb budou viditelné u položek streamů</string>
     <string name="show_original_time_ago_title">U položek ukázat původní čas \"před\"</string>
-    <string name="youtube_restricted_mode_enabled_title">Omezený režim YouTube</string>
+    <string name="youtube_restricted_mode_enabled_title">Zapnout \"Omezený režim YouTube\"</string>
     <string name="video_detail_by">Od %s</string>
     <string name="channel_created_by">Vytvořil %s</string>
-    <string name="detail_sub_channel_thumbnail_view_description">Miniatura avatara kanálu</string>
+    <string name="detail_sub_channel_thumbnail_view_description">Ikona kanálu</string>
     <string name="playlist_page_summary">Strana playlistů</string>
     <string name="feed_group_show_only_ungrouped_subscriptions">Ukázat jen neseskupené objednávky</string>
     <string name="no_playlist_bookmarked_yet">Zatím žádné záložky playlistů</string>
@@ -643,4 +647,16 @@
     <string name="notification_action_0_title">První akční tlačítko</string>
     <string name="notification_scale_to_square_image_summary">Zmenšit miniaturu videa zobrazenou v oznámení z poměru stran 16: 9 na 1: 1 (může způsobit zkreslení)</string>
     <string name="notification_scale_to_square_image_title">Změnit poměr stran miniatury na 1:1</string>
+    <string name="show_memory_leaks">Ukázat memory leaks</string>
+    <string name="enqueued">Zařazeno do fronty</string>
+    <string name="enqueue_stream">Zařadit do fronty</string>
+    <string name="clear_cookie_summary">Vymazat cookies, které NewPipe uloží, po vyřešení reCAPTCHA</string>
+    <string name="recaptcha_cookies_cleared">Cookies reCAPTCHA byly vymazány</string>
+    <string name="clear_cookie_title">Vymazat cookies reCAPTCHA</string>
+    <string name="youtube_restricted_mode_enabled_summary">YouTube poskytuje \"Omezený režim\", který skrývá potenciální obsahy pro dospělé</string>
+    <string name="show_age_restricted_content_summary">Zobrazit obsah, i když je patrně nevhodný pro děti, protože odkazuje na věkové omezení (např. 18+)</string>
+    <string name="notification_colorize_summary">Nechte Android přizpůsobit barvu oznámení podle hlavní barvy v miniatuře (není k dispozici na všech zařízeních)</string>
+    <string name="notification_colorize_title">Barevné notifikace</string>
+    <string name="show_thumbnail_summary">Použít miniaturu pro pozadí zamknuté obrazovky a oznámení</string>
+    <string name="show_thumbnail_title">Zobrazit miniaturu</string>
 </resources>

@@ -51,7 +51,8 @@
     <string name="item_deleted">Item हटा दिया गया है</string>
     <string name="trending">फ़िलहाल चर्चा में है</string>
     <string name="play_queue_audio_settings">ऑडियो सेटिंग</string>
-    <string name="main_bg_subtitle">शुरू करने के लिए खोज चिह्न दबाएं</string>
+    <string name="main_bg_subtitle">शुरू करने के लिए \"खोज\" चिह्न दबाएं
+\n</string>
     <string name="cancel">रद्द करें</string>
     <string name="did_you_mean">क्या आप का मतलब %1$s है?</string>
     <string name="share_dialog_title">शेयर करें</string>
@@ -73,14 +74,16 @@
     <string name="default_popup_resolution_title">विडियो पॉपअप का डिफ़ॉल्ट रिज़ॉल्यूशन</string>
     <string name="show_higher_resolutions_title">उच्च रिज़ॉल्यूशन दिखाएं</string>
     <string name="show_higher_resolutions_summary">केवल कुछ ही यंत्र है जो 2K/4K विडियो चला सकते हैं</string>
-    <string name="play_with_kodi_title">Kodi से चलाये</string>
+    <string name="play_with_kodi_title">Kodi से चलायें</string>
     <string name="kore_not_found">Kore एप्प नहीं मिली, इसे इनस्टॉल करें\?</string>
-    <string name="show_play_with_kodi_title">\"Kodi से चलाये\" वाला विकल्प दिखाए</string>
+    <string name="show_play_with_kodi_title">\"Kodi से चलायें\" वाला विकल्प दिखाएँ</string>
     <string name="show_play_with_kodi_summary">कोडी मीडिया सेंटर के माध्यम से वीडियो चलाने के लिए एक विकल्प प्रदर्शित करें</string>
     <string name="default_audio_format_title">डिफ़ॉल्ट ऑडियो का फॉर्मेट</string>
     <string name="default_video_format_title">डिफ़ॉल्ट विडियो का फॉर्मेट</string>
     <string name="theme_title">एप्प का नया रूप</string>
     <string name="dark_theme_title">काला</string>
+    <string name="popup_remember_size_pos_title">विडियो पॉपअप की आकर और उसकी स्थति को याद रखे</string>
+    <string name="popup_remember_size_pos_summary">विडियो पॉपअप के पहले वाली आकर और उसकी स्थिति को याद रखे</string>
     <string name="player_gesture_controls_title">प्लेयर इशारा नियंत्रण</string>
     <string name="player_gesture_controls_summary">विडियो प्लेयर की ब्राइटनेस और ध्वनी को नियंत्रण के लिए फ़ोन में इशारो का प्रयोग करे</string>
     <string name="show_search_suggestions_title">खोज के सुझाव देखे</string>
@@ -105,7 +108,6 @@
     <string name="popup_playing_append">पॉपअप प्लेयर की कतार पर</string>
     <string name="content">विषयवस्तु</string>
     <string name="show_age_restricted_content_title">उम्र प्रतिबंधित विषय वस्तु</string>
-    <string name="video_is_age_restricted">उम्र प्रतिबंदित विडियो है .इस प्रकार की विषयवस्तु को अनुमति देने के लिए सेटिंग से संभव है |</string>
     <string name="duration_live">लाइव</string>
     <string name="downloads">डाउनलोड</string>
     <string name="downloads_title">डाउनलोड</string>
@@ -184,9 +186,9 @@
         <item quantity="other">%s वीडियो</item>
     </plurals>
     <string name="start">शुरू</string>
-    <string name="pause">रोके</string>
+    <string name="pause">रोकें</string>
     <string name="view">चलाये</string>
-    <string name="delete">मिटाए</string>
+    <string name="delete">मिटाएँ</string>
     <string name="checksum">checksum</string>
     <string name="add">नया मिशन</string>
     <string name="finish">ठीक है</string>
@@ -198,7 +200,7 @@
     <string name="msg_url_malform">URL सही नहीं है या फिर हो सकता है इन्टरनेट उपलब्ध नहीं है</string>
     <string name="msg_running">न्यूपाइप डाउनलोड हो रहा है</string>
     <string name="msg_running_detail">विवरण देखने के लिए दबाये</string>
-    <string name="msg_wait">कृपया इंतज़ार करे…</string>
+    <string name="msg_wait">कृपया प्रतीक्षा करें…</string>
     <string name="msg_copied">क्लिपबोर्ड पर कॉपी हो गया है</string>
     <string name="no_available_dir">कृपया बाद में सेटिंग्स में डाउनलोड स्थान चुने</string>
     <string name="msg_popup_permission">पॉपअप के तरीके में खोलने के लिए अनुमति की जरुरत है</string>
@@ -240,7 +242,7 @@
     <string name="tab_bookmarks">बुकमार्क किये गए प्लेलिस्टस</string>
     <string name="controls_add_to_playlist_title">में जोड़े</string>
     <string name="default_content_country_title">डिफ़ॉल्ट देश का विषय</string>
-    <string name="service_title">सर्विस</string>
+    <string name="service_title">सेवा</string>
     <string name="always">हमेशा के लिए</string>
     <string name="just_once">सिर्फ एक बार के लिए</string>
     <string name="toggle_orientation">टॉगल ओरिएंटेशन</string>
@@ -307,7 +309,7 @@
     <string name="enable_disposed_exceptions_title">Out-of-Lifecycle त्रुटियों की रिपोर्ट करें</string>
     <string name="download_thumbnail_title">छायाप्रारुप लोड करें</string>
     <string name="use_inexact_seek_title">तेजी से अचूक तलाश का प्रयोग करें</string>
-    <string name="use_inexact_seek_summary">अचूक खोज प्लेयर को कम परिशुद्धता के साथ तेजी से पदों की तलाश करने की अनुमति देता है</string>
+    <string name="use_inexact_seek_summary">अचूक खोज प्लेयर को कम परिशुद्धता के साथ तेजी से पदों की तलाश करने की अनुमति देता है|</string>
     <string name="download_thumbnail_summary">थंबनेल लोड करने, डेटा और मेमोरी उपयोग को रोकने के लिए बंद करें। इन-मेमोरी और ऑन-डिस्क छवि कैश दोनों को बदलता है|</string>
     <string name="thumbnail_cache_wipe_complete_notice">छवि कैश मिटा दिया</string>
     <string name="metadata_cache_wipe_title">कैश मेटाडेटा वाइप करें</string>
@@ -367,7 +369,7 @@
     <string name="playback_speed_control">चलाने की गति के नियंत्रण</string>
     <string name="playback_tempo">गति</string>
     <string name="playback_pitch">ऊंचाई</string>
-    <string name="unhook_checkbox">अनलिंक (बिगाड़ सकता है)</string>
+    <string name="unhook_checkbox">अनहुक (बिगाड़ सकता है)</string>
     <string name="skip_silence_checkbox">खामोशी के समय तेज़ी से आगे बढ़े</string>
     <string name="playback_step">कदम</string>
     <string name="playback_reset">रिसेट</string>
@@ -395,7 +397,7 @@
     <string name="app_update_notification_channel_description">नए NewPipe अपडेट की अधिसूचना</string>
     <string name="download_to_sdcard_error_title">एक्सटर्नल स्टोरेज अनुपलब्ध</string>
     <string name="download_to_sdcard_error_message">SD कार्ड पर डाउनलोड करना संभव नहीं।डाउनलोड स्थान पुनः चुने\?</string>
-    <string name="restore_defaults">सामान्य चुनाव पर लौटे</string>
+    <string name="restore_defaults">सामान्य चुनाव पर लौटें</string>
     <string name="restore_defaults_confirmation">क्या आप सामान्य चुनाव पर लौटना चाहते है\?</string>
     <string name="subscribers_count_not_available">अभिदाता संख्या अनुपलब्ध</string>
     <string name="main_page_content_summary">मुख्य पृष्ठ पर कौन से टैब दिखाए जाते हैं</string>
@@ -434,7 +436,7 @@
     <string name="pause_downloads_on_mobile_desc">मोबाइल डाटा का इस्तेमाल करते समय उपयोगी है, परन्तु कुछ डौन्लोडस रोके नहीं जा सकते है</string>
     <string name="events">घटनायें</string>
     <string name="conferences">सम्मेलनों</string>
-    <string name="show_comments_title">टिप्पणियाँ दिखाए</string>
+    <string name="show_comments_title">टिप्पणियाँ दिखाएं</string>
     <string name="show_comments_summary">टिप्पणियाँ न देखने के लिए बंद करे</string>
     <string name="autoplay_title">ऑटोप्ले</string>
     <string name="no_comments">कोई टिपण्णी नहीं</string>
@@ -520,4 +522,40 @@
     <string name="channel_created_by">%s के द्वारा बनाया गया</string>
     <string name="playlist_page_summary">प्लेलिस्ट पृष्ठ</string>
     <string name="search_showing_result_for">परिणाम दिखा रहे हैं : %s</string>
+    <string name="recaptcha_done_button">हो गया</string>
+    <string name="artists">कलाकार</string>
+    <string name="songs">गाने</string>
+    <string name="never">कभी नहीं</string>
+    <string name="help">सहायता</string>
+    <string name="recaptcha_cookies_cleared">reCAPTCHA कुकीज़ को साफ़ कर दिए गए हैं</string>
+    <string name="clear_cookie_title">ReCAPTCHA कुकीज़ साफ़ करें</string>
+    <string name="albums">एल्बम</string>
+    <string name="videos_string">वीडियो</string>
+    <string name="restricted_video">यह वीडियो उम्र प्रतिबंधित है।
+\n
+\nयदि आप इसे देखना चाहते हैं तो सेटिंग में \"%1$s\" चालू करें।</string>
+    <string name="youtube_restricted_mode_enabled_summary">यूट्यूब एक \"प्रतिबंधित मोड\" प्रदान करता है जो संभावित रूप से परिपक्व सामग्री को छुपाता है</string>
+    <string name="youtube_restricted_mode_enabled_title">यूट्यूब का \"प्रतिबंधित मोड\" चालू करें</string>
+    <string name="show_age_restricted_content_summary">बच्चों के लिए अनुपयुक्त सामग्री दिखाएं क्योंकि इसकी आयु सीमा है (जैसे 18)</string>
+    <string name="settings_category_notification_title">अधिसूचना</string>
+    <string name="peertube_instance_add_https_only">केवल हटितीपीस यूआरएल समर्थित हैं</string>
+    <string name="unsupported_url_dialog_message">यूआरएल को नहीं पहचान पाये। दूसरे ऐप से खोलें\?</string>
+    <string name="auto_queue_toggle">ऑटो कतार</string>
+    <string name="clear_queue_confirmation_title">कतार को साफ़ करने से पहले पुष्टि के लिए पूछें</string>
+    <string name="seek_duration_title">फास्ट-फ़ॉरवर्ड /- रिवाइंड</string>
+    <string name="notification_colorize_summary">एंड्रॉइड को थंबनेल में मुख्य रंग के अनुसार अधिसूचना के रंग को अनुकूलित करने दें (ध्यान दें कि यह सभी फोन पर उपलब्ध नहीं है)</string>
+    <string name="notification_colorize_title">अधिसूचना को रंग दें</string>
+    <string name="notification_action_nothing">कुछ नहीं</string>
+    <string name="notification_action_buffering">बफरिंग</string>
+    <string name="notification_action_shuffle">फेरबदल करे</string>
+    <string name="notification_action_repeat">दोहराएं</string>
+    <string name="notification_actions_at_most_three">कॉम्पैक्ट अधिसूचना में दिखाने के लिए आप अधिकतम तीन क्रियाओं का चयन कर सकते हैं!</string>
+    <string name="notification_actions_summary">इस पर टैप करके नीचे दी गई प्रत्येक सूचना को संपादित करें। दाईं ओर चेकबॉक्स का उपयोग करके कॉम्पैक्ट अधिसूचना में दिखाए जाने के लिए उनमें से तीन तक का चयन करें।</string>
+    <string name="notification_action_4_title">पांचवा एक्शन बटन</string>
+    <string name="notification_action_3_title">चौथा एक्शन बटन</string>
+    <string name="notification_action_2_title">तीसरा एक्शन बटन</string>
+    <string name="notification_action_1_title">दूसरा एक्शन बटन</string>
+    <string name="notification_action_0_title">पहला एक्शन बटन</string>
+    <string name="notification_scale_to_square_image_summary">अधिसूचना में दिखाए गए वीडियो थंबनेल को 16: 9 से 1: 1 के अनुपात में दिखाया गया है (विकृतियों का परिचय दे सकता है)</string>
+    <string name="notification_scale_to_square_image_title">वीडियो छवि को 1:1 के आस्पेक्ट अनुपात मैं देखें</string>
 </resources>

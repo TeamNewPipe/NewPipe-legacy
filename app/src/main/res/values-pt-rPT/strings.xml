@@ -7,7 +7,7 @@
     <string name="import_network_expensive_warning">Tenha em atenção de que esta operação pode sobrecarregar a sua rede.
 \n
 \nDeseja continuar\?</string>
-    <string name="main_bg_subtitle">Toque em \"Pesquisar\" para iniciar
+    <string name="main_bg_subtitle">Toque \"Pesquisar\" para iniciar
 \n</string>
     <string name="enable_playback_resume_title">Continuar reprodução</string>
     <string name="msg_threads">Processos</string>
@@ -50,7 +50,7 @@
     <string name="new_seek_duration_toast">Devido às restrições de ExoPlayer, a duração da pesquisa foi definida para %d segundos</string>
     <string name="overwrite">Sobrescrever</string>
     <string name="mute">Sem som</string>
-    <string name="enable_watch_history_title">Ver histórico</string>
+    <string name="enable_watch_history_title">Histórico de visualizações</string>
     <plurals name="views">
         <item quantity="one">%s visualização</item>
         <item quantity="other">%s visualizações</item>
@@ -83,19 +83,19 @@
     <string name="downloads">Descargas</string>
     <string name="feed_processing_message">A processar…</string>
     <string name="volume_gesture_control_title">Gestos para controlo de volume</string>
-    <string name="restricted_video">Este vídeo é de idade restrita.
+    <string name="restricted_video">Este vídeo está restringido a idades.
 \n
-\nPara o poder ver, tem que ativar \"Conteúdo com restrição de idade\" nas definições.</string>
+\nPara o poder ver, tem que ativar \"%1$s\" nas definições.</string>
     <string name="read_full_license">Ver licença</string>
     <string name="help">Ajuda</string>
-    <string name="peertube_instance_add_https_only">Apenas pode usar URL no formato HTTPS</string>
+    <string name="peertube_instance_add_https_only">Apenas os URL HTTPS são suportados</string>
     <string name="peertube_instance_add_fail">Falha ao validar a instância</string>
     <string name="delete_all">Eliminar tudo</string>
     <string name="clear_download_history">Limpar histórico de descargas</string>
     <string name="delete_playback_states_alert">Remover todas as posições de reprodução\?</string>
     <string name="switch_view">Trocar de vista</string>
     <string name="enable_queue_limit">Limitar fila de descargas</string>
-    <string name="show_age_restricted_content_title">Conteúdo com restrição de idade</string>
+    <string name="show_age_restricted_content_title">Mostrar conteúdo com restrição de idade</string>
     <string name="privacy_policy_encouragement">O projeto NewPipe leva a sua privacidade muito a sério. Sendo assim, não recolhe quaisquer dados sem o seu consentimento.
 \nA polícia de privacidade do NewPipe explica, em detalhe, os tipos de dados enviados sempre que submete um relatório de erro.</string>
     <string name="file">Ficheiro</string>
@@ -103,13 +103,12 @@
     <string name="controls_add_to_playlist_title">Adicionar a</string>
     <string name="clear_playback_states_summary">Remove todas as posições de reprodução</string>
     <string name="create">Criar</string>
-    <string name="video_is_age_restricted">Mostrar vídeo com restrição de idade. Alterações serão possíveis nas definições.</string>
     <string name="toggle_orientation">Alternar orientação</string>
     <string name="subscribe_button_title">Subscrever</string>
     <string name="artists">Artistas</string>
     <string name="error_connect_host">Não foi possível ligar ao servidor</string>
     <string name="show_play_with_kodi_summary">Mostrar uma opção para reproduzir o vídeo no Kodi</string>
-    <string name="list_view_mode">Modo de vista em lista</string>
+    <string name="list_view_mode">Modo de exibição</string>
     <string name="use_inexact_seek_summary">A pesquisa inexata permite que esta seja mais rápida mas reduz a precisão. Procurar por 5, 15 ou 25 segundos não funciona corretamente.</string>
     <string name="permission_display_over_apps">Permitir sobreposição a outras aplicações</string>
     <string name="autoplay_by_calling_app_title">Reprodução automática</string>
@@ -122,7 +121,7 @@
     <string name="error_report_open_issue_button_text">Reportar no GitHub</string>
     <string name="detail_likes_img_view_description">Gosto</string>
     <string name="history_disabled">O histórico está desativado</string>
-    <string name="download_path_title">Pasta para os vídeos</string>
+    <string name="download_path_title">Pasta para os ficheiros de vídeo</string>
     <string name="subtitle_activity_recaptcha">Prima \"Feito\" ao resolver</string>
     <string name="feed_notification_loading">A carregar…</string>
     <string name="play_audio">Áudio</string>
@@ -142,7 +141,7 @@
     <string name="share">Partilhar</string>
     <string name="read_privacy_policy">Ver política de privacidade</string>
     <string name="player_unrecoverable_failure">Ocorreu um erro compulsivo do reprodutor</string>
-    <string name="youtube_restricted_mode_enabled_title">Modo restrito do YouTube</string>
+    <string name="youtube_restricted_mode_enabled_title">Ativar \"Modo restrito\" do YouTube</string>
     <string name="invalid_directory">Pasta inexistente</string>
     <string name="all">Tudo</string>
     <string name="sorry_string">Bolas, isto não deveria ter acontecido.</string>
@@ -193,11 +192,14 @@
     <string name="default_content_country_title">País padrão para conteúdo</string>
     <string name="app_description">Aplicação livre de reprodução de emissões para Android.</string>
     <string name="content_language_title">Idioma padrão para conteúdo</string>
-    <string name="import_youtube_instructions">Importe subscrições do YouTube descarregando o ficheiro de exportação:
+    <string name="import_youtube_instructions">Importar subscrições YouTube do Google Takeout:
 \n
 \n1. Aceda a este URL: %1$s
 \n2. Inicie a sessão
-\n3. A descarga será iniciada (esse é o ficheiro de exportação)</string>
+\n3. Clique em \"Todos os dados incluídos\", depois em \"Desmarcar tudo\", selecione \"Subscrições\" e clique em \"OK\".
+\n4. Clique em \"Próximo passo\" e depois em \"Criar exportação\".
+\n5. Clique no botão \"Descarregar\"
+\n6. A partir do zip descarregado extraia o ficheiro .json (normalmente em \"YouTube e YouTube Music/subscriptions/subscriptions.json\") e importe-o aqui.</string>
     <string name="minimize_on_exit_background_description">Ativar reprodutor em segundo plano</string>
     <string name="later">Mais tarde</string>
     <string name="recaptcha_request_toast">Desafio reCAPTCHA solicitado</string>
@@ -226,7 +228,7 @@
     <string name="title_licenses">Licenças de terceiros</string>
     <string name="generate_unique_name">Gerar nome único</string>
     <string name="minimize_on_exit_summary">Ação a executar ao trocar para outra aplicação a partir do menu principal - %s</string>
-    <string name="use_external_video_player_title">Usar reprodutor de vídeo externo</string>
+    <string name="use_external_video_player_title">Utilizar reprodutor de vídeo externo</string>
     <string name="info_labels">O quê:\\nPedido:\\nIdioma do conteúdo:\\nPaís do conteúdo\\nIdioma da app\\nServiço:\\nHora GMT:\\nPacote:\\nVersão:\\nVersão do SO:</string>
     <string name="contribution_encouragement">Se tem ideias para: tradução, alterações de desenho, limpeza de código, ou alterações significativas no código fonte - todas as ajudas são bem-vindas. Quanto mais se faz, melhor ficará!</string>
     <string name="settings_category_clear_data_title">Limpar dados</string>
@@ -296,8 +298,8 @@
     <string name="restore_defaults_confirmation">Deseja repor as predefinições\?</string>
     <string name="external_player_unsupported_link_type">Os reprodutores externos não suportam este tipo de hiperligações</string>
     <string name="rename">Mudar nome</string>
-    <string name="downloads_storage_use_saf_summary">O \'Storage Access Framework\' permite transferências para um cartão SD externo. 
-\nAlguns aparelhos não são compatíveis</string>
+    <string name="downloads_storage_use_saf_summary">\'Storage Access Framework\' permite descargas para um cartão SD externo.
+\nAlguns dipositivos não são compatíveis</string>
     <string name="seek_duration_title">Duração da pesquisa de avanço/recuo rápido</string>
     <string name="channel">Canal</string>
     <string name="missing_file">Ficheiro movido ou eliminado</string>
@@ -354,12 +356,12 @@
     <string name="charset_most_special_characters">Mais caracteres especiais</string>
     <string name="download_path_audio_title">Pasta para ficheiros de áudio</string>
     <string name="error_details_headline">Detalhes:</string>
-    <string name="settings_category_downloads_title">Descarregar</string>
+    <string name="settings_category_downloads_title">Descargas</string>
     <string name="settings_category_feed_title">Fonte</string>
     <string name="playlist_page_summary">Página da lista de reprodução</string>
     <string name="settings">Definições</string>
     <string name="title_most_played">Mais reproduzido</string>
-    <string name="search_showing_result_for">Mostrando resultados para: %s</string>
+    <string name="search_showing_result_for">A mostrar resultados para: %s</string>
     <string name="switch_to_background">Mudar para segundo plano</string>
     <string name="albums">Álbuns</string>
     <string name="previous_export">Exportação anterior</string>
@@ -396,7 +398,7 @@
     <string name="auto_queue_title">Colocar vídeo seguinte na fila</string>
     <string name="peertube_instance_url_summary">Defina as suas instâncias favoritas PeerTube</string>
     <string name="import_export_title">Importar/exportar</string>
-    <string name="export_data_summary">Exportar histórico, subscrições e listas de reprodução</string>
+    <string name="export_data_summary">Exportar histórico, subscrições, listas de reprodução e definições</string>
     <string name="best_resolution">Melhor resolução</string>
     <string name="select_a_channel">Selecione um canal</string>
     <string name="choose_browser">Escolher navegador</string>
@@ -417,7 +419,7 @@
     <string name="export_ongoing">A exportar…</string>
     <string name="most_liked">Mais apreciados</string>
     <string name="title_history_view">Visualizado</string>
-    <string name="downloads_storage_use_saf_title">Usar SAF</string>
+    <string name="downloads_storage_use_saf_title">Utilizar SAF</string>
     <string name="play_queue_stream_detail">Detalhes</string>
     <string name="network_error">Erro de rede</string>
     <string name="enable_search_history_title">Histórico de pesquisa</string>
@@ -451,7 +453,7 @@
     <string name="clear_search_history_title">Limpar histórico de pesquisas</string>
     <string name="msg_error">Erro</string>
     <string name="popup_remember_size_pos_title">Lembrar propriedades de popup</string>
-    <string name="download_path_summary">Os ficheiros de vídeo transferidos são armazenados aqui</string>
+    <string name="download_path_summary">Os ficheiros de vídeo descarregados serão guardados aqui</string>
     <string name="switch_to_main">Mudar para principal</string>
     <string name="msg_popup_permission">Esta permissão é necessária
 \npara o modo popup</string>
@@ -469,7 +471,7 @@
     <string name="missions_header_pending">Pendente</string>
     <string name="import_complete_toast">Importado</string>
     <string name="auto">Automático</string>
-    <string name="import_data_summary">Substitui o histórico e as subscrições atuais</string>
+    <string name="import_data_summary">Substitui o seu histórico, subscrições, listas de reprodução e (opcionalmente) definições</string>
     <string name="settings_category_popup_title">Popup</string>
     <string name="short_thousand">k</string>
     <string name="err_dir_create">Não foi possível criar a pasta \'%1$s\'</string>
@@ -526,7 +528,7 @@
     <string name="playlist_add_stream_success">Adicionado à lista de reprodução</string>
     <string name="delete_one">Eliminar um</string>
     <string name="default_video_format_title">Formato padrão de vídeo</string>
-    <string name="show_hold_to_append_title">Mostrar dica \"Toque longo para pôr na fila\"</string>
+    <string name="show_hold_to_append_title">Mostrar dica \"Toque longo para colocar na fila\"</string>
     <string name="choose_instance_prompt">Escolha uma instância</string>
     <string name="metadata_cache_wipe_summary">Remover todos os dados da página web</string>
     <string name="drawer_close">Fechar menu</string>
@@ -536,7 +538,7 @@
     <string name="settings_file_replacement_character_title">Carácter de substituição</string>
     <string name="video">Vídeo</string>
     <string name="no_streams_available_download">Não existem vídeos para descarregar</string>
-    <string name="download_path_audio_summary">Os ficheiros de áudio descarregados serão armazenados aqui</string>
+    <string name="download_path_audio_summary">Os ficheiros de áudio descarregados serão guardados aqui</string>
     <string name="videos_string">Vídeos</string>
     <string name="metadata_cache_wipe_complete_notice">Meta-dados em cache limpos</string>
     <string name="show_hold_to_append_summary">Mostrar dica ao premir em segundo plano ou no botão \"Detalhes:\" da janela popup</string>
@@ -588,7 +590,7 @@
     <string name="preferred_player_fetcher_notification_message">A carregar o conteúdo solicitado</string>
     <string name="channel_page_summary">Página do canal</string>
     <string name="export_data_title">Exportar base de dados</string>
-    <string name="use_tor_title">Usar Tor</string>
+    <string name="use_tor_title">Utilizar Tor</string>
     <string name="feed_group_show_only_ungrouped_subscriptions">Mostrar apenas assinaturas não agrupadas</string>
     <string name="player_stream_failure">Não foi possível reproduzir este vídeo</string>
     <string name="background_player">Reprodutor em segundo plano</string>
@@ -620,7 +622,7 @@
     <string name="auto_queue_toggle">Colocar na fila automaticamente</string>
     <string name="clear_queue_confirmation_description">A fila do reprodutor ativo será substituída</string>
     <string name="clear_queue_confirmation_summary">Mudar de um reprodutor para outro pode substituir a sua fila</string>
-    <string name="clear_queue_confirmation_title">Solicitar confirmação antes de limpar uma fila</string>
+    <string name="clear_queue_confirmation_title">Pedir confirmação antes de limpar uma fila</string>
     <string name="popup_remember_size_pos_summary">Lembrar do último tamanho e posição do popup</string>
     <string name="notification_action_nothing">Nada</string>
     <string name="notification_action_buffering">Processamento...</string>
@@ -635,4 +637,16 @@
     <string name="notification_action_0_title">Primeiro botão de ação</string>
     <string name="notification_scale_to_square_image_summary">Ajustar miniatura de vídeo mostrada na notificação de 16:9 para 1:1 (pode introduzir distorções)</string>
     <string name="notification_scale_to_square_image_title">Ajustar miniatura à proporção de 1:1</string>
+    <string name="show_memory_leaks">Mostrar \'leaks\' de memória</string>
+    <string name="enqueued">Colocado na fila</string>
+    <string name="enqueue_stream">Colocar na fila</string>
+    <string name="clear_cookie_summary">Limpar cookies que NewPipe armazena quando resolve um reCAPTCHA</string>
+    <string name="recaptcha_cookies_cleared">Os cookies reCAPTCHA foram limpos</string>
+    <string name="clear_cookie_title">Limpar cookies reCAPTCHA</string>
+    <string name="youtube_restricted_mode_enabled_summary">O YouTube fornece um \"Modo restrito\" que oculta o conteúdo destinado a adultos</string>
+    <string name="show_age_restricted_content_summary">Mostrar conteúdo possivelmente impróprio para crianças porque tem um limite de idade (como 18+)</string>
+    <string name="notification_colorize_summary">Fazer com que o Android personalize a cor da notificação de acordo com a cor principal na miniatura (esta opção não está disponível em todos os dispositivos)</string>
+    <string name="notification_colorize_title">Colorir notificação</string>
+    <string name="show_thumbnail_summary">Mostrar miniaturas no ecrã de bloqueio como fundo e como notificação</string>
+    <string name="show_thumbnail_title">Mostrar miniatura</string>
 </resources>

@@ -27,6 +27,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
+import org.schabi.newpipelegacy.App;
 import org.schabi.newpipelegacy.R;
 import org.schabi.newpipelegacy.database.subscription.SubscriptionEntity;
 import org.schabi.newpipe.extractor.subscription.SubscriptionItem;
@@ -37,9 +38,9 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.functions.Function;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 import static org.schabi.newpipelegacy.MainActivity.DEBUG;
 
@@ -50,8 +51,8 @@ public class SubscriptionsExportService extends BaseImportExportService {
      * A {@link LocalBroadcastManager local broadcast} will be made with this action
      * when the export is successfully completed.
      */
-    public static final String EXPORT_COMPLETE_ACTION = "org.schabi.newpipelegacy.local"
-            + ".subscription.services.SubscriptionsExportService.EXPORT_COMPLETE";
+    public static final String EXPORT_COMPLETE_ACTION = App.PACKAGE_NAME + ".local.subscription"
+            + ".services.SubscriptionsExportService.EXPORT_COMPLETE";
 
     private Subscription subscription;
     private File outFile;

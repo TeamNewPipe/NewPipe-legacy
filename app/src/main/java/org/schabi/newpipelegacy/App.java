@@ -8,6 +8,7 @@ import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.multidex.MultiDexApplication;
 import androidx.preference.PreferenceManager;
 
@@ -22,6 +23,7 @@ import org.acra.config.CoreConfigurationBuilder;
 import org.schabi.newpipe.extractor.NewPipe;
 import org.schabi.newpipe.extractor.downloader.Downloader;
 import org.schabi.newpipelegacy.report.ErrorActivity;
+import org.schabi.newpipelegacy.report.ErrorInfo;
 import org.schabi.newpipelegacy.report.UserAction;
 import org.schabi.newpipelegacy.settings.SettingsActivity;
 import org.schabi.newpipelegacy.util.ExceptionUtils;
@@ -36,12 +38,13 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import io.reactivex.exceptions.CompositeException;
-import io.reactivex.exceptions.MissingBackpressureException;
-import io.reactivex.exceptions.OnErrorNotImplementedException;
-import io.reactivex.exceptions.UndeliverableException;
-import io.reactivex.functions.Consumer;
-import io.reactivex.plugins.RxJavaPlugins;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.exceptions.CompositeException;
+import io.reactivex.rxjava3.exceptions.MissingBackpressureException;
+import io.reactivex.rxjava3.exceptions.OnErrorNotImplementedException;
+import io.reactivex.rxjava3.exceptions.UndeliverableException;
+import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.rxjava3.plugins.RxJavaPlugins;
 
 /*
  * Copyright (C) Hans-Christoph Steiner 2016 <hans@eds.org>
@@ -64,7 +67,12 @@ import io.reactivex.plugins.RxJavaPlugins;
 public class App extends MultiDexApplication {
     protected static final String TAG = App.class.toString();
     private static App app;
+    public static final String PACKAGE_NAME = BuildConfig.APPLICATION_ID;
 
+    @Nullable
+    private Disposable disposable = null;
+
+    @NonNull
     public static App getApp() {
         return app;
     }
@@ -100,7 +108,15 @@ public class App extends MultiDexApplication {
         configureRxJavaErrorHandler();
 
         // Check for new version
-        new CheckForNewAppVersionTask().execute();
+        disposable = CheckForNewAppVersion.checkNewVersion(this);
+    }
+
+    @Override
+    public void onTerminate() {
+        if (disposable != null) {
+            disposable.dispose();
+        }
+        super.onTerminate();
     }
 
     protected Downloader getDownloader() {
@@ -214,7 +230,7 @@ public class App extends MultiDexApplication {
                     ace,
                     null,
                     null,
-                    ErrorActivity.ErrorInfo.make(UserAction.SOMETHING_ELSE, "none",
+                    ErrorInfo.make(UserAction.SOMETHING_ELSE, "none",
                             "Could not initialize ACRA crash report", R.string.app_ui_crash));
         }
     }
@@ -228,8 +244,9 @@ public class App extends MultiDexApplication {
         String name = getString(R.string.notification_channel_name);
         String description = getString(R.string.notification_channel_description);
 
-        // Keep this below DEFAULT to avoid making noise on every notification update
-        final int importance = NotificationManager.IMPORTANCE_LOW;
+        // Keep this below DEFAULT to avoid making noise on every notification update for the main
+        // and update channels
+        int importance = NotificationManager.IMPORTANCE_LOW;
 
         final NotificationChannel mainChannel = new NotificationChannel(id, name, importance);
         mainChannel.setDescription(description);
@@ -241,9 +258,17 @@ public class App extends MultiDexApplication {
         final NotificationChannel appUpdateChannel = new NotificationChannel(id, name, importance);
         appUpdateChannel.setDescription(description);
 
+        id = getString(R.string.hash_channel_id);
+        name = getString(R.string.hash_channel_name);
+        description = getString(R.string.hash_channel_description);
+        importance = NotificationManager.IMPORTANCE_HIGH;
+
+        final NotificationChannel hashChannel = new NotificationChannel(id, name, importance);
+        hashChannel.setDescription(description);
+
         final NotificationManager notificationManager = getSystemService(NotificationManager.class);
         notificationManager.createNotificationChannels(Arrays.asList(mainChannel,
-                appUpdateChannel));
+                appUpdateChannel, hashChannel));
     }
 
     protected boolean isDisposedRxExceptionsReported() {

@@ -4,8 +4,8 @@
   "https://checkstyle.org/dtds/suppressions_1_2.dtd">
 <suppressions>
   <suppress checks="FinalParameters"
-      files="LocalItemListAdapter.java"
-      lines="220,292"/>
+    files="LocalItemListAdapter.java"
+    lines="221,293"/>
 
   <suppress checks="FinalParameters"
       files="InfoListAdapter.java"
@@ -13,7 +13,11 @@
 
   <suppress checks="FinalParameters"
       files="ListHelper.java"
-      lines="282,314"/>
+      lines="281,313"/>
+
+  <suppress checks="EmptyBlock"
+      files="ContentSettingsFragment.java"
+      lines="227,245"/>
 
   <!-- org.schabi.newpipelegacy.streams -->
   <suppress checks="FinalParameters"
@@ -58,15 +62,15 @@
 
   <suppress checks="EqualsHashCode"
       files="Tab.java"
-      lines="112,358,432,577"/>
+      lines="113,359,433,578"/>
 
   <suppress checks="EqualsHashCode"
       files="StreamStateEntity.java"
-      lines="69"/>
+      lines="72"/>
 
   <suppress checks="EqualsHashCode"
       files="PlayQueue.java"
-      lines="517"/>
+      lines="504"/>
 
   <suppress checks="FileLength"
       files="VideoPlayerImpl.java"/>

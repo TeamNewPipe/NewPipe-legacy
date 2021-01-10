@@ -10,8 +10,8 @@ import org.schabi.newpipelegacy.util.ExtractorHelper;
 
 import java.io.Serializable;
 
-import io.reactivex.Single;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class PlayQueueItem implements Serializable {
     public static final long RECOVERY_UNSET = Long.MIN_VALUE;
@@ -62,6 +62,20 @@ public class PlayQueueItem implements Serializable {
         this.streamType = streamType;
 
         this.recoveryPosition = RECOVERY_UNSET;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (o instanceof PlayQueueItem) {
+            return url.equals(((PlayQueueItem) o).url);
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return url.hashCode();
     }
 
     @NonNull

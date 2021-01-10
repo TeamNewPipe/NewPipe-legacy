@@ -1,5 +1,6 @@
 package us.shandian.giga.get;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -21,7 +22,7 @@ import static us.shandian.giga.get.DownloadMission.ERROR_HTTP_FORBIDDEN;
  * Single-threaded fallback mode
  */
 public class DownloadRunnableFallback extends Thread {
-    private static final String TAG = "DownloadRunnableFallbac";
+    private static final String TAG = "DownloadRunnableFallback";
 
     private final DownloadMission mMission;
 
@@ -48,6 +49,7 @@ public class DownloadRunnableFallback extends Thread {
         if (mF != null) mF.close();
     }
 
+    @SuppressLint("LongLogTag")
     @Override
     public void run() {
         boolean done;

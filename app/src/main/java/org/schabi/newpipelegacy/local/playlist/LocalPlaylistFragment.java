@@ -30,6 +30,7 @@ import org.schabi.newpipelegacy.R;
 import org.schabi.newpipelegacy.database.LocalItem;
 import org.schabi.newpipelegacy.database.history.model.StreamHistoryEntry;
 import org.schabi.newpipelegacy.database.playlist.PlaylistStreamEntry;
+import org.schabi.newpipelegacy.database.stream.model.StreamEntity;
 import org.schabi.newpipelegacy.database.stream.model.StreamStateEntity;
 import org.schabi.newpipe.extractor.stream.StreamInfoItem;
 import org.schabi.newpipe.extractor.stream.StreamType;
@@ -54,13 +55,12 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import icepick.State;
-import io.reactivex.Flowable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.disposables.Disposables;
-import io.reactivex.schedulers.Schedulers;
-import io.reactivex.subjects.PublishSubject;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+import io.reactivex.rxjava3.subjects.PublishSubject;
 
 import static org.schabi.newpipelegacy.util.AnimationUtils.animateView;
 
@@ -178,10 +178,10 @@ public class LocalPlaylistFragment extends BaseLocalListFragment<List<PlaylistSt
             @Override
             public void selected(final LocalItem selectedItem) {
                 if (selectedItem instanceof PlaylistStreamEntry) {
-                    final PlaylistStreamEntry item = (PlaylistStreamEntry) selectedItem;
-                    NavigationHelper.openVideoDetailFragment(getFM(),
-                            item.getStreamEntity().getServiceId(), item.getStreamEntity().getUrl(),
-                            item.getStreamEntity().getTitle());
+                    final StreamEntity item =
+                            ((PlaylistStreamEntry) selectedItem).getStreamEntity();
+                    NavigationHelper.openVideoDetailFragment(requireContext(), getFM(),
+                            item.getServiceId(), item.getUrl(), item.getTitle(), null, false);
                 }
             }
 
@@ -494,7 +494,7 @@ public class LocalPlaylistFragment extends BaseLocalListFragment<List<PlaylistSt
         setVideoCount(itemListAdapter.getItemsList().size());
 
         headerPlayAllButton.setOnClickListener(view ->
-                NavigationHelper.playOnMainPlayer(activity, getPlayQueue(), true));
+                NavigationHelper.playOnMainPlayer(activity, getPlayQueue()));
         headerPopupButton.setOnClickListener(view ->
                 NavigationHelper.playOnPopupPlayer(activity, getPlayQueue(), false));
         headerBackgroundButton.setOnClickListener(view ->
@@ -640,7 +640,7 @@ public class LocalPlaylistFragment extends BaseLocalListFragment<List<PlaylistSt
 
     private Disposable getDebouncedSaver() {
         if (debouncedSaveSignal == null) {
-            return Disposables.empty();
+            return Disposable.empty();
         }
 
         return debouncedSaveSignal
