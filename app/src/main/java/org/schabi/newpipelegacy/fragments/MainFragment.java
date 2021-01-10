@@ -3,7 +3,6 @@ package org.schabi.newpipelegacy.fragments;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
-import androidx.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapterMenuWorkaround;
+import androidx.preference.PreferenceManager;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
@@ -27,6 +27,7 @@ import org.schabi.newpipelegacy.BaseFragment;
 import org.schabi.newpipelegacy.R;
 import org.schabi.newpipe.extractor.exceptions.ExtractionException;
 import org.schabi.newpipelegacy.report.ErrorActivity;
+import org.schabi.newpipelegacy.report.ErrorInfo;
 import org.schabi.newpipelegacy.report.UserAction;
 import org.schabi.newpipelegacy.settings.tabs.Tab;
 import org.schabi.newpipelegacy.settings.tabs.TabsManager;
@@ -43,7 +44,7 @@ public class MainFragment extends BaseFragment implements TabLayout.OnTabSelecte
     private SelectedTabsPagerAdapter pagerAdapter;
     private ScrollableTabLayout tabLayout;
 
-    private List<Tab> tabsList = new ArrayList<>();
+    private final List<Tab> tabsList = new ArrayList<>();
     private TabsManager tabsManager;
 
     private boolean hasTabsChanged = false;
@@ -242,7 +243,7 @@ public class MainFragment extends BaseFragment implements TabLayout.OnTabSelecte
             }
 
             if (throwable != null) {
-                ErrorActivity.reportError(context, throwable, null, null, ErrorActivity.ErrorInfo
+                ErrorActivity.reportError(context, throwable, null, null, ErrorInfo
                         .make(UserAction.UI_ERROR, "none", "", R.string.app_ui_crash));
                 return new BlankFragment();
             }

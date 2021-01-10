@@ -18,8 +18,9 @@ import java.io.IOException;
 public class SrtFromTtmlWriter {
     private static final String NEW_LINE = "\r\n";
 
-    private SharpStream out;
-    private boolean ignoreEmptyFrames;
+    private final SharpStream out;
+    private final boolean ignoreEmptyFrames;
+    private final Charset charset = StandardCharsets.UTF_8;
 
     private int frameIndex = 0;
 

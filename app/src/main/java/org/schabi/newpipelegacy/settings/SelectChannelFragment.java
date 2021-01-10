@@ -22,6 +22,7 @@ import org.schabi.newpipelegacy.R;
 import org.schabi.newpipelegacy.database.subscription.SubscriptionEntity;
 import org.schabi.newpipelegacy.local.subscription.SubscriptionManager;
 import org.schabi.newpipelegacy.report.ErrorActivity;
+import org.schabi.newpipelegacy.report.ErrorInfo;
 import org.schabi.newpipelegacy.report.UserAction;
 import org.schabi.newpipelegacy.util.ThemeHelper;
 
@@ -29,10 +30,10 @@ import java.util.List;
 import java.util.Vector;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * Created by Christian Schabesberger on 26.09.17.
@@ -178,7 +179,7 @@ public class SelectChannelFragment extends DialogFragment {
 
     protected void onError(final Throwable e) {
         final Activity activity = getActivity();
-        ErrorActivity.reportError(activity, e, activity.getClass(), null, ErrorActivity.ErrorInfo
+        ErrorActivity.reportError(activity, e, activity.getClass(), null, ErrorInfo
                 .make(UserAction.UI_ERROR, "none", "", R.string.app_ui_crash));
     }
 

@@ -2,11 +2,8 @@ package org.schabi.newpipelegacy.player;
 
 import android.content.Intent;
 import android.view.Menu;
-import android.view.MenuItem;
 
 import org.schabi.newpipelegacy.R;
-import org.schabi.newpipelegacy.util.NavigationHelper;
-import org.schabi.newpipelegacy.util.PermissionHelper;
 
 public final class BackgroundPlayerActivity extends ServicePlayerActivity {
 
@@ -44,31 +41,6 @@ public final class BackgroundPlayerActivity extends ServicePlayerActivity {
     @Override
     public int getPlayerOptionMenuResource() {
         return R.menu.menu_play_queue_bg;
-    }
-
-    @Override
-    public boolean onPlayerOptionSelected(final MenuItem item) {
-        if (item.getItemId() == R.id.action_switch_popup) {
-
-            if (!PermissionHelper.isPopupEnabled(this)) {
-                PermissionHelper.showPopupEnablementToast(this);
-                return true;
-            }
-
-            this.player.setRecovery();
-            NavigationHelper.playOnPopupPlayer(
-                    getApplicationContext(), player.playQueue, this.player.isPlaying());
-            return true;
-        }
-
-        if (item.getItemId() == R.id.action_switch_background) {
-            this.player.setRecovery();
-            NavigationHelper.playOnBackgroundPlayer(
-                    getApplicationContext(), player.playQueue, this.player.isPlaying());
-            return true;
-        }
-
-        return false;
     }
 
     @Override

@@ -10,12 +10,13 @@ import androidx.preference.Preference;
 import org.schabi.newpipelegacy.R;
 import org.schabi.newpipelegacy.local.history.HistoryRecordManager;
 import org.schabi.newpipelegacy.report.ErrorActivity;
+import org.schabi.newpipelegacy.report.ErrorInfo;
 import org.schabi.newpipelegacy.report.UserAction;
 import org.schabi.newpipelegacy.util.InfoCache;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
 
 public class HistorySettingsFragment extends BasePreferenceFragment {
     private String cacheWipeKey;
@@ -64,7 +65,7 @@ public class HistorySettingsFragment extends BasePreferenceFragment {
                                         throwable -> ErrorActivity.reportError(getContext(),
                                                 throwable,
                                                 SettingsActivity.class, null,
-                                                ErrorActivity.ErrorInfo.make(
+                                                ErrorInfo.make(
                                                         UserAction.DELETE_FROM_HISTORY,
                                                         "none",
                                                         "Delete playback states",
@@ -79,7 +80,7 @@ public class HistorySettingsFragment extends BasePreferenceFragment {
                                         throwable -> ErrorActivity.reportError(getContext(),
                                                 throwable,
                                                 SettingsActivity.class, null,
-                                                ErrorActivity.ErrorInfo.make(
+                                                ErrorInfo.make(
                                                         UserAction.DELETE_FROM_HISTORY,
                                                         "none",
                                                         "Delete view history",
@@ -93,7 +94,7 @@ public class HistorySettingsFragment extends BasePreferenceFragment {
                                         throwable -> ErrorActivity.reportError(getContext(),
                                                 throwable,
                                                 SettingsActivity.class, null,
-                                                ErrorActivity.ErrorInfo.make(
+                                                ErrorInfo.make(
                                                         UserAction.DELETE_FROM_HISTORY,
                                                         "none",
                                                         "Delete search history",
@@ -122,7 +123,7 @@ public class HistorySettingsFragment extends BasePreferenceFragment {
                                         throwable -> ErrorActivity.reportError(getContext(),
                                                 throwable,
                                                 SettingsActivity.class, null,
-                                                ErrorActivity.ErrorInfo.make(
+                                                ErrorInfo.make(
                                                         UserAction.DELETE_FROM_HISTORY,
                                                         "none",
                                                         "Delete playback states",
@@ -148,7 +149,7 @@ public class HistorySettingsFragment extends BasePreferenceFragment {
                                         throwable -> ErrorActivity.reportError(getContext(),
                                                 throwable,
                                                 SettingsActivity.class, null,
-                                                ErrorActivity.ErrorInfo.make(
+                                                ErrorInfo.make(
                                                         UserAction.DELETE_FROM_HISTORY,
                                                         "none",
                                                         "Delete search history",

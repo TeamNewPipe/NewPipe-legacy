@@ -9,10 +9,10 @@ import android.view.ViewTreeObserver;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
 
 import org.schabi.newpipelegacy.R;
+import org.schabi.newpipelegacy.databinding.ActivityDownloaderBinding;
 import org.schabi.newpipelegacy.util.DeviceUtils;
 import org.schabi.newpipelegacy.util.ThemeHelper;
 import org.schabi.newpipelegacy.views.FocusOverlayView;
@@ -35,11 +35,14 @@ public class DownloadActivity extends AppCompatActivity {
 
         assureCorrectAppLanguage(this);
         ThemeHelper.setTheme(this);
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_downloader);
 
-        final Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        super.onCreate(savedInstanceState);
+
+        final ActivityDownloaderBinding downloaderBinding =
+                ActivityDownloaderBinding.inflate(getLayoutInflater());
+        setContentView(downloaderBinding.getRoot());
+
+        setSupportActionBar(downloaderBinding.toolbarLayout.toolbar);
 
         final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {

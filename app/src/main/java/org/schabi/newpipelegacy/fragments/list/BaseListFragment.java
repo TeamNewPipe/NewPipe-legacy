@@ -48,7 +48,7 @@ public abstract class BaseListFragment<I, N> extends BaseStateFragment<I>
         implements ListViewContract<I, N>, StateSaver.WriteRead,
         SharedPreferences.OnSharedPreferenceChangeListener {
     private static final int LIST_MODE_UPDATE_FLAG = 0x32;
-    protected StateSaver.SavedState savedState;
+    protected org.schabi.newpipe.util.SavedState savedState;
 
     private boolean useDefaultStateSaving = true;
     private int updateFlags = 0;
@@ -321,8 +321,9 @@ public abstract class BaseListFragment<I, N> extends BaseStateFragment<I>
 
     private void onStreamSelected(final StreamInfoItem selectedItem) {
         onItemSelected(selectedItem);
-        NavigationHelper.openVideoDetailFragment(getFM(),
-                selectedItem.getServiceId(), selectedItem.getUrl(), selectedItem.getName());
+        NavigationHelper.openVideoDetailFragment(requireContext(), getFM(),
+                selectedItem.getServiceId(), selectedItem.getUrl(), selectedItem.getName(),
+                null, false);
     }
 
     protected void onScrollToBottom() {
@@ -378,11 +379,7 @@ public abstract class BaseListFragment<I, N> extends BaseStateFragment<I>
         final ActionBar supportActionBar = activity.getSupportActionBar();
         if (supportActionBar != null) {
             supportActionBar.setDisplayShowTitleEnabled(true);
-            if (useAsFrontPage) {
-                supportActionBar.setDisplayHomeAsUpEnabled(false);
-            } else {
-                supportActionBar.setDisplayHomeAsUpEnabled(true);
-            }
+            supportActionBar.setDisplayHomeAsUpEnabled(!useAsFrontPage);
         }
     }
 

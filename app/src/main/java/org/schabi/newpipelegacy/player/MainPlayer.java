@@ -30,8 +30,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
+import org.schabi.newpipelegacy.App;
 import org.schabi.newpipelegacy.R;
 import org.schabi.newpipelegacy.util.ThemeHelper;
 
@@ -63,25 +65,25 @@ public final class MainPlayer extends Service {
     //////////////////////////////////////////////////////////////////////////*/
 
     static final String ACTION_CLOSE
-            = "org.schabi.newpipelegacy.player.MainPlayer.CLOSE";
+            = App.PACKAGE_NAME + ".player.MainPlayer.CLOSE";
     static final String ACTION_PLAY_PAUSE
-            = "org.schabi.newpipelegacy.player.MainPlayer.PLAY_PAUSE";
+            = App.PACKAGE_NAME + ".player.MainPlayer.PLAY_PAUSE";
     static final String ACTION_OPEN_CONTROLS
-            = "org.schabi.newpipelegacy.player.MainPlayer.OPEN_CONTROLS";
+            = App.PACKAGE_NAME + ".player.MainPlayer.OPEN_CONTROLS";
     static final String ACTION_REPEAT
-            = "org.schabi.newpipelegacy.player.MainPlayer.REPEAT";
+            = App.PACKAGE_NAME + ".player.MainPlayer.REPEAT";
     static final String ACTION_PLAY_NEXT
-            = "org.schabi.newpipelegacy.player.MainPlayer.ACTION_PLAY_NEXT";
+            = App.PACKAGE_NAME + ".player.MainPlayer.ACTION_PLAY_NEXT";
     static final String ACTION_PLAY_PREVIOUS
-            = "org.schabi.newpipelegacy.player.MainPlayer.ACTION_PLAY_PREVIOUS";
+            = App.PACKAGE_NAME + ".player.MainPlayer.ACTION_PLAY_PREVIOUS";
     static final String ACTION_FAST_REWIND
-            = "org.schabi.newpipelegacy.player.MainPlayer.ACTION_FAST_REWIND";
+            = App.PACKAGE_NAME + ".player.MainPlayer.ACTION_FAST_REWIND";
     static final String ACTION_FAST_FORWARD
-            = "org.schabi.newpipelegacy.player.MainPlayer.ACTION_FAST_FORWARD";
+            = App.PACKAGE_NAME + ".player.MainPlayer.ACTION_FAST_FORWARD";
     static final String ACTION_SHUFFLE
-            = "org.schabi.newpipelegacy.player.MainPlayer.ACTION_SHUFFLE";
+            = App.PACKAGE_NAME + ".player.MainPlayer.ACTION_SHUFFLE";
     public static final String ACTION_RECREATE_NOTIFICATION
-            = "org.schabi.newpipelegacy.player.MainPlayer.ACTION_RECREATE_NOTIFICATION";
+            = App.PACKAGE_NAME + ".player.MainPlayer.ACTION_RECREATE_NOTIFICATION";
 
     /*//////////////////////////////////////////////////////////////////////////
     // Service's LifeCycle
@@ -225,12 +227,13 @@ public final class MainPlayer extends Service {
         // DisplayMetrics from activity context knows about MultiWindow feature
         // while DisplayMetrics from app context doesn't
         final DisplayMetrics metrics = (playerImpl != null
-                && playerImpl.getParentActivity() != null)
-                ? playerImpl.getParentActivity().getResources().getDisplayMetrics()
-                : getResources().getDisplayMetrics();
+                && playerImpl.getParentActivity() != null
+                ? playerImpl.getParentActivity().getResources()
+                : getResources()).getDisplayMetrics();
         return metrics.heightPixels < metrics.widthPixels;
     }
 
+    @Nullable
     public View getView() {
         if (playerImpl == null) {
             return null;
@@ -240,7 +243,7 @@ public final class MainPlayer extends Service {
     }
 
     public void removeViewFromParent() {
-        if (getView().getParent() != null) {
+        if (getView() != null && getView().getParent() != null) {
             if (playerImpl.getParentActivity() != null) {
                 // This means view was added to fragment
                 final ViewGroup parent = (ViewGroup) getView().getParent();

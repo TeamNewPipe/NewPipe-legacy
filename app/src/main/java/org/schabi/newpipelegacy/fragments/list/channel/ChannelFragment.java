@@ -24,7 +24,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import com.jakewharton.rxbinding2.view.RxView;
+import com.jakewharton.rxbinding4.view.RxView;
 
 import org.schabi.newpipelegacy.R;
 import org.schabi.newpipelegacy.database.subscription.SubscriptionEntity;
@@ -50,19 +50,18 @@ import org.schabi.newpipelegacy.util.ShareUtils;
 import org.schabi.newpipelegacy.util.ThemeHelper;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Observable;
-import io.reactivex.Single;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.functions.Action;
+import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.rxjava3.functions.Function;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 import static org.schabi.newpipelegacy.util.AnimationUtils.animateBackgroundColor;
 import static org.schabi.newpipelegacy.util.AnimationUtils.animateTextColor;
@@ -495,13 +494,12 @@ public class ChannelFragment extends BaseListInfoFragment<ChannelInfo>
 
             // handling ContentNotSupportedException not to show the error but an appropriate string
             // so that crashes won't be sent uselessly and the user will understand what happened
-            for (Iterator<Throwable> it = errors.iterator(); it.hasNext();) {
-                final Throwable throwable = it.next();
+            errors.removeIf(throwable -> {
                 if (throwable instanceof ContentNotSupportedException) {
                     showContentNotSupported();
-                    it.remove();
                 }
-            }
+                return throwable instanceof ContentNotSupportedException;
+            });
 
             if (!errors.isEmpty()) {
                 showSnackBarError(errors, UserAction.REQUESTED_CHANNEL,
@@ -519,7 +517,7 @@ public class ChannelFragment extends BaseListInfoFragment<ChannelInfo>
         monitorSubscription(result);
 
         headerPlayAllButton.setOnClickListener(view -> NavigationHelper
-                .playOnMainPlayer(activity, getPlayQueue(), true));
+                .playOnMainPlayer(activity, getPlayQueue()));
         headerPopupButton.setOnClickListener(view -> NavigationHelper
                 .playOnPopupPlayer(activity, getPlayQueue(), false));
         headerBackgroundButton.setOnClickListener(view -> NavigationHelper

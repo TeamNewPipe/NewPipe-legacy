@@ -18,6 +18,7 @@ import org.schabi.newpipe.extractor.stream.VideoStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -140,7 +141,7 @@ public final class ListHelper {
         final SharedPreferences preferences
                 = PreferenceManager.getDefaultSharedPreferences(context);
 
-        // Load the prefered resolution otherwise the best available
+        // Load the preferred resolution otherwise the best available
         String resolution = preferences != null
                 ? preferences.getString(context.getString(key), context.getString(value))
                 : context.getString(R.string.best_resolution_key);
@@ -160,7 +161,7 @@ public final class ListHelper {
      *
      * @param defaultResolution the default resolution to look for
      * @param bestResolutionKey key of the best resolution
-     * @param defaultFormat     the default fomat to look for
+     * @param defaultFormat     the default format to look for
      * @param videoStreams      list of the video streams to check
      * @return index of the default resolution&format
      */
@@ -265,10 +266,8 @@ public final class ListHelper {
      */
     private static void sortStreamList(final List<VideoStream> videoStreams,
                                        final boolean ascendingOrder) {
-        Collections.sort(videoStreams, (o1, o2) -> {
-            final int result = compareVideoStreamResolution(o1, o2);
-            return result == 0 ? 0 : (ascendingOrder ? result : -result);
-        });
+        final Comparator<VideoStream> comparator = ListHelper::compareVideoStreamResolution;
+        Collections.sort(videoStreams, ascendingOrder ? comparator : comparator.reversed());
     }
 
     /**
@@ -352,7 +351,7 @@ public final class ListHelper {
      * @param targetResolution the resolution to look for
      * @param targetFormat     the format to look for
      * @param videoStreams     the available video streams
-     * @return the index of the prefered video stream
+     * @return the index of the preferred video stream
      */
     static int getVideoStreamIndex(final String targetResolution, final MediaFormat targetFormat,
                                    final List<VideoStream> videoStreams) {
@@ -414,7 +413,7 @@ public final class ListHelper {
      * @param context           Android app context
      * @param defaultResolution the default resolution
      * @param videoStreams      the list of video streams to check
-     * @return the index of the prefered video stream
+     * @return the index of the preferred video stream
      */
     private static int getDefaultResolutionWithDefaultFormat(final Context context,
                                                              final String defaultResolution,

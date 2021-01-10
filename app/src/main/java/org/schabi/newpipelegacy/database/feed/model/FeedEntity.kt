@@ -10,21 +10,24 @@ import org.schabi.newpipelegacy.database.feed.model.FeedEntity.Companion.SUBSCRI
 import org.schabi.newpipelegacy.database.stream.model.StreamEntity
 import org.schabi.newpipelegacy.database.subscription.SubscriptionEntity
 
-@Entity(tableName = FEED_TABLE,
-        primaryKeys = [STREAM_ID, SUBSCRIPTION_ID],
-        indices = [Index(SUBSCRIPTION_ID)],
-        foreignKeys = [
-            ForeignKey(
-                    entity = StreamEntity::class,
-                    parentColumns = [StreamEntity.STREAM_ID],
-                    childColumns = [STREAM_ID],
-                    onDelete = ForeignKey.CASCADE, onUpdate = ForeignKey.CASCADE, deferred = true),
-            ForeignKey(
-                    entity = SubscriptionEntity::class,
-                    parentColumns = [SubscriptionEntity.SUBSCRIPTION_UID],
-                    childColumns = [SUBSCRIPTION_ID],
-                    onDelete = ForeignKey.CASCADE, onUpdate = ForeignKey.CASCADE, deferred = true)
-        ]
+@Entity(
+    tableName = FEED_TABLE,
+    primaryKeys = [STREAM_ID, SUBSCRIPTION_ID],
+    indices = [Index(SUBSCRIPTION_ID)],
+    foreignKeys = [
+        ForeignKey(
+            entity = StreamEntity::class,
+            parentColumns = [StreamEntity.STREAM_ID],
+            childColumns = [STREAM_ID],
+            onDelete = ForeignKey.CASCADE, onUpdate = ForeignKey.CASCADE, deferred = true
+        ),
+        ForeignKey(
+            entity = SubscriptionEntity::class,
+            parentColumns = [SubscriptionEntity.SUBSCRIPTION_UID],
+            childColumns = [SUBSCRIPTION_ID],
+            onDelete = ForeignKey.CASCADE, onUpdate = ForeignKey.CASCADE, deferred = true
+        )
+    ]
 )
 data class FeedEntity(
     @ColumnInfo(name = STREAM_ID)

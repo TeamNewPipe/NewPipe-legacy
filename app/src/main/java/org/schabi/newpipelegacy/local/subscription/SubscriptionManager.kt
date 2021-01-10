@@ -1,10 +1,14 @@
 package org.schabi.newpipelegacy.local.subscription
 
 import android.content.Context
-import io.reactivex.Completable
-import io.reactivex.Flowable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.schedulers.Schedulers
+import org.schabi.newpipelegacy.NewPipeDatabase
+import org.schabi.newpipelegacy.database.feed.model.FeedGroupEntity
+import org.schabi.newpipelegacy.database.subscription.SubscriptionDAO
+import org.schabi.newpipelegacy.database.subscription.SubscriptionEntity
 import org.schabi.newpipe.extractor.ListInfo
 import org.schabi.newpipe.extractor.channel.ChannelInfo
 import org.schabi.newpipe.extractor.feed.FeedInfo
@@ -32,7 +36,8 @@ class SubscriptionManager(context: Context) {
             filterQuery.isNotEmpty() -> {
                 return if (showOnlyUngrouped) {
                     subscriptionTable.getSubscriptionsOnlyUngroupedFiltered(
-                        currentGroupId, filterQuery)
+                        currentGroupId, filterQuery
+                    )
                 } else {
                     subscriptionTable.getSubscriptionsFiltered(filterQuery)
                 }
@@ -44,7 +49,8 @@ class SubscriptionManager(context: Context) {
 
     fun upsertAll(infoList: List<ChannelInfo>): List<SubscriptionEntity> {
         val listEntities = subscriptionTable.upsertAll(
-            infoList.map { SubscriptionEntity.from(it) })
+            infoList.map { SubscriptionEntity.from(it) }
+        )
 
         database.runInTransaction {
             infoList.forEachIndexed { index, info ->

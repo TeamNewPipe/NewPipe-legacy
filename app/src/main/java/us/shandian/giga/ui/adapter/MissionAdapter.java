@@ -1,13 +1,11 @@
 package us.shandian.giga.ui.adapter;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.ProgressDialog;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
@@ -26,9 +24,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.core.view.ViewCompat;
@@ -43,16 +41,20 @@ import org.schabi.newpipelegacy.BuildConfig;
 import org.schabi.newpipelegacy.R;
 import org.schabi.newpipe.extractor.NewPipe;
 import org.schabi.newpipelegacy.report.ErrorActivity;
+import org.schabi.newpipelegacy.report.ErrorInfo;
 import org.schabi.newpipelegacy.report.UserAction;
 import org.schabi.newpipelegacy.util.NavigationHelper;
 
 import java.io.File;
-import java.lang.ref.WeakReference;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import us.shandian.giga.get.DownloadMission;
 import us.shandian.giga.get.FinishedMission;
 import us.shandian.giga.get.Mission;
@@ -91,37 +93,40 @@ public class MissionAdapter extends Adapter<ViewHolder> implements Handler.Callb
     private static final String DEFAULT_MIME_TYPE = "*/*";
     private static final String UNDEFINED_ETA = "--:--";
 
+    private static final int HASH_NOTIFICATION_ID = 123790;
 
     static {
         ALGORITHMS.put(R.id.md5, "MD5");
         ALGORITHMS.put(R.id.sha1, "SHA1");
     }
 
-    private Context mContext;
-    private LayoutInflater mInflater;
-    private DownloadManager mDownloadManager;
-    private Deleter mDeleter;
+    private final Context mContext;
+    private final LayoutInflater mInflater;
+    private final DownloadManager mDownloadManager;
+    private final Deleter mDeleter;
     private int mLayout;
-    private DownloadManager.MissionIterator mIterator;
-    private ArrayList<ViewHolderItem> mPendingDownloadsItems = new ArrayList<>();
-    private Handler mHandler;
+    private final DownloadManager.MissionIterator mIterator;
+    private final ArrayList<ViewHolderItem> mPendingDownloadsItems = new ArrayList<>();
+    private final Handler mHandler;
     private MenuItem mClear;
     private MenuItem mStartButton;
     private MenuItem mPauseButton;
-    private View mEmptyMessage;
+    private final View mEmptyMessage;
     private RecoverHelper mRecover;
-    private View mView;
-    private ArrayList<Mission> mHidden;
+    private final View mView;
+    private final ArrayList<Mission> mHidden;
     private Snackbar mSnackbar;
 
     private final Runnable rUpdater = this::updater;
     private final Runnable rDelete = this::deleteFinishedDownloads;
 
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
+
     public MissionAdapter(Context context, @NonNull DownloadManager downloadManager, View emptyMessage, View root) {
         mContext = context;
         mDownloadManager = downloadManager;
 
-        mInflater = ContextCompat.getSystemService(mContext, LayoutInflater.class);
+        mInflater = LayoutInflater.from(mContext);
         mLayout = R.layout.mission_item;
 
         mHandler = new Handler(context.getMainLooper());
@@ -574,7 +579,7 @@ public class MissionAdapter extends Adapter<ViewHolder> implements Handler.Callb
                 mission.errObject,
                 null,
                 null,
-                ErrorActivity.ErrorInfo.make(action, service, request.toString(), reason)
+                ErrorInfo.make(action, service, request.toString(), reason)
         );
     }
 
@@ -676,7 +681,30 @@ public class MissionAdapter extends Adapter<ViewHolder> implements Handler.Callb
                 return true;
             case R.id.md5:
             case R.id.sha1:
-                new ChecksumTask(mContext).execute(h.item.mission.storage, ALGORITHMS.get(id));
+                final NotificationManager notificationManager
+                        = ContextCompat.getSystemService(mContext, NotificationManager.class);
+                final NotificationCompat.Builder progressNotificationBuilder
+                        = new NotificationCompat.Builder(mContext,
+                        mContext.getString(R.string.hash_channel_id))
+                        .setPriority(NotificationCompat.PRIORITY_HIGH)
+                        .setSmallIcon(R.drawable.ic_newpipe_triangle_white)
+                        .setContentTitle(mContext.getString(R.string.msg_calculating_hash))
+                        .setContentText(mContext.getString(R.string.msg_wait))
+                        .setProgress(0, 0, true)
+                        .setOngoing(true);
+
+                notificationManager.notify(HASH_NOTIFICATION_ID, progressNotificationBuilder
+                        .build());
+                final StoredFileHelper storage = h.item.mission.storage;
+                compositeDisposable.add(
+                        Observable.fromCallable(() -> Utility.checksum(storage, ALGORITHMS.get(id)))
+                                .subscribeOn(Schedulers.computation())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(result -> {
+                                    Utility.copyToClipboard(mContext, result);
+                                    notificationManager.cancel(HASH_NOTIFICATION_ID);
+                                })
+                );
                 return true;
             case R.id.source:
                 /*Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(h.item.mission.source));
@@ -759,8 +787,8 @@ public class MissionAdapter extends Adapter<ViewHolder> implements Handler.Callb
         }
     }
 
-
     public void onDestroy() {
+        compositeDisposable.dispose();
         mDeleter.dispose();
     }
 
@@ -952,7 +980,7 @@ public class MissionAdapter extends Adapter<ViewHolder> implements Handler.Callb
         }
     }
 
-    class ViewHolderHeader extends RecyclerView.ViewHolder {
+    static class ViewHolderHeader extends RecyclerView.ViewHolder {
         TextView header;
 
         ViewHolderHeader(View view) {
@@ -961,60 +989,7 @@ public class MissionAdapter extends Adapter<ViewHolder> implements Handler.Callb
         }
     }
 
-
-    static class ChecksumTask extends AsyncTask<Object, Void, String> {
-        ProgressDialog progressDialog;
-        WeakReference<Activity> weakReference;
-
-        ChecksumTask(@NonNull Context context) {
-            weakReference = new WeakReference<>((Activity) context);
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            Activity activity = getActivity();
-            if (activity != null) {
-                // Create dialog
-                progressDialog = new ProgressDialog(activity);
-                progressDialog.setCancelable(false);
-                progressDialog.setMessage(activity.getString(R.string.msg_wait));
-                progressDialog.show();
-            }
-        }
-
-        @Override
-        protected String doInBackground(Object... params) {
-            return Utility.checksum((StoredFileHelper) params[0], (String) params[1]);
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-
-            if (progressDialog != null) {
-                Utility.copyToClipboard(progressDialog.getContext(), result);
-                if (getActivity() != null) {
-                    progressDialog.dismiss();
-                }
-            }
-        }
-
-        @Nullable
-        private Activity getActivity() {
-            Activity activity = weakReference.get();
-
-            if (activity != null && activity.isFinishing()) {
-                return null;
-            } else {
-                return activity;
-            }
-        }
-    }
-
     public interface RecoverHelper {
         void tryRecover(DownloadMission mission);
     }
-
 }

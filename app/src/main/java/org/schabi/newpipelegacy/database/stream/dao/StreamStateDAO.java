@@ -11,7 +11,7 @@ import org.schabi.newpipelegacy.database.stream.model.StreamStateEntity;
 
 import java.util.List;
 
-import io.reactivex.Flowable;
+import io.reactivex.rxjava3.core.Flowable;
 
 import static org.schabi.newpipelegacy.database.stream.model.StreamStateEntity.JOIN_STREAM_ID;
 import static org.schabi.newpipelegacy.database.stream.model.StreamStateEntity.STREAM_STATE_TABLE;

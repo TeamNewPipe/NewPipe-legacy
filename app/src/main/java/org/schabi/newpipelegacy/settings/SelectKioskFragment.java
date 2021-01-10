@@ -19,6 +19,7 @@ import org.schabi.newpipelegacy.R;
 import org.schabi.newpipe.extractor.NewPipe;
 import org.schabi.newpipe.extractor.StreamingService;
 import org.schabi.newpipelegacy.report.ErrorActivity;
+import org.schabi.newpipelegacy.report.ErrorInfo;
 import org.schabi.newpipelegacy.report.UserAction;
 import org.schabi.newpipelegacy.util.KioskTranslator;
 import org.schabi.newpipelegacy.util.ServiceHelper;
@@ -114,7 +115,7 @@ public class SelectKioskFragment extends DialogFragment {
 
     protected void onError(final Throwable e) {
         final Activity activity = getActivity();
-        ErrorActivity.reportError(activity, e, activity.getClass(), null, ErrorActivity.ErrorInfo
+        ErrorActivity.reportError(activity, e, activity.getClass(), null, ErrorInfo
                 .make(UserAction.UI_ERROR, "none", "", R.string.app_ui_crash));
     }
 

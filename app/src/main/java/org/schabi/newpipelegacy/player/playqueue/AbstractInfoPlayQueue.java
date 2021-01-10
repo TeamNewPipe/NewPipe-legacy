@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import io.reactivex.SingleObserver;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.rxjava3.core.SingleObserver;
+import io.reactivex.rxjava3.disposables.Disposable;
 
 abstract class AbstractInfoPlayQueue<T extends ListInfo, U extends InfoItem> extends PlayQueue {
     boolean isInitial;
@@ -128,9 +128,9 @@ abstract class AbstractInfoPlayQueue<T extends ListInfo, U extends InfoItem> ext
         fetchReactor = null;
     }
 
-    private static List<PlayQueueItem> extractListItems(final List<StreamInfoItem> infos) {
+    private static List<PlayQueueItem> extractListItems(final List<StreamInfoItem> infoItems) {
         final List<PlayQueueItem> result = new ArrayList<>();
-        for (final InfoItem stream : infos) {
+        for (final InfoItem stream : infoItems) {
             if (stream instanceof StreamInfoItem) {
                 result.add(new PlayQueueItem((StreamInfoItem) stream));
             }

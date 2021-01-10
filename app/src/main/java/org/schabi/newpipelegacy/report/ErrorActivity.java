@@ -9,23 +9,16 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NavUtils;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -37,6 +30,7 @@ import org.schabi.newpipelegacy.ActivityCommunicator;
 import org.schabi.newpipelegacy.BuildConfig;
 import org.schabi.newpipelegacy.MainActivity;
 import org.schabi.newpipelegacy.R;
+import org.schabi.newpipelegacy.databinding.ActivityErrorBinding;
 import org.schabi.newpipelegacy.util.Localization;
 import org.schabi.newpipelegacy.util.ShareUtils;
 import org.schabi.newpipelegacy.util.ThemeHelper;
@@ -90,7 +84,8 @@ public class ErrorActivity extends AppCompatActivity {
     private ErrorInfo errorInfo;
     private Class returnActivity;
     private String currentTimeStamp;
-    private EditText userCommentBox;
+
+    private ActivityErrorBinding activityErrorBinding;
 
     public static void reportUiError(final AppCompatActivity activity, final Throwable el) {
         reportError(activity, el, activity.getClass(), null, ErrorInfo.make(UserAction.UI_ERROR,
@@ -154,7 +149,7 @@ public class ErrorActivity extends AppCompatActivity {
 
     public static void reportError(final Context context, final CrashReportData report,
                                    final ErrorInfo errorInfo) {
-        final String[] el = new String[]{report.getString(ReportField.STACK_TRACE)};
+        final String[] el = {report.getString(ReportField.STACK_TRACE)};
 
         final Intent intent = new Intent(context, ErrorActivity.class);
         intent.putExtra(ERROR_INFO, errorInfo);
@@ -184,12 +179,13 @@ public class ErrorActivity extends AppCompatActivity {
         assureCorrectAppLanguage(this);
         super.onCreate(savedInstanceState);
         ThemeHelper.setTheme(this);
-        setContentView(R.layout.activity_error);
+
+        activityErrorBinding = ActivityErrorBinding.inflate(getLayoutInflater());
+        setContentView(activityErrorBinding.getRoot());
 
         final Intent intent = getIntent();
 
-        final Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setSupportActionBar(activityErrorBinding.toolbarLayout.toolbar);
 
         final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -197,15 +193,6 @@ public class ErrorActivity extends AppCompatActivity {
             actionBar.setTitle(R.string.error_report_title);
             actionBar.setDisplayShowTitleEnabled(true);
         }
-
-        final Button reportEmailButton = findViewById(R.id.errorReportEmailButton);
-        final Button copyButton = findViewById(R.id.errorReportCopyButton);
-        final Button reportGithubButton = findViewById(R.id.errorReportGitHubButton);
-
-        userCommentBox = findViewById(R.id.errorCommentBox);
-        final TextView errorView = findViewById(R.id.errorView);
-        final TextView infoView = findViewById(R.id.errorInfosView);
-        final TextView errorMessageView = findViewById(R.id.errorMessageView);
 
         final ActivityCommunicator ac = ActivityCommunicator.getCommunicator();
         returnActivity = ac.getReturnActivity();
@@ -216,27 +203,27 @@ public class ErrorActivity extends AppCompatActivity {
         addGuruMeditation();
         currentTimeStamp = getCurrentTimeStamp();
 
-        reportEmailButton.setOnClickListener((View v) ->
+        activityErrorBinding.errorReportEmailButton.setOnClickListener(v ->
                 openPrivacyPolicyDialog(this, "EMAIL"));
 
-        copyButton.setOnClickListener((View v) -> {
+        activityErrorBinding.errorReportCopyButton.setOnClickListener(v -> {
             ShareUtils.copyToClipboard(this, buildMarkdown());
             Toast.makeText(this, R.string.msg_copied, Toast.LENGTH_SHORT).show();
         });
 
-        reportGithubButton.setOnClickListener((View v) ->
+        activityErrorBinding.errorReportGitHubButton.setOnClickListener(v ->
                 openPrivacyPolicyDialog(this, "GITHUB"));
 
         // normal bugreport
         buildInfo(errorInfo);
-        if (errorInfo.message != 0) {
-            errorMessageView.setText(errorInfo.message);
+        if (errorInfo.getMessage() != 0) {
+            activityErrorBinding.errorMessageView.setText(errorInfo.getMessage());
         } else {
-            errorMessageView.setVisibility(View.GONE);
-            findViewById(R.id.messageWhatHappenedView).setVisibility(View.GONE);
+            activityErrorBinding.errorMessageView.setVisibility(View.GONE);
+            activityErrorBinding.messageWhatHappenedView.setVisibility(View.GONE);
         }
 
-        errorView.setText(formErrorText(errorList));
+        activityErrorBinding.errorView.setText(formErrorText(errorList));
 
         // print stack trace once again for debugging:
         for (final String e : errorList) {
@@ -341,42 +328,42 @@ public class ErrorActivity extends AppCompatActivity {
     }
 
     private void buildInfo(final ErrorInfo info) {
-        final TextView infoLabelView = findViewById(R.id.errorInfoLabelsView);
-        final TextView infoView = findViewById(R.id.errorInfosView);
         String text = "";
 
-        infoLabelView.setText(getString(R.string.info_labels).replace("\\n", "\n"));
+        activityErrorBinding.errorInfoLabelsView.setText(getString(R.string.info_labels)
+                .replace("\\n", "\n"));
 
-        text += getUserActionString(info.userAction) + "\n"
-                + info.request + "\n"
+        text += getUserActionString(info.getUserAction()) + "\n"
+                + info.getRequest() + "\n"
                 + getContentLanguageString() + "\n"
                 + getContentCountryString() + "\n"
                 + getAppLanguage() + "\n"
-                + info.serviceName + "\n"
+                + info.getServiceName() + "\n"
                 + currentTimeStamp + "\n"
                 + getPackageName() + "\n"
                 + BuildConfig.VERSION_NAME + "\n"
                 + getOsString();
 
-        infoView.setText(text);
+        activityErrorBinding.errorInfosView.setText(text);
     }
 
     private String buildJson() {
         try {
             return JsonWriter.string()
                     .object()
-                    .value("user_action", getUserActionString(errorInfo.userAction))
-                    .value("request", errorInfo.request)
+                    .value("user_action", getUserActionString(errorInfo.getUserAction()))
+                    .value("request", errorInfo.getRequest())
                     .value("content_language", getContentLanguageString())
                     .value("content_country", getContentCountryString())
                     .value("app_language", getAppLanguage())
-                    .value("service", errorInfo.serviceName)
+                    .value("service", errorInfo.getServiceName())
                     .value("package", getPackageName())
                     .value("version", BuildConfig.VERSION_NAME)
                     .value("os", getOsString())
                     .value("time", currentTimeStamp)
                     .array("exceptions", Arrays.asList(errorList))
-                    .value("user_comment", userCommentBox.getText().toString())
+                    .value("user_comment", activityErrorBinding.errorCommentBox.getText()
+                            .toString())
                     .end()
                     .done();
         } catch (final Throwable e) {
@@ -391,7 +378,7 @@ public class ErrorActivity extends AppCompatActivity {
         try {
             final StringBuilder htmlErrorReport = new StringBuilder();
 
-            final String userComment = userCommentBox.getText().toString();
+            final String userComment = activityErrorBinding.errorCommentBox.getText().toString();
             if (!userComment.isEmpty()) {
                 htmlErrorReport.append(userComment).append("\n");
             }
@@ -400,12 +387,12 @@ public class ErrorActivity extends AppCompatActivity {
             htmlErrorReport
                     .append("## Exception")
                     .append("\n* __User Action:__ ")
-                        .append(getUserActionString(errorInfo.userAction))
-                    .append("\n* __Request:__ ").append(errorInfo.request)
+                        .append(getUserActionString(errorInfo.getUserAction()))
+                    .append("\n* __Request:__ ").append(errorInfo.getRequest())
                     .append("\n* __Content Country:__ ").append(getContentCountryString())
                     .append("\n* __Content Language:__ ").append(getContentLanguageString())
                     .append("\n* __App Language:__ ").append(getAppLanguage())
-                    .append("\n* __Service:__ ").append(errorInfo.serviceName)
+                    .append("\n* __Service:__ ").append(errorInfo.getServiceName())
                     .append("\n* __Version:__ ").append(BuildConfig.VERSION_NAME)
                     .append("\n* __OS:__ ").append(getOsString()).append("\n");
 
@@ -475,10 +462,9 @@ public class ErrorActivity extends AppCompatActivity {
 
     private void addGuruMeditation() {
         //just an easter egg
-        final TextView sorryView = findViewById(R.id.errorSorryView);
-        String text = sorryView.getText().toString();
+        String text = activityErrorBinding.errorSorryView.getText().toString();
         text += "\n" + getString(R.string.guru_meditation);
-        sorryView.setText(text);
+        activityErrorBinding.errorSorryView.setText(text);
     }
 
     @Override
@@ -493,57 +479,4 @@ public class ErrorActivity extends AppCompatActivity {
         return df.format(new Date());
     }
 
-    public static class ErrorInfo implements Parcelable {
-        public static final Parcelable.Creator<ErrorInfo> CREATOR
-                = new Parcelable.Creator<ErrorInfo>() {
-            @Override
-            public ErrorInfo createFromParcel(final Parcel source) {
-                return new ErrorInfo(source);
-            }
-
-            @Override
-            public ErrorInfo[] newArray(final int size) {
-                return new ErrorInfo[size];
-            }
-        };
-
-        final UserAction userAction;
-        public final String request;
-        final String serviceName;
-        @StringRes
-        public final int message;
-
-        private ErrorInfo(final UserAction userAction, final String serviceName,
-                          final String request, @StringRes final int message) {
-            this.userAction = userAction;
-            this.serviceName = serviceName;
-            this.request = request;
-            this.message = message;
-        }
-
-        protected ErrorInfo(final Parcel in) {
-            this.userAction = UserAction.valueOf(in.readString());
-            this.request = in.readString();
-            this.serviceName = in.readString();
-            this.message = in.readInt();
-        }
-
-        public static ErrorInfo make(final UserAction userAction, final String serviceName,
-                                     final String request, @StringRes final int message) {
-            return new ErrorInfo(userAction, serviceName, request, message);
-        }
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(final Parcel dest, final int flags) {
-            dest.writeString(this.userAction.name());
-            dest.writeString(this.request);
-            dest.writeString(this.serviceName);
-            dest.writeInt(this.message);
-        }
-    }
 }

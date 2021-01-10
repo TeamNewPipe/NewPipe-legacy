@@ -19,6 +19,12 @@
 
 package org.schabi.newpipelegacy.player;
 
+import static com.google.android.exoplayer2.Player.DISCONTINUITY_REASON_INTERNAL;
+import static com.google.android.exoplayer2.Player.DISCONTINUITY_REASON_PERIOD_TRANSITION;
+import static com.google.android.exoplayer2.Player.DISCONTINUITY_REASON_SEEK;
+import static com.google.android.exoplayer2.Player.DISCONTINUITY_REASON_SEEK_ADJUSTMENT;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -27,14 +33,12 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.AudioManager;
-import androidx.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
+import androidx.preference.PreferenceManager;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlaybackException;
@@ -53,7 +57,12 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
-
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.disposables.SerialDisposable;
+import java.io.IOException;
 import org.schabi.newpipelegacy.DownloaderImpl;
 import org.schabi.newpipelegacy.MainActivity;
 import org.schabi.newpipelegacy.R;
@@ -74,21 +83,6 @@ import org.schabi.newpipelegacy.player.playqueue.PlayQueueItem;
 import org.schabi.newpipelegacy.player.resolver.MediaSourceTag;
 import org.schabi.newpipelegacy.util.ImageDisplayConstants;
 import org.schabi.newpipelegacy.util.SerializedCache;
-
-import java.io.IOException;
-
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.disposables.SerialDisposable;
-
-import static com.google.android.exoplayer2.Player.DISCONTINUITY_REASON_INTERNAL;
-import static com.google.android.exoplayer2.Player.DISCONTINUITY_REASON_PERIOD_TRANSITION;
-import static com.google.android.exoplayer2.Player.DISCONTINUITY_REASON_SEEK;
-import static com.google.android.exoplayer2.Player.DISCONTINUITY_REASON_SEEK_ADJUSTMENT;
-import static io.reactivex.android.schedulers.AndroidSchedulers.mainThread;
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 /**
  * Base for the players, joining the common properties.
@@ -125,7 +119,7 @@ public abstract class BasePlayer implements
     @NonNull
     public static final String RESUME_PLAYBACK = "resume_playback";
     @NonNull
-    public static final String START_PAUSED = "start_paused";
+    public static final String PLAY_WHEN_READY = "play_when_ready";
     @NonNull
     public static final String SELECT_ON_APPEND = "select_on_append";
     @NonNull
@@ -224,7 +218,7 @@ public abstract class BasePlayer implements
         this.dataSource = new PlayerDataSource(context, userAgent, bandwidthMeter);
 
         final TrackSelection.Factory trackSelectionFactory = PlayerHelper
-                .getQualitySelector(context);
+                .getQualitySelector();
         this.trackSelector = new CustomTrackSelector(context, trackSelectionFactory);
 
         this.loadControl = new LoadController();
@@ -302,6 +296,7 @@ public abstract class BasePlayer implements
         final boolean samePlayQueue = playQueue != null && playQueue.equals(queue);
 
         final int repeatMode = intent.getIntExtra(REPEAT_MODE, getRepeatMode());
+        final boolean playWhenReady = intent.getBooleanExtra(PLAY_WHEN_READY, true);
         final boolean isMuted = intent
                 .getBooleanExtra(IS_MUTED, simpleExoPlayer != null && isMuted());
 
@@ -327,56 +322,57 @@ public abstract class BasePlayer implements
                 simpleExoPlayer.retry();
             }
             simpleExoPlayer.seekTo(playQueue.getIndex(), queue.getItem().getRecoveryPosition());
-            return;
+            simpleExoPlayer.setPlayWhenReady(playWhenReady);
 
-        } else if (samePlayQueue && !playQueue.isDisposed() && simpleExoPlayer != null) {
+        } else if (simpleExoPlayer != null
+                && samePlayQueue
+                && playQueue != null
+                && !playQueue.isDisposed()) {
             // Do not re-init the same PlayQueue. Save time
             // Player can have state = IDLE when playback is stopped or failed
             // and we should retry() in this case
             if (simpleExoPlayer.getPlaybackState() == Player.STATE_IDLE) {
                 simpleExoPlayer.retry();
             }
-            return;
+            simpleExoPlayer.setPlayWhenReady(playWhenReady);
+
         } else if (intent.getBooleanExtra(RESUME_PLAYBACK, false)
-                && isPlaybackResumeEnabled()
-                && !samePlayQueue) {
-            final PlayQueueItem item = queue.getItem();
-            if (item != null && item.getRecoveryPosition() == PlayQueueItem.RECOVERY_UNSET) {
-                stateLoader = recordManager.loadStreamState(item)
-                        .observeOn(AndroidSchedulers.mainThread())
-                        // Do not place initPlayback() in doFinally() because
-                        // it restarts playback after destroy()
-                        //.doFinally()
-                        .subscribe(
-                                state -> {
-                                    queue.setRecovery(queue.getIndex(), state.getProgressTime());
+            && isPlaybackResumeEnabled()
+            && !samePlayQueue
+            && !queue.isEmpty()
+            && queue.getItem().getRecoveryPosition() == PlayQueueItem.RECOVERY_UNSET) {
+            stateLoader = recordManager.loadStreamState(queue.getItem())
+                .observeOn(AndroidSchedulers.mainThread())
+                // Do not place initPlayback() in doFinally() because
+                // it restarts playback after destroy()
+                //.doFinally()
+                .subscribe(
+                    state -> {
+                        queue.setRecovery(queue.getIndex(), state.getProgressTime());
+                        initPlayback(queue, repeatMode, playbackSpeed, playbackPitch,
+                            playbackSkipSilence, playWhenReady, isMuted);
+                    },
+                    error -> {
+                        if (DEBUG) {
+                            error.printStackTrace();
+                        }
+                        // In case any error we can start playback without history
+                        initPlayback(queue, repeatMode, playbackSpeed, playbackPitch,
+                            playbackSkipSilence, playWhenReady, isMuted);
+                    },
+                    () -> {
+                        // Completed but not found in history
                                     initPlayback(queue, repeatMode, playbackSpeed, playbackPitch,
-                                            playbackSkipSilence, true, isMuted);
-                                },
-                                error -> {
-                                    if (DEBUG) {
-                                        error.printStackTrace();
-                                    }
-                                    // In case any error we can start playback without history
-                                    initPlayback(queue, repeatMode, playbackSpeed, playbackPitch,
-                                            playbackSkipSilence, true, isMuted);
-                                },
-                                () -> {
-                                    // Completed but not found in history
-                                    initPlayback(queue, repeatMode, playbackSpeed, playbackPitch,
-                                            playbackSkipSilence, true, isMuted);
+                                            playbackSkipSilence, playWhenReady, isMuted);
                                 }
                         );
                 databaseUpdateReactor.add(stateLoader);
-                return;
-            }
+        } else {
+            // Good to go...
+            // In a case of equal PlayQueues we can re-init old one but only when it is disposed
+            initPlayback(samePlayQueue ? playQueue : queue, repeatMode, playbackSpeed,
+                    playbackPitch, playbackSkipSilence, playWhenReady, isMuted);
         }
-        // Good to go...
-        // In a case of equal PlayQueues we can re-init old one but only when it is disposed
-        initPlayback(samePlayQueue ? playQueue : queue, repeatMode,
-                playbackSpeed, playbackPitch, playbackSkipSilence,
-                !intent.getBooleanExtra(START_PAUSED, false),
-                isMuted);
     }
 
     private PlaybackParameters retrievePlaybackParametersFromPreferences() {
@@ -682,7 +678,7 @@ public abstract class BasePlayer implements
 
     public void onMuteUnmuteButtonClicked() {
         if (DEBUG) {
-            Log.d(TAG, "onMuteUnmuteButtonClicled() called");
+            Log.d(TAG, "onMuteUnmuteButtonClicked() called");
         }
         simpleExoPlayer.setVolume(isMuted() ? 1 : 0);
     }
@@ -717,8 +713,9 @@ public abstract class BasePlayer implements
     }
 
     private Disposable getProgressReactor() {
-        return Observable.interval(PROGRESS_LOOP_INTERVAL_MILLIS, MILLISECONDS, mainThread())
-                .observeOn(mainThread())
+        return Observable.interval(PROGRESS_LOOP_INTERVAL_MILLIS, MILLISECONDS,
+                AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(ignored -> triggerProgressUpdate(),
                         error -> Log.e(TAG, "Progress update failure: ", error));
     }
@@ -1316,7 +1313,7 @@ public abstract class BasePlayer implements
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         if (prefs.getBoolean(context.getString(R.string.enable_watch_history_key), true)) {
             final Disposable stateSaver = recordManager.saveStreamState(info, progress)
-                    .observeOn(mainThread())
+                    .observeOn(AndroidSchedulers.mainThread())
                     .doOnError((e) -> {
                         if (DEBUG) {
                             e.printStackTrace();
@@ -1336,7 +1333,7 @@ public abstract class BasePlayer implements
         if (prefs.getBoolean(context.getString(R.string.enable_watch_history_key), true)) {
             final Disposable stateSaver = queueItem.getStream()
                     .flatMapCompletable(info -> recordManager.saveStreamState(info, 0))
-                    .observeOn(mainThread())
+                    .observeOn(AndroidSchedulers.mainThread())
                     .doOnError((e) -> {
                         if (DEBUG) {
                             e.printStackTrace();
@@ -1542,8 +1539,7 @@ public abstract class BasePlayer implements
         if (simpleExoPlayer == null) {
             return PlaybackParameters.DEFAULT;
         }
-        final PlaybackParameters parameters = simpleExoPlayer.getPlaybackParameters();
-        return parameters == null ? PlaybackParameters.DEFAULT : parameters;
+        return simpleExoPlayer.getPlaybackParameters();
     }
 
     /**
