@@ -1,7 +1,8 @@
 <p align="center"><a href="https://newpipe.net"><img src="assets/new_pipe_icon_5.png" width="150"></a></p> 
 <h2 align="center"><b>NewPipe</b></h2>
 <h4 align="center">A libre lightweight streaming frontend for Android.</h4>
-<p align="center"><a href="https://f-droid.org/packages/org.schabi.newpipe/"><img src="https://f-droid.org/wiki/images/0/06/F-Droid-button_get-it-on.png"></a></p> 
+
+<p align="center"><a href="https://f-droid.org/packages/org.schabi.newpipe/"><img src="https://fdroid.gitlab.io/artwork/badge/get-it-on-en.svg" alt="Get it on F-Droid" height=80/></a></p>
 
 <p align="center">
 <a href="https://github.com/TeamNewPipe/NewPipe/releases" alt="GitHub release"><img src="https://img.shields.io/github/release/TeamNewPipe/NewPipe.svg" ></a>
@@ -141,4 +142,4 @@ NewPipe 프로젝트는 미디어 웹 서비스를 사용하는 것에 대한 �
 
 NewPipe는 자유 소프트웨어입니다: 당신의 마음대로 이것을 사용하고, 연구하고, 공유하고, 개선할 수 있습니다. 
 구체적으로 당신은 자유 소프트웨어 재단에서 발행되는, 버전 3 또는 (당신의 선택에 따라)이후 버전의,
-[GNU General Public License](https://www.gnu.org/licenses/gpl.html) 하에서 이것을 재배포 및/또는 수정할 수 있습니다. 
+[GNU General Public License](https://www.gnu.org/licenses/gpl.html) 하에서 이것을 재배포 및/또는 수정할 수 있습니다.
